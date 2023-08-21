@@ -38,7 +38,6 @@ class MyStrings {
   static String tfRulesHint = "Enter rules here..";
 
 
-
   static String tournamentVenue = "Tournament Venue";
   static String venueName = "Venue Name";
   static String venueAddress = "Venue Address";

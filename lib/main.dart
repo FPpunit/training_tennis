@@ -7,6 +7,7 @@ import 'package:new_pro/screens/payment_info/payment_info.dart';
 import 'package:new_pro/screens/splash.dart';
 import 'package:new_pro/screens/tournament_details/tournament_details_screen.dart';
 import 'package:new_pro/screens/tournament_list/tournament_list.dart';
+import 'package:new_pro/screens/tournament_registration/tournament_registration.dart';
 import 'package:new_pro/screens/tournament_venue/tournament_venue.dart';
 import 'package:new_pro/utils/my_colors.dart';
 
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: TournamentList(),
+      home: TournamentRegistration(),
     );
   }
 }

@@ -10,6 +10,7 @@ class MyImages {
   static String tennisCourt = "assets/images/tennis_game_image.png";
   static String dotIcon = "assets/images/full-stop.png";
   static String addressIcon = "assets/images/address_vector_icon.svg";
+  static String broadcastIc = "assets/images/broadcast_ic.svg";
 
 
 }

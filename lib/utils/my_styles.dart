@@ -93,4 +93,10 @@ class MyStyles {
       decorationColor: MyAppTheme.MainColor
   );
 
+  static TextStyle categoryStyle = const TextStyle(
+  fontWeight: FontWeight.w500,
+  fontSize: 14,
+  color: MyAppTheme.MainColor
+  );
+
 }

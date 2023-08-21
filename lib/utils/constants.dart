@@ -515,8 +515,6 @@ const String registerNow = 'Register Now';
 
 
 
-
-
 const String tournaments = 'Tournaments';
 const String liveTournaments = 'Live Tournaments';
 const String live = 'Live';
@@ -525,8 +523,23 @@ const String joined = 'Joined';
 const String all = 'All';
 const String allStarChamp = 'All Star Championship';
 const String upcomingTournament = 'Upcoming Tournaments';
-const String joinedTournament = 'Upcoming Tournaments';
-const String completedTournament = 'Upcoming Tournaments';
+const String joinedTournament = 'Joined Tournaments';
+const String completedTournament = 'Completed Tournaments';
+const String allTournaments = 'All Tournament';
+
+
+
+
+const String tournamentRegistration = 'Tournament Registration';
+const String registrationFor = 'Register for';
+const String participantName = 'Participant Name';
+const String tournamentFee = 'Tournament Fee';
+const String selectPaymentMethod = 'Select Payment Method';
+const String qrCodeToPayAndRegister = 'Scan QR Code to pay and get registered';
+const String paymentReceipt = 'Payment Receipt';
+const String uploadPhoto = 'Upload Photo';
+const String register = 'Register';
+const String cancel = 'Cancel';
 
 
 
