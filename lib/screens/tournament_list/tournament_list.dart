@@ -84,7 +84,7 @@ class _TournamentListState extends State<TournamentList> {
                       ),
                     ),
                   ),
-
+                  SizedBox(height: 5,),
                   titleText(text: tournamentList[0]['tournamentName']),
                   Row(
                     children: [
