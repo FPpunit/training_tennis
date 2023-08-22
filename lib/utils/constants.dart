@@ -531,11 +531,13 @@ const String allTournaments = 'All Tournament';
 
 
 const String tournamentRegistration = 'Tournament Registration';
-const String registrationFor = 'Register for';
+const String registerFor = 'Register for';
 const String participantName = 'Participant Name';
+const String participantName1 = 'Participant 1 Name';
+const String participantName2 = 'Participant 2 Name';
 const String tournamentFee = 'Tournament Fee';
 const String selectPaymentMethod = 'Select Payment Method';
-const String qrCodeToPayAndRegister = 'Scan QR Code to pay and get registered';
+const String qrCodeToPayAndRegister = 'Scan QR Code \nto pay and get registered';
 const String paymentReceipt = 'Payment Receipt';
 const String uploadPhoto = 'Upload Photo';
 const String register = 'Register';

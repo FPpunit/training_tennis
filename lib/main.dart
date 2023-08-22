@@ -9,6 +9,8 @@ import 'package:new_pro/screens/tournament_details/tournament_details_screen.dar
 import 'package:new_pro/screens/tournament_list/tournament_list.dart';
 import 'package:new_pro/screens/tournament_registration/tournament_registration.dart';
 import 'package:new_pro/screens/tournament_venue/tournament_venue.dart';
+import 'package:new_pro/screens/tournaments_details/tournaments_details.dart';
+import 'package:new_pro/utils/my_app_theme.dart';
 import 'package:new_pro/utils/my_colors.dart';
 
 void main() {
@@ -24,7 +26,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        scaffoldBackgroundColor: MyColors.darkBg,
+        scaffoldBackgroundColor: MyAppTheme.bgColor,
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),

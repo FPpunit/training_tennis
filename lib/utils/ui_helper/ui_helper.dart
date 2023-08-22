@@ -6,6 +6,7 @@ import 'package:new_pro/utils/my_app_theme.dart';
 import '../../screens/tournament_list/tournament_list.dart';
 import '../constants.dart';
 import '../my_colors.dart';
+import '../my_images.dart';
 import '../my_string.dart';
 import '../my_styles.dart';
 
@@ -48,7 +49,7 @@ AppBar myAppBar(){
         ),
       ),
     ),
-    backgroundColor: MyAppTheme.transparent,
+    backgroundColor: MyAppTheme.bgColor,
     elevation: 0,
   );
 }
@@ -83,9 +84,10 @@ Text titleText ({required String text}){
   );
 }
 
-Text subTitleText ({required String text}){
+Text subTitleText ({required String text,TextAlign? align}){
   return Text(
     text,
+    textAlign: align,
     style: MyStyles.white14Regular,
   );
 }
@@ -205,3 +207,17 @@ Widget rowHintText ({required double width1,required double width2, required Str
 //     ),
 //   );
 // }
+
+
+Widget selectedQRPictureForTournamentFeePage ({required String qrImg}) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.center,
+    children: [
+      Container(
+          alignment :Alignment.center,
+          child: Image.asset(qrImg)),
+      subTitleText(text: qrCodeToPayAndRegister,
+          align: TextAlign.center)
+    ],
+  );
+}

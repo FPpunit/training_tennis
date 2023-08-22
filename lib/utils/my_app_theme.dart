@@ -21,6 +21,7 @@ class MyAppTheme {
   static  Color yellowSecColor = const Color(0xFFFBC50D);
   static  Color yellowBgSecColor = const Color(0xFFFBC50D).withOpacity(0.2);
   static  Color challengeBtnBgColor = const Color(0xFFEA4235);
+  static  Color tournamentFeeClr = const Color(0xFFEA4235);
   static  Color wonTxtColor = const Color(0xFF2DC24E);
   static  Color lostTxtColor = const Color(0xFFEA4235);
   static  Color switchBgColor = const Color(0xFFD1D1D6);

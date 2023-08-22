@@ -40,34 +40,14 @@ class _TournamentListState extends State<TournamentList> {
 
 
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          tournaments,
-          style: MyStyles.white20Normal,
-        ),
-        leading: Padding(
-          padding: const EdgeInsets.only(left: 8, top: 4, bottom: 4),
-          child: Card(
-            shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-            color: MyAppTheme.cardBgColor,
-            child: const Icon(
-              Icons.arrow_back,
-              color: MyAppTheme.whiteColor,
-            ),
-          ),
-        ),
-        backgroundColor: MyAppTheme.transparent,
-        elevation: 0,
-      ),
+      appBar: mAppBar(title: tournaments),
       body: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 10),
+        margin: const EdgeInsets.symmetric(horizontal: 8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              height: height * .04,
+              height: height * .05,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: category.length,
@@ -75,7 +55,6 @@ class _TournamentListState extends State<TournamentList> {
                   onTap: () {
                     selectedIdx = index;
                     selectedCat = category[index].toLowerCase();
-
                     setState(() {});
                   },
                   child: Container(
@@ -113,8 +92,6 @@ class _TournamentListState extends State<TournamentList> {
                 shrinkWrap: true,
                 itemCount: tournamentList.length,
                 itemBuilder: (context, index) {
-
-                  if (selectedCat == tournamentList[index]['status']) {
                     return Container(
                       width: width,
                       margin: const EdgeInsets.symmetric(vertical: 5),
@@ -127,8 +104,7 @@ class _TournamentListState extends State<TournamentList> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Visibility(
-                            visible: tournamentList[index]['status'].toString() ==
-                                'live',
+                            visible: tournamentList[index]['status'].toString() == 'live',
                             child: Container(
                               width: 100,
                               margin: const EdgeInsets.only(bottom: 7),
@@ -175,74 +151,7 @@ class _TournamentListState extends State<TournamentList> {
                         ],
                       ),
                     );
-                  }
 
-
-                  else if(selectedCat == 'all'){
-                    return Container(
-                      width: width,
-                      margin: const EdgeInsets.symmetric(vertical: 5),
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: MyAppTheme.cardBgSecColor,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Visibility(
-                            visible: tournamentList[index]['status'].toString() ==
-                                'live',
-                            child: Container(
-                              width: 100,
-                              margin: const EdgeInsets.only(bottom: 5),
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 4, horizontal: 8),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                color: MyAppTheme.liveBtnFillColor,
-                                border: Border.all(
-                                    color: MyAppTheme.liveBtnBorderColor),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                children: [
-                                  //FaIcon(FontAwesomeIcons.towerBroadcast,color: MyAppTheme.liveBtnBorderColor,size: 14,),
-
-                                  SvgPicture.asset(MyImages.broadcastIc),
-
-                                  Text(
-                                    'Live Now',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.normal,
-                                        fontSize: 12,
-                                        color: MyAppTheme.liveBtnBorderColor),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          titleText(
-                              text: tournamentList[index]['tournamentName']),
-                          Row(
-                            children: [
-                              const Icon(
-                                Icons.calendar_month_outlined,
-                                color: MyAppTheme.hintTxtColor,
-                                size: 18,
-                              ),
-                              hintText(
-                                  text:
-                                  '${tournamentList[index]['startDate']}/${tournamentList[index]['endDate']}')
-                            ],
-                          )
-                        ],
-                      ),
-                    );
-                  }
-                  else {
-                    return Container();
-                  }
                 },
               ),
             ),
