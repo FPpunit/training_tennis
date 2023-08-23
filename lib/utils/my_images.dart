@@ -11,6 +11,7 @@ class MyImages {
   static String dotIcon = "assets/images/full-stop.png";
   static String addressIcon = "assets/images/address_vector_icon.svg";
   static String broadcastIc = "assets/images/broadcast_ic.svg";
+  static String summerChamp = "assets/images/summer_champ.png";
 
 
 }

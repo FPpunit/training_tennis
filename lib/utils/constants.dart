@@ -545,6 +545,42 @@ const String cancel = 'Cancel';
 
 
 
+const String staffMembers = 'Staff Members';
+const String sno = 'S.No';
+const String emailAddress = 'Email address';
+const String staffList = 'Staff List';
+const String addStaff = 'Add Staff';
+const String updateChanges = 'Update Changes';
+const String remove = 'Remove';
+const String details = 'Details';
+const String editViewDetails = 'Edit/View Details';
+
+
+
+const String summerChamp= 'Summer Championship';
+const String overview= 'Overview';
+const String scores= 'Scores';
+const String draws = 'Draws';
+const String players= 'Players';
+const String month= 'Mar';
+const String central= 'Central';
+const String player1= 'Player 1';
+const String player2= 'Player 2';
+const String estimatedStartTime= 'Estimated Start Time';
+const String finalText = 'Final';
+const String court1 = 'Court 1';
+const String qualRnd1 = 'Qual.Rnd 1';
+const String min20 = '20 min';
+const String min40 = '40 min';
+const String pm430= '4:30 pm';
+const String watchLiveStream= 'Watch Live Stream';
+
+
+
+
+
+
+
 
 
 

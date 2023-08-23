@@ -68,6 +68,7 @@ AppBar mAppBar({required String title}){
         color: MyAppTheme.cardBgColor,
         child: const Icon(
           Icons.arrow_back,
+          size: 22,
           color: MyAppTheme.whiteColor,
         ),
       ),
@@ -89,6 +90,31 @@ Text subTitleText ({required String text,TextAlign? align}){
     text,
     textAlign: align,
     style: MyStyles.white14Regular,
+  );
+}
+
+
+Text white10Text ({required String text,TextAlign? align}){
+  return Text(
+    text,
+    textAlign: align,
+    style: MyStyles.white10Light,
+  );
+}
+
+Text white12Text ({required String text,TextAlign? align}){
+  return Text(
+    text,
+    textAlign: align,
+    style: MyStyles.white12Light,
+  );
+}
+
+Text white16Text ({required String text,TextAlign? align}){
+  return Text(
+    text,
+    textAlign: align,
+    style: MyStyles.white16Regular,
   );
 }
 
@@ -145,70 +171,6 @@ Widget rowHintText ({required double width1,required double width2, required Str
   );
 }
 
-// Widget tournamentContainer(){
-//   return Container(
-//     width: width,
-//     margin: const EdgeInsets.symmetric(vertical: 5),
-//     padding: const EdgeInsets.all(10),
-//     decoration: BoxDecoration(
-//       color: MyAppTheme.cardBgSecColor,
-//       borderRadius: BorderRadius.circular(8),
-//     ),
-//     child: Column(
-//       crossAxisAlignment: CrossAxisAlignment.start,
-//       children: [
-//         Visibility(
-//           visible: tournamentList[index]['status'].toString() ==
-//               'live',
-//           child: Container(
-//             width: 100,
-//             margin: const EdgeInsets.only(bottom: 5),
-//             padding: const EdgeInsets.symmetric(
-//                 vertical: 4, horizontal: 8),
-//             decoration: BoxDecoration(
-//               borderRadius: BorderRadius.circular(5),
-//               color: MyAppTheme.liveBtnFillColor,
-//               border: Border.all(
-//                   color: MyAppTheme.liveBtnBorderColor),
-//             ),
-//             child: Row(
-//               mainAxisAlignment: MainAxisAlignment.spaceAround,
-//               children: [
-//                 //FaIcon(FontAwesomeIcons.towerBroadcast,color: MyAppTheme.liveBtnBorderColor,size: 14,),
-//
-//                 SvgPicture.asset(MyImages.broadcastIc),
-//
-//                 Text(
-//                   'Live Now',
-//                   style: TextStyle(
-//                       fontWeight: FontWeight.normal,
-//                       fontSize: 12,
-//                       color: MyAppTheme.liveBtnBorderColor),
-//                 ),
-//               ],
-//             ),
-//           ),
-//         ),
-//         titleText(
-//             text: tournamentList[index]['tournamentName']),
-//         Row(
-//           children: [
-//             const Icon(
-//               Icons.calendar_month_outlined,
-//               color: MyAppTheme.hintTxtColor,
-//               size: 18,
-//             ),
-//             hintText(
-//                 text:
-//                 '${tournamentList[index]['startDate']}/${tournamentList[index]['endDate']}')
-//           ],
-//         )
-//       ],
-//     ),
-//   );
-// }
-
-
 Widget selectedQRPictureForTournamentFeePage ({required String qrImg}) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.center,
@@ -219,5 +181,75 @@ Widget selectedQRPictureForTournamentFeePage ({required String qrImg}) {
       subTitleText(text: qrCodeToPayAndRegister,
           align: TextAlign.center)
     ],
+  );
+}
+
+
+Widget estimatedContainer({
+  required double height,
+  String duration = min40,
+
+}){
+  return SizedBox(
+    height: height,
+    child: Column(
+      children: [
+        Expanded(
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
+              color: MyAppTheme.cardBgSecColor,
+            ),
+            child: Row(
+                children: [
+                  SizedBox(width: 10,),
+                  subTitleText(text: estimatedStartTime),
+
+                  SizedBox(width: 10,),
+                  hintText(text: duration),
+
+                  SizedBox(width: 10,),
+                  hintText(text: qualRnd1),
+
+
+                ]//.map((e) => Padding(padding: EdgeInsets.only(left: 10))).toList(),
+            ),
+          ),
+        ),
+        Expanded(
+          child: Container(
+            color: MyAppTheme.cardBgColor,
+            child: Row(
+              children: [
+                SizedBox(
+                  width: 10,
+                ),
+                white12Text(text: player1)
+              ],
+            ),
+          ),
+        ),
+        Divider(
+          height: 1,
+          color: MyAppTheme.cardBgSecColor,
+        ),
+        Expanded(
+          child: Container(
+            decoration: BoxDecoration(
+                borderRadius: const BorderRadius.vertical(bottom: Radius.circular(10)),
+                color: MyAppTheme.cardBgColor
+            ),
+            child: Row(
+              children: [
+                SizedBox(
+                  width: 10,
+                ),
+                white12Text(text: player2)
+              ],
+            ),
+          ),
+        ),
+      ],
+    ),
   );
 }
