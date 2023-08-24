@@ -79,6 +79,12 @@ class MyStyles {
     fontSize: 20,
     fontWeight: MyFontWeight.medium,
   );
+
+  static TextStyle white22Medium = TextStyle(
+    color: MyColors.white,
+    fontSize: 22,
+    fontWeight: MyFontWeight.medium,
+  );
   static TextStyle white10Light = TextStyle(
     color: MyColors.white,
     fontSize: 10,
@@ -108,5 +114,10 @@ class MyStyles {
   fontSize: 14,
   color: MyAppTheme.MainColor
   );
+  static TextStyle mainClr14Light = const TextStyle(
+    fontWeight: FontWeight.w400,
+    fontSize: 14,
+    color: MyAppTheme.MainColor
+    );
 
 }

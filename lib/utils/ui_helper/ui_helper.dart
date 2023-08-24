@@ -118,6 +118,23 @@ Text white16Text ({required String text,TextAlign? align}){
   );
 }
 
+Text white16LightText ({required String text,TextAlign? align}){
+  return Text(
+    text,
+    textAlign: align,
+    style: MyStyles.white14Light,
+  );
+}
+
+
+Text white22mediumText ({required String text,TextAlign? align}){
+  return Text(
+    text,
+    textAlign: align,
+    style: MyStyles.white22Medium,
+  );
+}
+
 Text underLinedSubHeading({required String text}){
   return Text(
     text,
@@ -185,71 +202,43 @@ Widget selectedQRPictureForTournamentFeePage ({required String qrImg}) {
 }
 
 
-Widget estimatedContainer({
-  required double height,
-  String duration = min40,
-
-}){
-  return SizedBox(
-    height: height,
-    child: Column(
-      children: [
-        Expanded(
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
-              color: MyAppTheme.cardBgSecColor,
-            ),
-            child: Row(
-                children: [
-                  SizedBox(width: 10,),
-                  subTitleText(text: estimatedStartTime),
-
-                  SizedBox(width: 10,),
-                  hintText(text: duration),
-
-                  SizedBox(width: 10,),
-                  hintText(text: qualRnd1),
-
-
-                ]//.map((e) => Padding(padding: EdgeInsets.only(left: 10))).toList(),
-            ),
-          ),
-        ),
-        Expanded(
-          child: Container(
-            color: MyAppTheme.cardBgColor,
-            child: Row(
-              children: [
-                SizedBox(
-                  width: 10,
-                ),
-                white12Text(text: player1)
-              ],
-            ),
-          ),
-        ),
-        Divider(
-          height: 1,
-          color: MyAppTheme.cardBgSecColor,
-        ),
-        Expanded(
-          child: Container(
-            decoration: BoxDecoration(
-                borderRadius: const BorderRadius.vertical(bottom: Radius.circular(10)),
-                color: MyAppTheme.cardBgColor
-            ),
-            child: Row(
-              children: [
-                SizedBox(
-                  width: 10,
-                ),
-                white12Text(text: player2)
-              ],
-            ),
-          ),
-        ),
-      ],
+Widget selectedContainer ({ required String text , bool isBorderVisible = true}) {
+  return Container(
+    alignment: Alignment.center,
+    margin: const EdgeInsets.only(right: 10),
+    padding: const EdgeInsets.symmetric(
+        vertical: 4, horizontal: 8),
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(5),
+      color: MyAppTheme.documentBgMainColor,
+      border: (isBorderVisible) ?Border.all(
+          color:  MyAppTheme.MainColor) : null,
     ),
+    child: Text(text,
+        style: const TextStyle(
+            fontWeight: FontWeight.w500,
+            fontSize: 14,
+            color: MyAppTheme.MainColor
+                )),
   );
+}
+
+Widget unSelectedContainer ({required String text}){
+  return Container(
+    alignment: Alignment.center,
+    margin: const EdgeInsets.only(right: 10),
+    padding: const EdgeInsets.symmetric(
+        vertical: 4, horizontal: 8),
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(5),
+      color: MyAppTheme.cardBorderBgColor,
+      border: Border.all(
+          color: (MyAppTheme.cardBgSecColor),)
+    ),
+    child: Text( text,
+        style: const TextStyle(
+            fontWeight: FontWeight.w500,
+            fontSize: 14,
+            color: (MyAppTheme.whiteColor)),
+  ));
 }

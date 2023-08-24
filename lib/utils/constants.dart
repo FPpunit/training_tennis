@@ -578,12 +578,23 @@ const String watchLiveStream= 'Watch Live Stream';
 
 
 
+const String ongoing= 'Ongoing';
+//const String upcoming= 'Upcoming';
+const String mainCourt= 'Main Court';
+const String sideCourt= 'Side Court';
+const String indoorCourt= 'Indoor Court';
+const String liveNow= 'Live Now';
 
 
 
-
-
-
-
-
+const String scoreManagement= 'Score Management';
+const String vs= 'VS';
+const String scoreSheet= 'Score Sheet';
+const String service= 'Service';
+const String tossWon= 'Toss Won';
+const String undo= 'Undo';
+const String points= 'Points';
+const String set1= 'Set 1';
+const String set2= 'Set 2';
+const String set3= 'Set 3';
 

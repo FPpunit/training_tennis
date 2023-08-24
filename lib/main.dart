@@ -7,6 +7,7 @@ import 'package:new_pro/screens/payment_info/payment_info.dart';
 import 'package:new_pro/screens/splash.dart';
 import 'package:new_pro/screens/staff/add_staff.dart';
 import 'package:new_pro/screens/staff/staff_home/staff_home.dart';
+import 'package:new_pro/screens/staff/staff_home/score_management.dart';
 import 'package:new_pro/screens/staff/staff_members_list.dart';
 import 'package:new_pro/screens/tournament_details/tournament_details_screen.dart';
 import 'package:new_pro/screens/tournament_list/tournament_list.dart';
@@ -34,7 +35,7 @@ class MyApp extends StatelessWidget {
         // colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: StaffHomeScreen(),
+      home: ScoreManagement(),
     );
   }
 }

@@ -41,6 +41,7 @@ dependencies:
   get: ^4.6.2
   font_awesome_flutter: ^10.4.0
   flutter_svg: ^1.1.6
+  adaptive_dialog: ^1.8.3+1
 
 dev_dependencies:
   flutter_test:
