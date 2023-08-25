@@ -558,8 +558,9 @@ class _ScoreManagementState extends State<ScoreManagement> {
                             _pointWonBy(0, idx);
                           },
                           child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 4, horizontal: 8),
+                            height: 35,
+                              width: 35,
+                              alignment: Alignment.center,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(7),
                                 color: MyAppTheme.MainColor,
@@ -622,8 +623,9 @@ class _ScoreManagementState extends State<ScoreManagement> {
                             _pointWonBy(1, idx);
                           },
                           child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 4, horizontal: 8),
+                              height: 35,
+                              width: 35,
+                              alignment: Alignment.center,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(7),
                                 color: MyAppTheme.MainColor,
