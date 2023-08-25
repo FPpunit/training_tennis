@@ -223,8 +223,53 @@ Widget selectedContainer ({ required String text , bool isBorderVisible = true})
   );
 }
 
+Widget selectedContainer35 ({ required String text , bool isBorderVisible = true}) {
+  return Container(
+    height: 35,
+    width: 35,
+    alignment: Alignment.center,
+    margin: const EdgeInsets.only(right: 10),
+    padding: const EdgeInsets.symmetric(
+        vertical: 4, horizontal: 8),
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(5),
+      color: MyAppTheme.documentBgMainColor,
+      border: (isBorderVisible) ?Border.all(
+          color:  MyAppTheme.MainColor) : null,
+    ),
+    child: Text(text,
+        style: const TextStyle(
+            fontWeight: FontWeight.w500,
+            fontSize: 14,
+            color: MyAppTheme.MainColor
+                )),
+  );
+}
+
 Widget unSelectedContainer ({required String text}){
   return Container(
+    alignment: Alignment.center,
+    margin: const EdgeInsets.only(right: 10),
+    padding: const EdgeInsets.symmetric(
+        vertical: 4, horizontal: 8),
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(5),
+      color: MyAppTheme.cardBorderBgColor,
+      border: Border.all(
+          color: (MyAppTheme.cardBgSecColor),)
+    ),
+    child: Text( text,
+        style: const TextStyle(
+            fontWeight: FontWeight.w500,
+            fontSize: 14,
+            color: (MyAppTheme.whiteColor)),
+  ));
+}
+
+Widget unSelectedContainer35 ({required String text}){
+  return Container(
+      height: 35,
+      width: 35,
     alignment: Alignment.center,
     margin: const EdgeInsets.only(right: 10),
     padding: const EdgeInsets.symmetric(
