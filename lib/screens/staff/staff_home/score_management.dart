@@ -29,14 +29,10 @@ class _ScoreManagementState extends State<ScoreManagement> {
   bool player2Toss = false;
 
   List scoresList = [0, 0, 0, 0];
+  List<List<int>> setScoreForLive =[[0,0]];
 
   List<int> _gameScore = [0, 0];
-  List<List<int>> _setScore = [
-    [0, 0],
-    [0, 0],
-    [0, 0],
-  ];
-  List<int> _matchScore = [0, 0];
+  List<List<int>> _setScore = [[0, 0],[0, 0],[0, 0]];
   bool _tie = false;
 
   /// Updates the score by giving a point to the specified player.
@@ -61,6 +57,7 @@ class _ScoreManagementState extends State<ScoreManagement> {
     // Update game and set scores.
     _gameScore = [0, 0];
     _setScore[index][playerNum]++;
+    setScoreForLive[idx] = _setScore[index];
 
     // Check for victory condition.
     if (_setScore[index][playerNum] >= 6) {
@@ -80,6 +77,7 @@ class _ScoreManagementState extends State<ScoreManagement> {
     // Note: This is undefined behaviour according to the assignment.
     //_setScore[index] = [0, 0];
     idx++;
+    setScoreForLive.add([0,0]);
     _tie = false;
   }
 
@@ -92,8 +90,8 @@ class _ScoreManagementState extends State<ScoreManagement> {
         [0, 0],
         [0, 0],
       ];
+      setScoreForLive =[[0,0]];
       idx = 0;
-      _matchScore = [0, 0];
       _tie = false;
     });
   }
@@ -133,15 +131,16 @@ class _ScoreManagementState extends State<ScoreManagement> {
   }
 
   /// Timer ///
-  ///
 
   final Stopwatch _stopwatch = Stopwatch();
 
   // Timer
   late Timer _timer;
 
-  // The result which will be displayed on the screen
-  dynamic _result = '00:00:00';
+  var hours ='00';
+  var min ='00';
+  var sec ='00';
+
 
   /// This function will be called when the user presses the Start button
   void _start() {
@@ -150,28 +149,14 @@ class _ScoreManagementState extends State<ScoreManagement> {
       // Update the UI
       setState(() {
         // result in hh:mm:ss format
-        _result =
-            '${(_stopwatch.elapsed.inHours % 60).toString().padLeft(2, '0')}:${_stopwatch.elapsed.inMinutes.toString().padLeft(2, '0')}:${(_stopwatch.elapsed.inSeconds % 60).toString().padLeft(2, '0')}';
-
+        hours = (_stopwatch.elapsed.inHours % 60).toString().padLeft(2, '0');
+        min=_stopwatch.elapsed.inMinutes.toString().padLeft(2, '0');
+        sec=  (_stopwatch.elapsed.inSeconds % 60).toString().padLeft(2, '0');
       });
     });
     // Start the stopwatch
     _stopwatch.start();
   }
-
-
-  // Widget getTime(){
-  //   return RichText(
-  //     text: TextSpan(
-  //       text: (_stopwatch.elapsed.inHours % 60).toString().padLeft(2, '0'),
-  //       style: MyStyles.white30SemiBold,
-  //       children: const <TextSpan>[
-  //         TextSpan(text: 'bold', style: TextStyle(fontWeight: FontWeight.bold)),
-  //         TextSpan(text: ' world!'),
-  //       ],
-  //     ),
-  //   );
-  // }
 
   /// This function will be called when the user presses the Stop button
   void _stop() {
@@ -199,7 +184,7 @@ class _ScoreManagementState extends State<ScoreManagement> {
           //ainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ///players photo
+            ///players photo/////////////////////////////////////////////////////
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Row(
@@ -255,9 +240,9 @@ class _ScoreManagementState extends State<ScoreManagement> {
               ),
             ),
 
-            ///Timer
+            ///Timer/////////////////////////////////////////////////////
             Container(
-              padding: EdgeInsets.all(5),
+              padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                   border: Border(
                 top: BorderSide(
@@ -269,11 +254,33 @@ class _ScoreManagementState extends State<ScoreManagement> {
                 children: [
                   SizedBox(
                     width: width * .6,
-                    child: Text(
-                      _result,
-                      style: const TextStyle(
-                          fontSize: 30.0, color: MyAppTheme.whiteColor),
-                    ),
+                    child: RichText(
+                      text: TextSpan(
+                        text: hours,
+                        style: MyStyles.white30SemiBold,
+                        children: [
+                          TextSpan(
+                            text: ' hours  ',
+                            style: MyStyles.white14Light
+                          ),
+                          TextSpan(
+                            text: min,
+                            style: MyStyles.white30SemiBold
+                          ),
+                          TextSpan(
+                            text: ' min  ',
+                            style: MyStyles.white14Light
+                          ),
+                          TextSpan(
+                            text: sec,
+                            style: MyStyles.white30SemiBold
+                          ),TextSpan(
+                            text: ' sec ',
+                            style: MyStyles.white14Light
+                          ),
+                        ]
+                      ),
+                    )
                   ),
                   GestureDetector(
                     onTap: _stop,
@@ -312,7 +319,7 @@ class _ScoreManagementState extends State<ScoreManagement> {
               ),
             ),
 
-            ///Toss and Service
+            ///Toss and Service///////////////////////////////////////////
             Container(
               decoration: BoxDecoration(
                   border: Border.symmetric(
@@ -476,8 +483,9 @@ class _ScoreManagementState extends State<ScoreManagement> {
               ),
             ),
 
-            ///Scores...
+            ///Scores.../// //// /////////////////////////////////////////
 
+            ///Score TExt and Undo btn
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
@@ -504,6 +512,7 @@ class _ScoreManagementState extends State<ScoreManagement> {
               ),
             ),
 
+            ///header of Score
             Container(
               color: MyAppTheme.cardBgSecColor,
               height: height * .04,
@@ -531,6 +540,7 @@ class _ScoreManagementState extends State<ScoreManagement> {
                   ),
             ),
 
+            ///player 1
             Padding(
               padding: const EdgeInsets.fromLTRB(8, 4, 0, 0),
               child: Row(
@@ -555,7 +565,9 @@ class _ScoreManagementState extends State<ScoreManagement> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            _pointWonBy(0, idx);
+                            if(setScoreForLive.length<=3){
+                              _pointWonBy(0, idx);
+                            }
                           },
                           child: Container(
                             height: 35,
@@ -596,6 +608,7 @@ class _ScoreManagementState extends State<ScoreManagement> {
             ),
             Divider(thickness: 1, color: MyAppTheme.cardBgSecColor),
 
+            ///player 2
             Padding(
               padding: const EdgeInsets.only(left: 8.0),
               child: Row(
@@ -620,7 +633,9 @@ class _ScoreManagementState extends State<ScoreManagement> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            _pointWonBy(1, idx);
+                            if(setScoreForLive.length<=3){
+                              _pointWonBy(1, idx);
+                            }
                           },
                           child: Container(
                               height: 35,
@@ -661,8 +676,7 @@ class _ScoreManagementState extends State<ScoreManagement> {
             ),
             Divider(thickness: 1, color: MyAppTheme.cardBgSecColor),
 
-            ///Score sheet
-
+            ///Score sheet/////////////////////////////////////////////////////
             Padding(
               padding: const EdgeInsets.all(8),
               child: Column(
@@ -670,7 +684,7 @@ class _ScoreManagementState extends State<ScoreManagement> {
                 children: [
                   titleText(text: scoreSheet),
                   LiveNowContainer(
-                      height: height * .2, time: '0 min', roundName: qualRnd1)
+                      height: height * .2, time: '0 min', roundName: qualRnd1,setList: setScoreForLive)
                 ],
               ),
             ),

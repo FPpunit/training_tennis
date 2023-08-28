@@ -202,8 +202,10 @@ Widget selectedQRPictureForTournamentFeePage ({required String qrImg}) {
 }
 
 
-Widget selectedContainer ({ required String text , bool isBorderVisible = true}) {
+Widget selectedContainer ({ required String text , bool isBorderVisible = true ,double? height,double? width}) {
   return Container(
+    height: height,
+    width: width,
     alignment: Alignment.center,
     margin: const EdgeInsets.only(right: 10),
     padding: const EdgeInsets.symmetric(

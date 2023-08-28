@@ -88,12 +88,17 @@ class LiveNowContainer extends StatelessWidget {
   double height;
   String time;
   String roundName;
+  List<List<int>>? setList;
 
 
-  LiveNowContainer ({Key? key,required this.height,required this.time,required this.roundName}) : super(key: key);
+  LiveNowContainer ({Key? key,required this.height,required this.time,
+    required this.roundName,
+    this.setList,}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+
+
     return SizedBox(
       height: height,
       child: Container(
@@ -133,9 +138,19 @@ class LiveNowContainer extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     white12Text(text: player1),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
-                      child: selectedContainer(text: '0',isBorderVisible: false),
+                    SizedBox(
+                      height: height*.5,
+                      //width: width*.5,
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.horizontal,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: (setList!.length>3)? 3: setList!.length,
+                        itemBuilder:(context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8),
+                            child: selectedContainer(text: setList![index][0].toString(),isBorderVisible: false,height: 30,width: 28),);
+                        },),
                     ),
                   ],
                 ),
@@ -157,9 +172,19 @@ class LiveNowContainer extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     white12Text(text: player2),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
-                      child: selectedContainer(text: '0',isBorderVisible: false),
+                    SizedBox(
+                      height: height*.5,
+                      //width: width*.5,
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.horizontal,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: (setList!.length>3)? 3: setList!.length,
+                      itemBuilder:(context, index) {
+                        return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                          child: selectedContainer(text: setList![index][1].toString(),isBorderVisible: false,height: 30,width: 28),);
+                      },),
                     ),
                   ],
                 ),

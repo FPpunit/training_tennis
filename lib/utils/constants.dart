@@ -597,4 +597,10 @@ const String points= 'Points';
 const String set1= 'Set 1';
 const String set2= 'Set 2';
 const String set3= 'Set 3';
+const String category= 'Category';
+const String paymentStatus= 'Payment Status';
+const String totalParticipants= 'Total Participants';
+
+
+//const String participantName= 'Participant’s Name';
 

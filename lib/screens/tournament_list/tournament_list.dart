@@ -60,7 +60,8 @@ class _TournamentListState extends State<TournamentList> {
                   child: Container(
                     margin: const EdgeInsets.only(right: 10),
                     padding:
-                        const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                        const EdgeInsets.symmetric(vertical: 0, horizontal: 8),
+                    alignment: Alignment.center,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
                       color: (selectedIdx == index)
