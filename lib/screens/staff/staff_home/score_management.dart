@@ -21,6 +21,7 @@ class _ScoreManagementState extends State<ScoreManagement> {
   late double width;
 
   var idx = 0;
+  var won = false;
 
   bool player1Service = false;
   bool player2Service = false;
@@ -69,6 +70,10 @@ class _ScoreManagementState extends State<ScoreManagement> {
       }
     }
   }
+
+  // getWon (){
+  //
+  // }
 
   /// Updates the score by awarding the current set to the specified player.
   /// @param {number} playerNum - The winning player's number (0 or 1).

@@ -169,7 +169,7 @@ List<Map<String,dynamic>> contactData = [
     'phoneNumber' : '+919876543210',
     'email': 'punitlohani@gmail.com'
   },{
-    'name' : 'Anny efhnliewuhf uiohwioueh oihewfuionaO;JIH IOHJIOS IOHQWi;ohf    hjwfeiojk;ajqIO OIHCFE;oiq ;hioQHIO;H',
+    'name' : 'Anny efhnliewuhf uiohwioueh FusionAuthO;JIH CHIBIOS IOHQWi;ohf    hjwfeiojk;ajqIO OIHCFE;oiq ;hioQHIO;H',
     'phoneNumber' : '+919876543210',
     'email': 'punitlohani@gmail.com'
   },
