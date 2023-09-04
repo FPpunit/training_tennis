@@ -8,6 +8,7 @@ import 'package:new_pro/utils/constants.dart';
 import 'package:new_pro/utils/ui_helper/ui_helper.dart';
 
 import '../../../utils/my_app_theme.dart';
+import '../../../utils/my_styles.dart';
 
 class TournamentDetails extends StatefulWidget {
   const TournamentDetails({Key? key}) : super(key: key);
@@ -17,10 +18,12 @@ class TournamentDetails extends StatefulWidget {
 }
 
 class _TournamentDetailsState extends State<TournamentDetails> {
-  TextEditingController userName = TextEditingController();
+  TextEditingController feeController = TextEditingController();
+  TextEditingController desController = TextEditingController();
   var selectedCategory = "--Select--";
-  var selectedAgegroup = "--Select-- Age Group";
-  int idx = 0;
+  var isVisible = false;
+  int top = -1;
+  int topForFee = -1;
   List<String> listCategory = [
     "Men Single",
     "Men Doubles",
@@ -40,25 +43,35 @@ class _TournamentDetailsState extends State<TournamentDetails> {
     'Open',
   ];
   String? selectedValue;
-  List<Map<String, dynamic>> select = [];
+  String? selectedCatForFee;
+  List<Map<String, dynamic>> select = [
+    {
+      'type': '',
+      'category': [],
+    },
+  ];
+  List<Map<String, dynamic>> selectDataForFee = [
+    {
+      'type': '',
+      'fee': '',
+    },
+  ];
   List<String> selectedItems = [];
-  var data =[];
 
   @override
   Widget build(BuildContext context) {
-    if(idx != 0){
-      data = selectedItems.toList();
-    }
-    print(data);
-    print(select);
+    print('select -------------------------------------------> $select');
+    // print(
+    //     'select fee -------------------------------------------> $selectDataForFee');
+
+
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: MyAppTheme.bgColor,
       statusBarBrightness: Brightness.light,
     ));
+
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
-
-    print(select.length);
 
     return Scaffold(
       backgroundColor: MyAppTheme.bgColor,
@@ -81,6 +94,7 @@ class _TournamentDetailsState extends State<TournamentDetails> {
                         fontSize: 18,
                         color: MyAppTheme.whiteColor,
                       )),
+
                   Container(
                       height: 5,
                       width: width,
@@ -123,19 +137,23 @@ class _TournamentDetailsState extends State<TournamentDetails> {
                           ),
                         ),
                         GestureDetector(
-                          onTap: () {
-                            idx++;
-                            setState(() {
-
-                            });
-                          },
+                          onTap: ((select[top + 1]['type'] != '') &&
+                                  (select[top + 1]['category'].length != 0))
+                              ? () {
+                                  top++;
+                                  selectedValue = null;
+                                  selectedItems = [];
+                                  select.add({'type': '', 'category': []});
+                                  setState(() {});
+                                }
+                              : () {},
                           child: Container(
-                              height: 35,
-                              width: 70,
+                              height: 40,
+                              width: 100,
                               alignment: Alignment.center,
                               decoration: BoxDecoration(
                                   color: MyAppTheme.MainColor,
-                                  borderRadius: BorderRadius.circular(8)),
+                                  borderRadius: BorderRadius.circular(4)),
                               child: white12Text(text: AddMore)),
                         )
                       ],
@@ -179,7 +197,8 @@ class _TournamentDetailsState extends State<TournamentDetails> {
                             value: selectedValue,
                             onChanged: (String? value) {
                               selectedValue = value!;
-                              idx++;
+                              select[top + 1]['type'] = selectedValue;
+
                               setState(() {});
                             },
                             buttonStyleData: ButtonStyleData(
@@ -255,6 +274,9 @@ class _TournamentDetailsState extends State<TournamentDetails> {
                                               isSelected
                                                   ? selectedItems.remove(item)
                                                   : selectedItems.add(item);
+
+
+                                              select[top + 1]['category'] = selectedItems;
                                               setState(() {});
                                               menuSetState(() {});
                                             } else {}
@@ -308,15 +330,13 @@ class _TournamentDetailsState extends State<TournamentDetails> {
                                 ? null
                                 : selectedItems.last,
                             onChanged: (value) {
+                              select[top + 1]['category'] = value;
 
+                              setState(() {});
                             },
                             selectedItemBuilder: (context) {
                               return items.map(
                                 (item) {
-                                  if (idx != 0) {
-                                    select
-                                        .add({'$selectedValue': selectedItems});
-                                  }
                                   return Container(
                                     alignment: Alignment.centerLeft,
                                     child: const Text(
@@ -369,449 +389,420 @@ class _TournamentDetailsState extends State<TournamentDetails> {
                     ],
                   ),
 
-                  const SizedBox(
-                    height: 20,
-                  ),
 
-                  if (idx != 0) ...[
-                    SizedBox(
-                        height: height*.5,
-                        child: ListView.builder(
+
+                  if (select.isNotEmpty) ...[
+                    ListView.builder(
                       shrinkWrap: true,
                       itemCount: select.length,
+                      physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
-                      return SizedBox(
-                        height: height*.04,
-                        child: Row(
-                          children: [
-                            (selectedContainer(text: selectedValue!)),
-                            SizedBox(
-                              width: width * .6,
-
-                              child: ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                itemCount: data.length,
-                                itemBuilder: (context, index) =>
-                                    Container(
-                                        alignment: Alignment.center,
-                                        height: 30,
-                                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(5),
-                                            color: MyAppTheme.cardBorderBgColor,
-                                            border: Border.all(
-                                              color: (MyAppTheme.cardBgSecColor),)
+                        return (select[index]['category'].length != 0)
+                            ? Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: SizedBox(
+                                  height: 40,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.center,
+                                    children: [
+                                      SizedBox(
+                                        width: width * 0.8,
+                                        child: Row(
+                                          children: [
+                                            (selectedContainer(
+                                                text: select[index]['type'])),
+                                            Expanded(
+                                              child: ListView.builder(
+                                                scrollDirection:
+                                                    Axis.horizontal,
+                                                shrinkWrap: true,
+                                                physics:
+                                                    BouncingScrollPhysics(),
+                                                itemCount: select[index]
+                                                        ['category']
+                                                    .length,
+                                                itemBuilder: (context, idx) =>
+                                                    Container(
+                                                        alignment: Alignment
+                                                            .center,
+                                                        height: 30,
+                                                        margin: const EdgeInsets
+                                                            .only(right: 10),
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .symmetric(
+                                                                horizontal: 10),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            5),
+                                                                color: MyAppTheme
+                                                                    .cardBorderBgColor,
+                                                                border:
+                                                                    Border.all(
+                                                                  color: (MyAppTheme
+                                                                      .cardBgSecColor),
+                                                                )),
+                                                        child: Text(
+                                                          select[index]
+                                                              ['category'][idx],
+                                                          style: const TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                              fontSize: 14,
+                                                              color: (MyAppTheme
+                                                                  .whiteColor)),
+                                                        )),
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                        child: Text( select[idx][selectedValue][index],
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 14,
-                                              color: (MyAppTheme.whiteColor)),
-                                        )),
+                                      ),
+                                      Expanded(
+                                        child: GestureDetector(
+                                            onTap: () {
+
+                                              if(index == 0){
+                                                select[index]['type'] = '';
+                                                select [index]['category'] = '';
+                                                selectedValue = null;
+
+                                              }
+                                             else{
+                                                select.removeAt(index);
+                                                selectedValue = null;
+                                                selectedItems=[];
+                                                top--;
+                                              }
+                                              setState(() {});
+                                            },
+                                            child: SvgPicture.asset(
+                                                'assets/images/delete_league.svg',
+                                              allowDrawingOutsideViewBox: true,
+                                              height: 20,
+                                              width: 20,)),
+                                      )
+                                    ],
+                                  ),
+                                ))
+                            : Container();
+                      },
+                    )
+                  ],
+
+                  ///Tournament fee and Add More btn
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10.0, bottom: 5.0),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          tournamentFee,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 16,
+                            color: MyAppTheme.whiteColor,
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: ((selectDataForFee[topForFee + 1]['type'] !=
+                                      '') &&
+                                  (selectDataForFee[topForFee + 1]['fee'] !=
+                                      ''))
+                              ? () {
+                                  if (selectDataForFee.isNotEmpty) {
+                                    topForFee++;
+                                    selectedCatForFee = null;
+                                    feeController.clear();
+                                    selectDataForFee
+                                        .add({'type': '', 'fee': ''});
+                                    setState(() {});
+                                  }
+                                }
+                              : () {},
+                          child: Container(
+                              height: 40,
+                              width: 100,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                  color: MyAppTheme.MainColor,
+                                  borderRadius: BorderRadius.circular(4)),
+                              child: white12Text(text: AddMore)),
+                        )
+                      ],
+                    ),
+                  ),
+
+                  ///Dropdown and fee input field.
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                          child: Container(
+                        margin: const EdgeInsets.only(right: 5.0, top: 5.0),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton2<String>(
+                            isExpanded: true,
+                            hint: const Text(
+                              '--Select--',
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                color: MyAppTheme.whiteColor,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            items: listCategory
+                                .map((String item) => DropdownMenuItem<String>(
+                                      value: item,
+                                      child: Text(
+                                        item,
+                                        style: const TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400,
+                                          color: MyAppTheme.whiteColor,
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ))
+                                .toList(),
+                            value: selectedCatForFee,
+                            onChanged: (String? value) {
+                              selectedCatForFee = value!;
+
+                              setState(() {});
+                            },
+                            buttonStyleData: ButtonStyleData(
+                              height: 50,
+                              padding: const EdgeInsets.only(left: 5, right: 5),
+                              decoration: BoxDecoration(
+                                  color: MyAppTheme.cardBorderBgColor,
+                                  border: Border.all(
+                                    color: MyAppTheme.cardBgSecColor,
+                                  ),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(5))),
+                            ),
+                            iconStyleData: const IconStyleData(
+                              icon: Icon(
+                                Icons.arrow_drop_down_sharp,
+                              ),
+                              iconSize: 25,
+                            ),
+                            dropdownStyleData: DropdownStyleData(
+                              maxHeight: 200,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: MyAppTheme.cardBgSecColor,
+                              ),
+                              offset: const Offset(0, -5),
+                              scrollbarTheme: ScrollbarThemeData(
+                                radius: const Radius.circular(5),
+                                thickness: MaterialStateProperty.all<double>(6),
+                                thumbVisibility:
+                                    MaterialStateProperty.all<bool>(true),
                               ),
                             ),
-                            GestureDetector(
-                                onTap: (){
-                                  select.removeAt(idx);
-                                  idx--;
-                                  setState(() {
-
-                                  });
-                                },
-                                child: SvgPicture.asset('assets/images/delete_league.svg'))
-                          ],
+                            menuItemStyleData: const MenuItemStyleData(
+                              height: 40,
+                              padding: EdgeInsets.only(left: 14, right: 14),
+                            ),
+                          ),
                         ),
-                      );
-                    },))
-                  ]
+                      )),
+                      Expanded(
+                          child: Container(
+                        margin: const EdgeInsets.only(left: 5.0, top: 5.0),
+                        decoration: BoxDecoration(
+                            color: MyAppTheme.cardBorderBgColor,
+                            border: Border.all(
+                              color: MyAppTheme.cardBgSecColor,
+                            ),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(5))),
+                        child: TextFormField(
+                          cursorColor: MyAppTheme.whiteColor,
+                          textCapitalization: TextCapitalization.words,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          keyboardType: TextInputType.number,
+                          textAlign: TextAlign.left,
+                          controller: feeController,
+                          onChanged: (value) {
+                            // selectDataForFee[topForFee + 1]['type'] = selectedCatForFee;
+                            // selectDataForFee[topForFee + 1]['fee'] = value;
+                          },
+                          onEditingComplete: () {
+                            selectDataForFee[topForFee + 1]['type'] =
+                                selectedCatForFee;
+                            selectDataForFee[topForFee + 1]['fee'] =
+                                feeController.text;
+                            setState(() {});
+                          },
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: MyAppTheme.whiteColor,
+                          ),
+                          decoration: const InputDecoration(
+                            prefixIcon: Icon(
+                              Icons.currency_rupee,
+                              color: MyAppTheme.hintTxtColor,
+                              size: 16,
+                            ),
+                            border: InputBorder.none,
+                            //contentPadding: EdgeInsets.only(left: 10.0),
+                          ),
+                        ),
+                      )),
+                    ],
+                  ),
 
-                  // Row(
-                  //   children: [
-                  //     if(index != 0 )...[(selectedContainer(text: selectedValue!)),],
-                  //     SizedBox(
-                  //       width: width*.7,
-                  //       child: ListView.builder(
-                  //           physics: const AlwaysScrollableScrollPhysics(),
-                  //           primary: false,
-                  //           shrinkWrap: true,
-                  //           itemCount: 2,
-                  //           itemBuilder: (BuildContext context, int index) {
-                  //             return Padding(
-                  //               padding: const EdgeInsets.only(top: 10.0),
-                  //               child: Row(
-                  //                 crossAxisAlignment: CrossAxisAlignment.center,
-                  //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //                 children: [
-                  //                   Row(
-                  //                     crossAxisAlignment: CrossAxisAlignment.start,
-                  //                     mainAxisAlignment: MainAxisAlignment.start,
-                  //                     children: [
-                  //                       Container(
-                  //                         height: 40,
-                  //                         decoration: BoxDecoration(
-                  //                             color: MyAppTheme.progressInactiveColor,
-                  //                             border: Border.all(
-                  //                               color:  MyAppTheme.MainColor,
-                  //                             ),
-                  //                             borderRadius: const BorderRadius.all(
-                  //                                 Radius.circular(5))
-                  //                         ),
-                  //                         child: Center(
-                  //                           child: Padding(
-                  //                             padding:  const EdgeInsets.only(left: 15.0,right: 15.0,top: 5.0,bottom: 5.0),
-                  //                             child: Text("Single Men",style:  TextStyle(
-                  //                               fontWeight: FontWeight.w700,
-                  //                               fontSize: 12,
-                  //                               color: MyAppTheme.MainColor,
-                  //                               ),),
-                  //                           ),
-                  //                         ),
-                  //                       ),
-                  //                       Container(
-                  //                         height: 40,
-                  //                         width: width * 0.60,
-                  //                         alignment: Alignment.center,
-                  //                         child:  ListView.builder(
-                  //                             scrollDirection: Axis.horizontal,
-                  //                             itemCount: 5,
-                  //                             itemBuilder: (BuildContext context, int index) {
-                  //                               return Container(
-                  //                                 margin: const EdgeInsets.only(left: 5.0),
-                  //                                 height: 40,
-                  //                                 decoration: BoxDecoration(
-                  //                                     color: MyAppTheme.CardBgColor,
-                  //                                     border: Border.all(
-                  //                                       color: MyAppTheme.cardBgColor,
-                  //                                     ),
-                  //                                     borderRadius: const BorderRadius.all(
-                  //                                         Radius.circular(5))
-                  //                                 ),
-                  //                                 child: Center(
-                  //                                   child: Padding(
-                  //                                     padding:  const EdgeInsets.only(left: 15.0,right: 15.0,top: 5.0,bottom: 5.0),
-                  //                                     child: Text("Mains",style:  TextStyle(
-                  //                                       fontWeight: FontWeight.w700,
-                  //                                       fontSize: 12,
-                  //                                       color: MyAppTheme.whiteColor,
-                  //                                       ),),
-                  //                                   ),
-                  //                                 ),
-                  //                               );
-                  //                             }),
-                  //                       )
-                  //                     ],
-                  //                   ),
-                  //                   SvgPicture.asset(
-                  //                     'assets/images/delete_league.svg',
-                  //                     allowDrawingOutsideViewBox: true,
-                  //                     height: 20,
-                  //                     width: 20,
-                  //                   ),
-                  //                 ],
-                  //               ),
-                  //             );
-                  //           }),
-                  //     ),
-                  //   ],
-                  // ),
-                  // Padding(
-                  //   padding: const EdgeInsets.only(top: 10.0,bottom: 5.0),
-                  //   child: Row(
-                  //     crossAxisAlignment: CrossAxisAlignment.center,
-                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //     children: [
-                  //       Text(
-                  //         tournamentFee,
-                  //         style: TextStyle(
-                  //           fontWeight: FontWeight.w400,
-                  //           fontSize: 16,
-                  //           color: MyAppTheme.whiteColor,
-                  //
-                  //         ),
-                  //       ),
-                  //       Container(
-                  //         height: 35,
-                  //         width: 70,
-                  //         child: Text(AddMore),
-                  //
-                  //
-                  //       )
-                  //     ],
-                  //   ),
-                  // ),
-                  // Row(
-                  //   crossAxisAlignment: CrossAxisAlignment.center,
-                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //   children: [
-                  //     Expanded(child: Container(
-                  //       margin: const EdgeInsets.only(right: 5.0,top: 5.0),
-                  //       child: DropdownButtonHideUnderline(
-                  //         child: DropdownButton2<String>(
-                  //           isExpanded: true,
-                  //           hint:  Text(
-                  //             '--Select--',
-                  //             style: TextStyle(
-                  //               fontSize: 14,
-                  //               fontWeight: FontWeight.w400,
-                  //               color: MyAppTheme.whiteColor,
-                  //
-                  //             ),
-                  //             overflow: TextOverflow.ellipsis,
-                  //           ),
-                  //           items: items.map((String item) => DropdownMenuItem<String>(
-                  //             value: item,
-                  //             child: Text(
-                  //               item,
-                  //               style: const TextStyle(
-                  //                 fontSize: 14,
-                  //                 fontWeight: FontWeight.w400,
-                  //                 color: MyAppTheme.whiteColor,
-                  //
-                  //               ),
-                  //               overflow: TextOverflow.ellipsis,
-                  //             ),
-                  //           ))
-                  //               .toList(),
-                  //           value: selectedValue,
-                  //           onChanged: (String? value) {
-                  //             setState(() {
-                  //               selectedValue = value;
-                  //             });
-                  //           },
-                  //           buttonStyleData: ButtonStyleData(
-                  //             height: 50,
-                  //             padding: const EdgeInsets.only(left: 5, right: 5),
-                  //             decoration: BoxDecoration(
-                  //                 color: MyAppTheme.cardBorderBgColor,
-                  //                 border: Border.all(color: MyAppTheme.cardBgSecColor,),
-                  //                 borderRadius: const BorderRadius.all(Radius.circular(5))
-                  //             ),
-                  //           ),
-                  //           iconStyleData: const IconStyleData(
-                  //             icon: Icon(
-                  //               Icons.arrow_drop_down_sharp,
-                  //             ),
-                  //             iconSize: 25,
-                  //           ),
-                  //           dropdownStyleData: DropdownStyleData(
-                  //             maxHeight: 200,
-                  //             decoration: BoxDecoration(
-                  //               borderRadius: BorderRadius.circular(5),
-                  //               color: MyAppTheme.cardBgSecColor,
-                  //             ),
-                  //             offset: const Offset(0, -5),
-                  //             scrollbarTheme: ScrollbarThemeData(
-                  //               radius: const Radius.circular(5),
-                  //               thickness: MaterialStateProperty.all<double>(6),
-                  //               thumbVisibility: MaterialStateProperty.all<bool>(true),
-                  //             ),
-                  //           ),
-                  //           menuItemStyleData: const MenuItemStyleData(
-                  //             height: 40,
-                  //             padding: EdgeInsets.only(left: 14, right: 14),
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     )),
-                  //     Expanded(child: Container(
-                  //       margin: EdgeInsets.only(left: 5.0,top: 5.0),
-                  //       decoration: BoxDecoration(
-                  //           color: MyAppTheme.cardBorderBgColor,
-                  //           border: Border.all(
-                  //             color: MyAppTheme.cardBgSecColor,
-                  //           ),
-                  //           borderRadius:
-                  //           const BorderRadius.all(Radius.circular(5))),
-                  //       child: TextFormField(
-                  //         textCapitalization: TextCapitalization.words,
-                  //         autovalidateMode: AutovalidateMode.onUserInteraction,
-                  //         keyboardType: TextInputType.text,
-                  //         textAlign: TextAlign.left,
-                  //         controller: userName,
-                  //         onChanged: (value){
-                  //
-                  //         },
-                  //         style: const TextStyle(
-                  //           fontSize: 14,
-                  //           fontWeight: FontWeight.w400,
-                  //           color: MyAppTheme.whiteColor,
-                  //
-                  //         ),
-                  //         decoration: const InputDecoration(
-                  //           border: InputBorder.none,
-                  //           contentPadding: EdgeInsets.only(left: 10.0),
-                  //         ),
-                  //       ),
-                  //     )),
-                  //
-                  //   ],
-                  // ),
-                  // SizedBox(
-                  //   width: width,
-                  //   child: ListView.builder(
-                  //       physics: const AlwaysScrollableScrollPhysics(),
-                  //       primary: false,
-                  //       shrinkWrap: true,
-                  //       itemCount: 2,
-                  //       itemBuilder: (BuildContext context, int index) {
-                  //         return Padding(
-                  //           padding: const EdgeInsets.only(top: 10.0),
-                  //           child: Row(
-                  //             crossAxisAlignment: CrossAxisAlignment.center,
-                  //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //             children: [
-                  //               Row(
-                  //                 crossAxisAlignment: CrossAxisAlignment.start,
-                  //                 mainAxisAlignment: MainAxisAlignment.start,
-                  //                 children: [
-                  //                   Container(
-                  //                     height: 40,
-                  //                     decoration: BoxDecoration(
-                  //                         color: MyAppTheme.progressInactiveColor,
-                  //                         border: Border.all(
-                  //                           color:  MyAppTheme.MainColor,
-                  //                         ),
-                  //                         borderRadius: const BorderRadius.all(
-                  //                             Radius.circular(5))
-                  //                     ),
-                  //                     child: Center(
-                  //                       child: Padding(
-                  //                         padding:  const EdgeInsets.only(left: 15.0,right: 15.0,top: 5.0,bottom: 5.0),
-                  //                         child: Text("Single Men",style:  TextStyle(
-                  //                           fontWeight: FontWeight.w700,
-                  //                           fontSize: 12,
-                  //                           color: MyAppTheme.MainColor,
-                  //                           ),),
-                  //                       ),
-                  //                     ),
-                  //                   ),
-                  //                   Container(
-                  //                     height: 40,
-                  //                     width: width * 0.60,
-                  //                     alignment: Alignment.center,
-                  //                     child:  ListView.builder(
-                  //                         scrollDirection: Axis.horizontal,
-                  //                         itemCount: 5,
-                  //                         itemBuilder: (BuildContext context, int index) {
-                  //                           return Container(
-                  //                             margin: const EdgeInsets.only(left: 5.0),
-                  //                             height: 40,
-                  //                             decoration: BoxDecoration(
-                  //                                 color: MyAppTheme.CardBgColor,
-                  //                                 border: Border.all(
-                  //                                   color: MyAppTheme.cardBgColor,
-                  //                                 ),
-                  //                                 borderRadius: const BorderRadius.all(
-                  //                                     Radius.circular(5))
-                  //                             ),
-                  //                             child: Center(
-                  //                               child: Padding(
-                  //                                 padding:  const EdgeInsets.only(left: 15.0,right: 15.0,top: 5.0,bottom: 5.0),
-                  //                                 child: Text("Mains",style:  TextStyle(
-                  //                                   fontWeight: FontWeight.w700,
-                  //                                   fontSize: 12,
-                  //                                   color: MyAppTheme.whiteColor,
-                  //                                   ),),
-                  //                               ),
-                  //                             ),
-                  //                           );
-                  //                         }),
-                  //                   )
-                  //                 ],
-                  //               ),
-                  //               SvgPicture.asset(
-                  //                 'assets/images/delete_league.svg',
-                  //                 allowDrawingOutsideViewBox: true,
-                  //                 height: 20,
-                  //                 width: 20,
-                  //               ),
-                  //             ],
-                  //           ),
-                  //         );
-                  //       }),
-                  // ),
-                  // const Padding(
-                  //   padding: EdgeInsets.only(top: 5.0),
-                  //   child: Text(
-                  //     tournamentSlots,
-                  //     style: TextStyle(
-                  //       fontWeight: FontWeight.w400,
-                  //       fontSize: 16,
-                  //       color: MyAppTheme.whiteColor,
-                  //
-                  //     ),
-                  //   ),
-                  // ),
-                  // Container(
-                  //   margin: const EdgeInsets.only(right: 5.0,top: 5.0),
-                  //   child: DropdownButtonHideUnderline(
-                  //     child: DropdownButton2<String>(
-                  //       isExpanded: true,
-                  //       hint:  Text(
-                  //         '--Select--',
-                  //         style: TextStyle(
-                  //           fontSize: 14,
-                  //           fontWeight: FontWeight.w400,
-                  //           color: MyAppTheme.whiteColor,
-                  //
-                  //         ),
-                  //         overflow: TextOverflow.ellipsis,
-                  //       ),
-                  //       items: items.map((String item) => DropdownMenuItem<String>(
-                  //         value: item,
-                  //         child: Text(
-                  //           item,
-                  //           style: const TextStyle(
-                  //             fontSize: 14,
-                  //             fontWeight: FontWeight.w400,
-                  //             color: MyAppTheme.whiteColor,
-                  //
-                  //           ),
-                  //           overflow: TextOverflow.ellipsis,
-                  //         ),
-                  //       ))
-                  //           .toList(),
-                  //       value: selectedValue,
-                  //       onChanged: (String? value) {
-                  //         setState(() {
-                  //           selectedValue = value;
-                  //         });
-                  //       },
-                  //       buttonStyleData: ButtonStyleData(
-                  //         height: 50,
-                  //         padding: const EdgeInsets.only(left: 5, right: 5),
-                  //         decoration: BoxDecoration(
-                  //             color: MyAppTheme.cardBorderBgColor,
-                  //             border: Border.all(color: MyAppTheme.cardBgSecColor,),
-                  //             borderRadius: const BorderRadius.all(Radius.circular(5))
-                  //         ),
-                  //       ),
-                  //       iconStyleData: const IconStyleData(
-                  //         icon: Icon(
-                  //           Icons.arrow_drop_down_sharp,
-                  //         ),
-                  //         iconSize: 25,
-                  //       ),
-                  //       dropdownStyleData: DropdownStyleData(
-                  //         maxHeight: 200,
-                  //         decoration: BoxDecoration(
-                  //           borderRadius: BorderRadius.circular(5),
-                  //           color: MyAppTheme.cardBgSecColor,
-                  //         ),
-                  //         offset: const Offset(0, -5),
-                  //         scrollbarTheme: ScrollbarThemeData(
-                  //           radius: const Radius.circular(5),
-                  //           thickness: MaterialStateProperty.all<double>(6),
-                  //           thumbVisibility: MaterialStateProperty.all<bool>(true),
-                  //         ),
-                  //       ),
-                  //       menuItemStyleData: const MenuItemStyleData(
-                  //         height: 40,
-                  //         padding: EdgeInsets.only(left: 14, right: 14),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // )
+                  (selectDataForFee.isNotEmpty)
+                      ? SizedBox(
+                          width: width,
+                          child: ListView.builder(
+                              physics: const NeverScrollableScrollPhysics(),
+                              primary: false,
+                              shrinkWrap: true,
+                              itemCount: selectDataForFee.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return (selectDataForFee[index]['fee'] != '')
+                                    ? Padding(
+                                        padding:
+                                            const EdgeInsets.only(top: 10.0),
+                                        child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            SizedBox(
+                                              width: width*.8,
+                                              height: 40,
+                                              child: Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  selectedContainer(
+                                                    text:
+                                                        selectDataForFee[index]
+                                                            ['type'],
+                                                  ),
+                                                  Container(
+                                                      alignment:
+                                                          Alignment.center,
+                                                      height: 40,
+                                                      margin:
+                                                          const EdgeInsets.only(
+                                                              right: 10),
+                                                      padding: const EdgeInsets
+                                                              .symmetric(
+                                                          horizontal: 10),
+                                                      decoration: BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(5),
+                                                          color: MyAppTheme
+                                                              .cardBorderBgColor,
+                                                          border: Border.all(
+                                                            color: (MyAppTheme
+                                                                .cardBgSecColor),
+                                                          )),
+                                                      child: Text(
+                                                        '$ruppe ${selectDataForFee[index]['fee']}',
+                                                        style: const TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            fontSize: 14,
+                                                            color: (MyAppTheme
+                                                                .whiteColor)),
+                                                      )),
+                                                ],
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  if (index == 0) {
+                                                    selectDataForFee[0]
+                                                        ['type'] = '';
+                                                    selectDataForFee[0]['fee'] =
+                                                        '';
+                                                    selectedCatForFee = null;
+                                                    feeController.clear();
+                                                  } else {
+                                                    selectDataForFee
+                                                        .removeAt(index);
+                                                    selectedCatForFee = null;
+                                                    feeController.clear();
+                                                    topForFee--;
+                                                  }
+
+                                                  setState(() {});
+                                                },
+
+                                                  child: SvgPicture.asset(
+                                                    'assets/images/delete_league.svg',
+                                                    allowDrawingOutsideViewBox:
+                                                        true,
+                                                    height: 20,
+                                                    width: 20,
+                                                  ),
+                                                ),
+                                              ),
+                                          ],
+                                        ))
+                                    : Container();
+                              }),
+                        )
+                      : Container(),
+
+                  ///Tournament Slots
+
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 5.0),
+                    child: Text(
+                      tournamentSlots,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16,
+                        color: MyAppTheme.whiteColor,
+
+                      ),
+                    ),
+                  ),
+
+                  TextFormField(
+                      cursorColor: MyAppTheme.whiteColor,
+                      style: MyStyles.white16Regular,
+                      //scrollPadding: EdgeInsets.all(12),
+                      enableInteractiveSelection: false,
+                      controller: desController,
+                      decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.all(12),
+                        hintText: 'Enter a Description',
+                        fillColor: MyAppTheme.cardBorderBgColor,
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: MyAppTheme.cardBgSecColor),
+                            borderRadius: BorderRadius.circular(8)),
+                        hintStyle: MyStyles.grey14Light,
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: MyAppTheme.cardBgSecColor),
+                            borderRadius: BorderRadius.circular(8)),
+                      )
+                  )
                 ],
               ),
             ),
