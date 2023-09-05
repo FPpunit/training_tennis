@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:new_pro/utils/my_string.dart';
 import 'package:new_pro/utils/ui_helper/ui_helper.dart';
 
 import '../../utils/constants.dart';
 import '../../utils/my_app_theme.dart';
 import '../../utils/my_images.dart';
-import '../../utils/my_styles.dart';
 
 class TournamentList extends StatefulWidget {
   const TournamentList({Key? key}) : super(key: key);

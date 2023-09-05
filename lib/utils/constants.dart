@@ -602,5 +602,7 @@ const String paymentStatus= 'Payment Status';
 const String totalParticipants= 'Total Participants';
 
 
-//const String participantName= 'Participant’s Name';
+const String downloadPDF= 'Download PDF';
+const String viewProfile= 'View Profile';
+
 

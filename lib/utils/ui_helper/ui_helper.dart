@@ -240,6 +240,7 @@ Widget selectedContainer35 ({ required String text , bool isBorderVisible = true
           color:  MyAppTheme.MainColor) : null,
     ),
     child: Text(text,
+        textAlign: TextAlign.center,
         style: const TextStyle(
             fontWeight: FontWeight.w500,
             fontSize: 14,
