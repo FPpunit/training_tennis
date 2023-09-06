@@ -202,14 +202,14 @@ Widget selectedQRPictureForTournamentFeePage ({required String qrImg}) {
 }
 
 
-Widget selectedContainer ({ required String text , bool isBorderVisible = true ,double? height,double? width}) {
+Widget selectedContainer ({required String text , bool isBorderVisible = true ,double? height,double? width}) {
   return Container(
     height: height,
     width: width,
     alignment: Alignment.center,
     margin: const EdgeInsets.only(right: 10),
-    padding: const EdgeInsets.symmetric(
-        vertical: 4, horizontal: 8),
+    padding: EdgeInsets.symmetric(
+        vertical: (height != null)?4 : 0, horizontal: 8),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(5),
       color: MyAppTheme.documentBgMainColor,
@@ -232,7 +232,7 @@ Widget selectedContainer35 ({ required String text , bool isBorderVisible = true
     alignment: Alignment.center,
     margin: const EdgeInsets.only(right: 10),
     padding: const EdgeInsets.symmetric(
-        vertical: 4, horizontal: 8),
+         horizontal: 8),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(5),
       color: MyAppTheme.documentBgMainColor,
@@ -249,13 +249,13 @@ Widget selectedContainer35 ({ required String text , bool isBorderVisible = true
   );
 }
 
-Widget unSelectedContainer ({required String text,double? height}){
+Widget unSelectedContainer ({required String text,double? height,double? width}){
   return Container(
     alignment: Alignment.center,
     height: height,
     margin: const EdgeInsets.only(right: 10),
-    padding: const EdgeInsets.symmetric(
-        vertical: 4, horizontal: 8),
+    padding: EdgeInsets.symmetric(
+        vertical: (height != null)?4 : 0, horizontal: 8),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(5),
       color: MyAppTheme.cardBorderBgColor,
@@ -277,7 +277,7 @@ Widget unSelectedContainer35 ({required String text}){
     alignment: Alignment.center,
     margin: const EdgeInsets.only(right: 10),
     padding: const EdgeInsets.symmetric(
-        vertical: 4, horizontal: 8),
+         horizontal: 8),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(5),
       color: MyAppTheme.cardBorderBgColor,

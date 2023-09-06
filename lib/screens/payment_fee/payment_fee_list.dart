@@ -3,7 +3,7 @@ import 'package:new_pro/utils/constants.dart';
 import 'package:new_pro/utils/ui_helper/ui_helper.dart';
 
 import '../../utils/my_app_theme.dart';
-import '../staff/staff_members_list.dart';
+import '../admin/staff/staff_members_list.dart';
 
 class PaymentFeeList extends StatefulWidget {
   const PaymentFeeList({Key? key}) : super(key: key);

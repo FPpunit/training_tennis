@@ -214,677 +214,675 @@ class _TournamentsDetailsState extends State<TournamentsDetails> with SingleTick
   }
 
   Widget scoresTab() {
-    return Expanded(
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            ///Date Container
-            SizedBox(
-                height: height * .12,
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  itemCount: dur.inDays + 1,
-                  itemBuilder: (context, index) {
-                    DateTime date = d1.add(Duration(days: index));
-                    return GestureDetector(
-                      onTap: () {
-                        selectedIdxForDate = index;
-                        setState(() {});
-                      },
-                      child: Container(
-                        margin: const EdgeInsets.all(10),
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 4, horizontal: 8),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: (selectedIdxForDate == index)
-                              ? MyAppTheme.documentBgMainColor
-                              : MyAppTheme.cardBorderBgColor,
-                          border: Border.all(
-                              color: (selectedIdxForDate == index)
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          ///Date Container
+          SizedBox(
+              height: height * .12,
+              child: ListView.builder(
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                itemCount: dur.inDays + 1,
+                itemBuilder: (context, index) {
+                  DateTime date = d1.add(Duration(days: index));
+                  return GestureDetector(
+                    onTap: () {
+                      selectedIdxForDate = index;
+                      setState(() {});
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.all(10),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 4, horizontal: 8),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: (selectedIdxForDate == index)
+                            ? MyAppTheme.documentBgMainColor
+                            : MyAppTheme.cardBorderBgColor,
+                        border: Border.all(
+                            color: (selectedIdxForDate == index)
+                                ? MyAppTheme.MainColor
+                                : MyAppTheme.cardBgSecColor),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(months[date.month - 1],
+                              style: MyStyles.white12Light),
+                          Text(
+                              (date.day <= 9)
+                                  ? '0${(date.day)}'
+                                  : '${(date.day)}',
+                              style: MyStyles.white30SemiBold)
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              )),
+          Divider(
+            thickness: 2,
+            color: MyAppTheme.cardBgSecColor,
+          ),
+
+          ///Category List
+          IntrinsicHeight(
+            child: Row(
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(left: 8),
+                  decoration: BoxDecoration(
+                      color: MyAppTheme.cardBgColor,
+                      borderRadius: BorderRadius.circular(8)),
+                  height: height * .05,
+                  width: width * .26,
+                  child: Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          isSelected = true;
+                          setState(() {});
+                        },
+                        child: Container(
+                          width: width * .13,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                              color: (isSelected)
                                   ? MyAppTheme.MainColor
-                                  : MyAppTheme.cardBgSecColor),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(months[date.month - 1],
-                                style: MyStyles.white12Light),
-                            Text(
-                                (date.day <= 9)
-                                    ? '0${(date.day)}'
-                                    : '${(date.day)}',
-                                style: MyStyles.white30SemiBold)
-                          ],
+                                  : MyAppTheme.cardBgColor,
+                              borderRadius: BorderRadius.circular(8)),
+                          child: subTitleText(text: all),
                         ),
                       ),
-                    );
-                  },
-                )),
-            Divider(
-              thickness: 2,
-              color: MyAppTheme.cardBgSecColor,
-            ),
-
-            ///Category List
-            IntrinsicHeight(
-              child: Row(
-                children: [
-                  Container(
-                    margin: const EdgeInsets.only(left: 8),
-                    decoration: BoxDecoration(
-                        color: MyAppTheme.cardBgColor,
-                        borderRadius: BorderRadius.circular(8)),
+                      GestureDetector(
+                        onTap: () {
+                          isSelected = false;
+                          setState(() {});
+                        },
+                        child: Container(
+                          width: width * .13,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                              color: (!isSelected)
+                                  ? MyAppTheme.MainColor
+                                  : MyAppTheme.cardBgColor,
+                              borderRadius: BorderRadius.circular(8)),
+                          child: subTitleText(text: live),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                Container(
+                  height: double.infinity,
+                  width: 2,
+                  color: MyAppTheme.cardBgSecColor,
+                ),
+                Expanded(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
                     height: height * .05,
-                    width: width * .26,
-                    child: Row(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            isSelected = true;
-                            setState(() {});
-                          },
-                          child: Container(
-                            width: width * .13,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                                color: (isSelected)
+                    //width: width*.6,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: cat.length,
+                      itemBuilder: (context, index) => GestureDetector(
+                        onTap: () {
+                          selectedIdx = index;
+                          selectedCat = cat[index].toLowerCase();
+                          setState(() {});
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.only(right: 10),
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: (selectedIdx == index)
+                                ? MyAppTheme.documentBgMainColor
+                                : MyAppTheme.cardBorderBgColor,
+                            border: Border.all(
+                                color: (selectedIdx == index)
                                     ? MyAppTheme.MainColor
-                                    : MyAppTheme.cardBgColor,
-                                borderRadius: BorderRadius.circular(8)),
-                            child: subTitleText(text: all),
+                                    : MyAppTheme.cardBgSecColor),
+                          ),
+                          child: Text(cat[index],
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 14,
+                                  color: (selectedIdx == index)
+                                      ? MyAppTheme.MainColor
+                                      : MyAppTheme.whiteColor)),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 5,
+          ),
+
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ///Central
+                titleText(text: central),
+                SizedBox(
+                  height: height * .17,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: MyAppTheme.cardBgSecColor,
+                    ),
+                    child: Column(
+                      children: [
+                        ///title container
+                        Expanded(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                  children: [
+                                subTitleText(text: liveNow),
+                                hintText(text: qualRnd1),
+                                hintText(text: min20),
+                              ]
+                                      .map((e) => Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 8),
+                                            child: e,
+                                          ))
+                                      .toList()),
+
+                              /// Live Streaming Btn
+                              GestureDetector(
+                                onTap: () {},
+                                child: Container(
+                                  width: width * 0.4,
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 2),
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                      color: MyAppTheme.challengeBtnBgColor,
+                                      borderRadius: const BorderRadius.only(
+                                          topRight: Radius.circular(8))),
+                                  height: double.infinity,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.center,
+                                    children: [
+                                      SvgPicture.asset(
+                                          'assets/images/broadcast_ic.svg',
+                                          color: MyAppTheme.whiteColor),
+                                      const SizedBox(
+                                        width: 8,
+                                      ),
+                                      white12Text(text: watchLiveStream)
+                                    ],
+                                  ),
+                                ),
+                              )
+                            ],
                           ),
                         ),
-                        GestureDetector(
-                          onTap: () {
-                            isSelected = false;
-                            setState(() {});
-                          },
+
+                        ///Player 1 container
+                        Expanded(
                           child: Container(
-                            width: width * .13,
-                            alignment: Alignment.center,
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 10),
+                            color: MyAppTheme.cardBgColor,
+                            child: Row(
+                              mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                              children: [
+                                white12Text(text: player1),
+                                SizedBox(
+                                  height: height * .05,
+                                  //width: width*.5,
+                                  child: ListView.builder(
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.horizontal,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    itemCount: 1,
+                                    // (setList!.length>3)? 3: setList!.length,
+                                    itemBuilder: (context, index) {
+                                      return selectedContainer35(
+                                        text:
+                                            // setList![index][0].toString()
+                                            '0',
+                                        isBorderVisible: false,
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Divider(
+                          height: 1,
+                          color: MyAppTheme.cardBgSecColor,
+                        ),
+
+                        ///Player 2 container
+                        Expanded(
+                          child: Container(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 10),
                             decoration: BoxDecoration(
-                                color: (!isSelected)
-                                    ? MyAppTheme.MainColor
-                                    : MyAppTheme.cardBgColor,
-                                borderRadius: BorderRadius.circular(8)),
-                            child: subTitleText(text: live),
+                                borderRadius: const BorderRadius.vertical(
+                                    bottom: Radius.circular(10)),
+                                color: MyAppTheme.cardBgColor),
+                            child: Row(
+                              mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                              children: [
+                                white12Text(text: player2),
+                                SizedBox(
+                                  height: height * .05,
+                                  //width: width*.5,
+                                  child: ListView.builder(
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.horizontal,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    itemCount: 1,
+
+                                    // (setList!.length>3)? 3: setList!.length,
+                                    itemBuilder: (context, index) {
+                                      return selectedContainer35(
+                                        text: '0'
+                                        // setList![index][1].toString()
+                                        ,
+                                        isBorderVisible: false,
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ],
                     ),
                   ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Container(
-                    height: double.infinity,
-                    width: 2,
-                    color: MyAppTheme.cardBgSecColor,
-                  ),
-                  Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      height: height * .05,
-                      //width: width*.6,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: cat.length,
-                        itemBuilder: (context, index) => GestureDetector(
-                          onTap: () {
-                            selectedIdx = index;
-                            selectedCat = cat[index].toLowerCase();
-                            setState(() {});
-                          },
+                ),
+                EstimatedStartTimeContainer(
+                    height: height * 0.17,
+                    estimatedTime: min40,
+                    roundName: qualRnd1),
+
+                /// Final Winner container
+                SizedBox(
+                  height: height * 0.17,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: MyAppTheme.cardBgSecColor,
+                    ),
+                    child: Column(
+                      children: [
+                        ///title container
+                        Expanded(
+                          child: Row(
+                              children: [
+                            subTitleText(text: finalText),
+                            hintText(text: qualRnd1),
+                            hintText(text: min40),
+                          ]
+                                  .map((e) => Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 10),
+                                        child: e,
+                                      ))
+                                  .toList()),
+                        ),
+
+                        ///Player 1 container
+                        Expanded(
                           child: Container(
-                            margin: const EdgeInsets.only(right: 10),
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: (selectedIdx == index)
-                                  ? MyAppTheme.documentBgMainColor
-                                  : MyAppTheme.cardBorderBgColor,
-                              border: Border.all(
-                                  color: (selectedIdx == index)
-                                      ? MyAppTheme.MainColor
-                                      : MyAppTheme.cardBgSecColor),
+                            color: MyAppTheme.cardBgColor,
+                            padding: const EdgeInsets.fromLTRB(8, 4, 0, 0),
+                            child: Row(
+                              children: [
+                                Container(
+                                  width: width * .3,
+                                  color: MyAppTheme.cardBgColor,
+                                  child: Row(
+                                    children: [
+                                      white12Text(text: player1),
+                                      const SizedBox(
+                                        width: 4,
+                                      ),
+                                      Visibility(
+                                          visible: player1Winner,
+                                          child: SvgPicture.asset(
+                                            'assets/images/cup_ic.svg',
+                                            height: 18,
+                                            width: 18,
+                                          )),
+                                    ],
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Container(
+                                      //height: double.infinity,
+                                      padding:
+                                          const EdgeInsets.symmetric(horizontal: 8),
+                                      alignment: Alignment.centerRight,
+                                      //width: width*.6,
+                                      child: ListView.builder(
+                                          scrollDirection: Axis.horizontal,
+                                          shrinkWrap: true,
+                                          itemCount: scoresList.length,
+                                          itemBuilder: (context, index) {
+                                            String points = scoresList[index]
+                                                    ['tiebreaker1']
+                                                .toString();
+
+                                            return Container(
+                                              height: 35,
+                                              width: 30,
+                                              alignment: Alignment.center,
+                                              child: RichText(
+                                                text: TextSpan(children: [
+                                                  TextSpan(
+                                                      text: scoresList[index]
+                                                              ['player1']
+                                                          .toString(),
+                                                      style: MyStyles
+                                                          .white18Regular),
+                                                  if (points != '0') ...[
+                                                    WidgetSpan(
+                                                      child:
+                                                          Transform.translate(
+                                                        offset: const Offset(
+                                                            2, -10),
+                                                        child: Text(
+                                                          points,
+                                                          //superscript is usually smaller in size
+                                                          textScaleFactor:
+                                                              0.8,
+                                                          style: const TextStyle(
+                                                              color: MyAppTheme
+                                                                  .whiteColor),
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ]
+                                                ]),
+                                              ),
+                                            );
+                                          })),
+                                )
+                              ],
                             ),
-                            child: Text(cat[index],
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 14,
-                                    color: (selectedIdx == index)
-                                        ? MyAppTheme.MainColor
-                                        : MyAppTheme.whiteColor)),
                           ),
                         ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(
-              height: 5,
-            ),
+                        Divider(
+                          height: 1,
+                          color: MyAppTheme.cardBgSecColor,
+                        ),
 
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ///Central
-                  titleText(text: central),
-                  SizedBox(
-                    height: height * .17,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: MyAppTheme.cardBgSecColor,
-                      ),
-                      child: Column(
-                        children: [
-                          ///title container
-                          Expanded(
+                        ///Player 2 container
+                        Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: MyAppTheme.cardBgColor,
+                                borderRadius: const BorderRadius.vertical(
+                                    bottom: Radius.circular(10))),
+                            padding: const EdgeInsets.fromLTRB(8, 4, 0, 0),
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Row(
-                                    children: [
-                                  subTitleText(text: liveNow),
-                                  hintText(text: qualRnd1),
-                                  hintText(text: min20),
-                                ]
-                                        .map((e) => Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 8),
-                                              child: e,
-                                            ))
-                                        .toList()),
-
-                                /// Live Streaming Btn
-                                GestureDetector(
-                                  onTap: () {},
-                                  child: Container(
-                                    width: width * 0.4,
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 2),
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                        color: MyAppTheme.challengeBtnBgColor,
-                                        borderRadius: const BorderRadius.only(
-                                            topRight: Radius.circular(8))),
-                                    height: double.infinity,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        SvgPicture.asset(
-                                            'assets/images/broadcast_ic.svg',
-                                            color: MyAppTheme.whiteColor),
-                                        const SizedBox(
-                                          width: 8,
-                                        ),
-                                        white12Text(text: watchLiveStream)
-                                      ],
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-
-                          ///Player 1 container
-                          Expanded(
-                            child: Container(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10),
-                              color: MyAppTheme.cardBgColor,
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  white12Text(text: player1),
-                                  SizedBox(
-                                    height: height * .05,
-                                    //width: width*.5,
-                                    child: ListView.builder(
-                                      shrinkWrap: true,
-                                      scrollDirection: Axis.horizontal,
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
-                                      itemCount: 1,
-                                      // (setList!.length>3)? 3: setList!.length,
-                                      itemBuilder: (context, index) {
-                                        return selectedContainer35(
-                                          text:
-                                              // setList![index][0].toString()
-                                              '0',
-                                          isBorderVisible: false,
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Divider(
-                            height: 1,
-                            color: MyAppTheme.cardBgSecColor,
-                          ),
-
-                          ///Player 2 container
-                          Expanded(
-                            child: Container(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10),
-                              decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.vertical(
-                                      bottom: Radius.circular(10)),
-                                  color: MyAppTheme.cardBgColor),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  white12Text(text: player2),
-                                  SizedBox(
-                                    height: height * .05,
-                                    //width: width*.5,
-                                    child: ListView.builder(
-                                      shrinkWrap: true,
-                                      scrollDirection: Axis.horizontal,
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
-                                      itemCount: 1,
-
-                                      // (setList!.length>3)? 3: setList!.length,
-                                      itemBuilder: (context, index) {
-                                        return selectedContainer35(
-                                          text: '0'
-                                          // setList![index][1].toString()
-                                          ,
-                                          isBorderVisible: false,
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  EstimatedStartTimeContainer(
-                      height: height * 0.17,
-                      estimatedTime: min40,
-                      roundName: qualRnd1),
-
-                  /// Final Winner container
-                  SizedBox(
-                    height: height * 0.17,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: MyAppTheme.cardBgSecColor,
-                      ),
-                      child: Column(
-                        children: [
-                          ///title container
-                          Expanded(
-                            child: Row(
-                                children: [
-                              subTitleText(text: finalText),
-                              hintText(text: qualRnd1),
-                              hintText(text: min40),
-                            ]
-                                    .map((e) => Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 10),
-                                          child: e,
-                                        ))
-                                    .toList()),
-                          ),
-
-                          ///Player 1 container
-                          Expanded(
-                            child: Container(
-                              color: MyAppTheme.cardBgColor,
-                              padding: const EdgeInsets.fromLTRB(8, 4, 0, 0),
-                              child: Row(
-                                children: [
-                                  Container(
-                                    width: width * .3,
-                                    color: MyAppTheme.cardBgColor,
-                                    child: Row(
-                                      children: [
-                                        white12Text(text: player1),
-                                        const SizedBox(
-                                          width: 4,
-                                        ),
-                                        Visibility(
-                                            visible: player1Winner,
-                                            child: SvgPicture.asset(
-                                              'assets/images/cup_ic.svg',
-                                              height: 18,
-                                              width: 18,
-                                            )),
-                                      ],
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                        //height: double.infinity,
-                                        padding:
-                                            const EdgeInsets.symmetric(horizontal: 8),
-                                        alignment: Alignment.centerRight,
-                                        //width: width*.6,
-                                        child: ListView.builder(
-                                            scrollDirection: Axis.horizontal,
-                                            shrinkWrap: true,
-                                            itemCount: scoresList.length,
-                                            itemBuilder: (context, index) {
-                                              String points = scoresList[index]
-                                                      ['tiebreaker1']
-                                                  .toString();
-
-                                              return Container(
-                                                height: 35,
-                                                width: 30,
-                                                alignment: Alignment.center,
-                                                child: RichText(
-                                                  text: TextSpan(children: [
-                                                    TextSpan(
-                                                        text: scoresList[index]
-                                                                ['player1']
-                                                            .toString(),
-                                                        style: MyStyles
-                                                            .white18Regular),
-                                                    if (points != '0') ...[
-                                                      WidgetSpan(
-                                                        child:
-                                                            Transform.translate(
-                                                          offset: const Offset(
-                                                              2, -10),
-                                                          child: Text(
-                                                            points,
-                                                            //superscript is usually smaller in size
-                                                            textScaleFactor:
-                                                                0.8,
-                                                            style: const TextStyle(
-                                                                color: MyAppTheme
-                                                                    .whiteColor),
-                                                          ),
-                                                        ),
-                                                      )
-                                                    ]
-                                                  ]),
-                                                ),
-                                              );
-                                            })),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                          Divider(
-                            height: 1,
-                            color: MyAppTheme.cardBgSecColor,
-                          ),
-
-                          ///Player 2 container
-                          Expanded(
-                            child: Container(
-                              decoration: BoxDecoration(
+                                Container(
+                                  width: width * .3,
                                   color: MyAppTheme.cardBgColor,
-                                  borderRadius: const BorderRadius.vertical(
-                                      bottom: Radius.circular(10))),
-                              padding: const EdgeInsets.fromLTRB(8, 4, 0, 0),
-                              child: Row(
-                                children: [
-                                  Container(
-                                    width: width * .3,
-                                    color: MyAppTheme.cardBgColor,
-                                    child: Row(
-                                      children: [
-                                        white12Text(text: player2),
-                                        const SizedBox(
-                                          width: 4,
-                                        ),
-                                        Visibility(
-                                            visible: player2Winner,
-                                            child: SvgPicture.asset(
-                                              'assets/images/cup_ic.svg',
-                                              height: 18,
-                                              width: 18,
-                                            )),
-                                      ],
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                        //height: double.infinity,
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 8),
-                                        alignment: Alignment.centerRight,
-                                        //width: width*.6,
-                                        child: ListView.builder(
-                                            scrollDirection: Axis.horizontal,
-                                            shrinkWrap: true,
-                                            itemCount: scoresList.length,
-                                            itemBuilder: (context, index) {
-                                              String points = scoresList[index]
-                                                      ['tiebreaker2']
-                                                  .toString();
-
-                                              return Container(
-                                                height: 35,
-                                                width: 30,
-                                                alignment: Alignment.center,
-                                                child: RichText(
-                                                  text: TextSpan(children: [
-                                                    TextSpan(
-                                                        text: scoresList[index]
-                                                                ['player2']
-                                                            .toString(),
-                                                        style: MyStyles
-                                                            .white18Regular),
-                                                    if (points != '0') ...[
-                                                      WidgetSpan(
-                                                        child:
-                                                            Transform.translate(
-                                                          offset: const Offset(
-                                                              2, -10),
-                                                          child: Text(
-                                                            points,
-                                                            //superscript is usually smaller in size
-                                                            textScaleFactor:
-                                                                0.8,
-                                                            style: const TextStyle(
-                                                                color: MyAppTheme
-                                                                    .whiteColor),
-                                                          ),
-                                                        ),
-                                                      )
-                                                    ]
-                                                  ]),
-                                                ),
-                                              );
-                                            })),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-
-                  /// court 1
-                  titleText(text: court1),
-
-                  ///Live Now
-                  SizedBox(
-                    height: height * .17,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: MyAppTheme.cardBgSecColor,
-                      ),
-                      child: Column(
-                        children: [
-                          ///title container
-                          Expanded(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
+                                  child: Row(
                                     children: [
-                                  subTitleText(text: liveNow),
-                                  hintText(text: qualRnd1),
-                                  hintText(text: min20),
-                                ]
-                                        .map((e) => Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 8),
-                                              child: e,
-                                            ))
-                                        .toList()),
-
-                                /// Live Streaming Btn
-                                GestureDetector(
-                                  onTap: () {},
-                                  child: Container(
-                                    width: width * 0.4,
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 2),
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                        color: MyAppTheme.challengeBtnBgColor,
-                                        borderRadius: const BorderRadius.only(
-                                            topRight: Radius.circular(8))),
-                                    height: double.infinity,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        SvgPicture.asset(
-                                            'assets/images/broadcast_ic.svg',
-                                            color: MyAppTheme.whiteColor),
-                                        const SizedBox(
-                                          width: 8,
-                                        ),
-                                        white12Text(text: watchLiveStream)
-                                      ],
-                                    ),
+                                      white12Text(text: player2),
+                                      const SizedBox(
+                                        width: 4,
+                                      ),
+                                      Visibility(
+                                          visible: player2Winner,
+                                          child: SvgPicture.asset(
+                                            'assets/images/cup_ic.svg',
+                                            height: 18,
+                                            width: 18,
+                                          )),
+                                    ],
                                   ),
+                                ),
+                                Expanded(
+                                  child: Container(
+                                      //height: double.infinity,
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8),
+                                      alignment: Alignment.centerRight,
+                                      //width: width*.6,
+                                      child: ListView.builder(
+                                          scrollDirection: Axis.horizontal,
+                                          shrinkWrap: true,
+                                          itemCount: scoresList.length,
+                                          itemBuilder: (context, index) {
+                                            String points = scoresList[index]
+                                                    ['tiebreaker2']
+                                                .toString();
+
+                                            return Container(
+                                              height: 35,
+                                              width: 30,
+                                              alignment: Alignment.center,
+                                              child: RichText(
+                                                text: TextSpan(children: [
+                                                  TextSpan(
+                                                      text: scoresList[index]
+                                                              ['player2']
+                                                          .toString(),
+                                                      style: MyStyles
+                                                          .white18Regular),
+                                                  if (points != '0') ...[
+                                                    WidgetSpan(
+                                                      child:
+                                                          Transform.translate(
+                                                        offset: const Offset(
+                                                            2, -10),
+                                                        child: Text(
+                                                          points,
+                                                          //superscript is usually smaller in size
+                                                          textScaleFactor:
+                                                              0.8,
+                                                          style: const TextStyle(
+                                                              color: MyAppTheme
+                                                                  .whiteColor),
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ]
+                                                ]),
+                                              ),
+                                            );
+                                          })),
                                 )
                               ],
                             ),
                           ),
-
-                          ///Player 1 container
-                          Expanded(
-                            child: Container(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10),
-                              color: MyAppTheme.cardBgColor,
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  white12Text(text: player1),
-                                  SizedBox(
-                                    height: height * .05,
-                                    //width: width*.5,
-                                    child: ListView.builder(
-                                      shrinkWrap: true,
-                                      scrollDirection: Axis.horizontal,
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
-                                      itemCount: 1,
-                                      // (setList!.length>3)? 3: setList!.length,
-                                      itemBuilder: (context, index) {
-                                        return selectedContainer35(
-                                          text:
-                                              // setList![index][0].toString()
-                                              '0',
-                                          isBorderVisible: false,
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Divider(
-                            height: 1,
-                            color: MyAppTheme.cardBgSecColor,
-                          ),
-
-                          ///Player 2 container
-                          Expanded(
-                            child: Container(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10),
-                              decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.vertical(
-                                      bottom: Radius.circular(10)),
-                                  color: MyAppTheme.cardBgColor),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  white12Text(text: player2),
-                                  SizedBox(
-                                    height: height * .05,
-                                    //width: width*.5,
-                                    child: ListView.builder(
-                                      shrinkWrap: true,
-                                      scrollDirection: Axis.horizontal,
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
-                                      itemCount: 1,
-
-                                      // (setList!.length>3)? 3: setList!.length,
-                                      itemBuilder: (context, index) {
-                                        return selectedContainer35(
-                                          text: '0'
-                                          // setList![index][1].toString()
-                                          ,
-                                          isBorderVisible: false,
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
-                  EstimatedStartTimeContainer(
-                      height: height * .17,
-                      estimatedTime: min40,
-                      roundName: qualRnd1),
-                ]
-                    .map((e) => Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 3),
-                          child: e,
-                        ))
-                    .toList(),
-              ),
-            )
-          ],
-        ),
+                ),
+
+                /// court 1
+                titleText(text: court1),
+
+                ///Live Now
+                SizedBox(
+                  height: height * .17,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: MyAppTheme.cardBgSecColor,
+                    ),
+                    child: Column(
+                      children: [
+                        ///title container
+                        Expanded(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                  children: [
+                                subTitleText(text: liveNow),
+                                hintText(text: qualRnd1),
+                                hintText(text: min20),
+                              ]
+                                      .map((e) => Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 8),
+                                            child: e,
+                                          ))
+                                      .toList()),
+
+                              /// Live Streaming Btn
+                              GestureDetector(
+                                onTap: () {},
+                                child: Container(
+                                  width: width * 0.4,
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 2),
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                      color: MyAppTheme.challengeBtnBgColor,
+                                      borderRadius: const BorderRadius.only(
+                                          topRight: Radius.circular(8))),
+                                  height: double.infinity,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.center,
+                                    children: [
+                                      SvgPicture.asset(
+                                          'assets/images/broadcast_ic.svg',
+                                          color: MyAppTheme.whiteColor),
+                                      const SizedBox(
+                                        width: 8,
+                                      ),
+                                      white12Text(text: watchLiveStream)
+                                    ],
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+
+                        ///Player 1 container
+                        Expanded(
+                          child: Container(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 10),
+                            color: MyAppTheme.cardBgColor,
+                            child: Row(
+                              mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                              children: [
+                                white12Text(text: player1),
+                                SizedBox(
+                                  height: height * .05,
+                                  //width: width*.5,
+                                  child: ListView.builder(
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.horizontal,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    itemCount: 1,
+                                    // (setList!.length>3)? 3: setList!.length,
+                                    itemBuilder: (context, index) {
+                                      return selectedContainer35(
+                                        text:
+                                            // setList![index][0].toString()
+                                            '0',
+                                        isBorderVisible: false,
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Divider(
+                          height: 1,
+                          color: MyAppTheme.cardBgSecColor,
+                        ),
+
+                        ///Player 2 container
+                        Expanded(
+                          child: Container(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 10),
+                            decoration: BoxDecoration(
+                                borderRadius: const BorderRadius.vertical(
+                                    bottom: Radius.circular(10)),
+                                color: MyAppTheme.cardBgColor),
+                            child: Row(
+                              mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                              children: [
+                                white12Text(text: player2),
+                                SizedBox(
+                                  height: height * .05,
+                                  //width: width*.5,
+                                  child: ListView.builder(
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.horizontal,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    itemCount: 1,
+
+                                    // (setList!.length>3)? 3: setList!.length,
+                                    itemBuilder: (context, index) {
+                                      return selectedContainer35(
+                                        text: '0'
+                                        // setList![index][1].toString()
+                                        ,
+                                        isBorderVisible: false,
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                EstimatedStartTimeContainer(
+                    height: height * .17,
+                    estimatedTime: min40,
+                    roundName: qualRnd1),
+              ]
+                  .map((e) => Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 3),
+                        child: e,
+                      ))
+                  .toList(),
+            ),
+          )
+        ],
       ),
     );
   }
