@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:new_pro/custom/screen_name_overlapbar.dart';
-import 'package:new_pro/screens/other_info/other_info.dart';
 import 'package:new_pro/utils/my_app_theme.dart';
 import 'package:new_pro/utils/my_string.dart';
 import 'package:new_pro/utils/ui_helper/textfields.dart';
 import 'package:new_pro/utils/ui_helper/ui_helper.dart';
 
-import '../../utils/constants.dart';
-import '../../utils/my_colors.dart';
-import '../../utils/my_styles.dart';
+import '../../../utils/constants.dart';
+import '../../../utils/my_colors.dart';
+import '../../../utils/my_styles.dart';
+import 'other_info.dart';
 
 class TournamentVenue extends StatefulWidget {
   const TournamentVenue({Key? key}) : super(key: key);

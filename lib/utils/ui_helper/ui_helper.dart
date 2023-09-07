@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:new_pro/utils/my_app_theme.dart';
 
-import '../../screens/tournament_list/tournament_list.dart';
+import '../../screens/tournament/player/tournament_list.dart';
 import '../constants.dart';
 import '../my_colors.dart';
 import '../my_images.dart';

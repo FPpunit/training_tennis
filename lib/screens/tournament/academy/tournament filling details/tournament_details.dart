@@ -4,13 +4,14 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:new_pro/screens/tournament_details/checkbox_and_dropdown/tournament_details_filling_screen_list_provider.dart';
+import 'package:new_pro/screens/tournament/academy/tournament%20filling%20details/tournament_details_filling_screen_list_provider.dart';
 import 'package:new_pro/utils/constants.dart';
 import 'package:new_pro/utils/ui_helper/ui_helper.dart';
 import 'package:provider/provider.dart';
+import '../../../../utils/my_app_theme.dart';
+import '../../../../utils/my_styles.dart';
 
-import '../../../utils/my_app_theme.dart';
-import '../../../utils/my_styles.dart';
+
 
 class TournamentDetails extends StatelessWidget {
   TournamentDetails({Key? key}) : super(key: key);
@@ -18,25 +19,10 @@ class TournamentDetails extends StatelessWidget {
   TextEditingController feeController = TextEditingController();
   TextEditingController desController = TextEditingController();
 
-  final List<String> listCategory = [
-    "Men Single",
-    "Men Doubles",
-    "Women Single",
-    "Women Doubles",
-    "Mix Double",
-  ];
+  final List<String> listCategory = ["Men Single", "Men Doubles", "Women Single", "Women Doubles", "Mix Double"];
 
-  final List<String> items = [
-    'Under 10',
-    'Under 12',
-    'Under 14',
-    'Mains',
-    '35+',
-    '45+',
-    '55+',
-    '65+',
-    'Open',
-  ];
+  final List<String> items = ['Under 10', 'Under 12', 'Under 14', 'Mains', '35+', '45+', '55+', '65+', 'Open'  ];
+
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +41,7 @@ class TournamentDetails extends StatelessWidget {
     return Scaffold(
       backgroundColor: MyAppTheme.bgColor,
       appBar: mAppBar(title: tournamentDetails),
-      body: Consumer<TournamnetDetailsFillingScreenListsProvider>(
+      body: Consumer<TournamentDetailsFillingScreenListsProvider>(
         builder: (context, provider, child) => Container(
           height: height,
           width: width,
@@ -120,17 +106,11 @@ class TournamentDetails extends StatelessWidget {
                             onTap: ((provider.select[provider.top + 1]
                                             ['type'] !=
                                         '') &&
-                                    (provider
-                                            .select[provider.top + 1]
+                                    (provider.select[provider.top + 1]
                                                 ['category']
                                             .length !=
                                         0))
                                 ? () {
-                                    // top++;
-                                    // selectedValue = null;
-                                    // selectedItems = [];
-                                    // select.add({'type': '', 'category': []});
-                                    // setState(() {});
                                     provider.add();
                                   }
                                 : () {},
@@ -457,20 +437,6 @@ class TournamentDetails extends StatelessWidget {
                                           child: GestureDetector(
                                               onTap: () {
                                                 provider.delete(index);
-
-                                                // if(index == 0){
-                                                //   select[index]['type'] = '';
-                                                //   select [index]['category'] = '';
-                                                //   selectedValue = null;
-                                                //   selectedItems=[];
-                                                // }
-                                                // else{
-                                                //   select.removeAt(index);
-                                                //   selectedValue = null;
-                                                //   selectedItems=[];
-                                                //   top--;
-                                                // }
-                                                // setState(() {});
                                               },
                                               child: SvgPicture.asset(
                                                 'assets/images/delete_league.svg',
@@ -822,3 +788,5 @@ class TournamentDetails extends StatelessWidget {
     );
   }
 }
+
+

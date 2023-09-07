@@ -1,13 +1,13 @@
 import 'package:new_pro/custom/dot_container.dart';
 import 'package:new_pro/custom/onbording.dart';
 import 'package:flutter/material.dart';
-import 'package:new_pro/screens/ofiicials/officials.dart';
+import 'package:new_pro/screens/tournament/academy/officials.dart';
 import 'package:new_pro/utils/my_images.dart';
 import 'package:new_pro/utils/my_string.dart';
 
-import '../../utils/my_colors.dart';
-import '../../utils/my_styles.dart';
-import '../home.dart';
+import '../../../utils/my_colors.dart';
+import '../../../utils/my_styles.dart';
+
 
 class OnBoard extends StatefulWidget {
   static List<Map<String,dynamic>> onboard= [
@@ -75,11 +75,7 @@ class _OnBoardState extends State<OnBoard> {
 
                         });
                       } else {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const Officials(),
-                            ));
+                        //
                       }
                     },
                     child: Text(

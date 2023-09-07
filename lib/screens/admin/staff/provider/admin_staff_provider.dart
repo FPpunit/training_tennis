@@ -1,41 +1,42 @@
 import 'package:flutter/cupertino.dart';
 
 class AdminStaffProvider extends ChangeNotifier{
+
   List<Map<String,dynamic>> contactData = [
     {
       'name' : 'Punit Lohani',
-      'phoneNumber' : '+919876543210',
+      'phoneNumber' : '9876543210',
       'email': 'punitlohani@gmail.com'
     },{
-      'name' : 'Anny',
-      'phoneNumber' : '+919876543210',
+      'name' : 'Anny H',
+      'phoneNumber' : '9876543210',
       'email': 'punitlohani@gmail.com'
     },
     {
-      'name' : 'Anny H',
-      'phoneNumber' : '+919876543210',
+      'name' : 'Anny ',
+      'phoneNumber' : '9876543210',
       'email': 'punitlohani@gmail.com'
     },
   ];
 
-
-  void addStaff ({required String name,required String phoneNumber,required String email,bool isDetails = false}){
+  addOrUpdateStaff({required bool isDetails,int? index,required String name,required String phone,required String email,}){
     if(isDetails){
-      contactData[0]['name'] = name;
-      contactData[0]['phoneNumber'] = phoneNumber;
-      contactData[0]['email'] = email;
+      contactData[index!]['name'] = name;
+      contactData[index!]['phoneNumber'] = phone;
+      contactData[index!]['email'] = email;
     }else{
       contactData.add({
         'name' : name,
-        'phoneNumber' : phoneNumber,
-        'email' : name,
+        'phoneNumber' : phone,
+        'email' : email,
       });
     }
     notifyListeners();
   }
 
-  void removeStaff({required int index}){
+  removeStaff({required int index}){
     contactData.removeAt(index);
+    notifyListeners();
   }
 
 }

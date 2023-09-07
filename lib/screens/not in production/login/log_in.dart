@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:new_pro/utils/my_colors.dart';
-import '../../utils/my_images.dart';
-import '../../utils/my_string.dart';
-import '../../utils/my_styles.dart';
+import '../../../utils/my_images.dart';
+import '../../../utils/my_string.dart';
+import '../../../utils/my_styles.dart';
 
 class LogInScreen extends StatelessWidget {
   const LogInScreen({super.key});

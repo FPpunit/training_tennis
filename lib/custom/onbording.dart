@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:new_pro/screens/ofiicials/officials.dart';
-import 'package:new_pro/screens/onBoarding/onboard.dart';
+import 'package:new_pro/screens/tournament/academy/officials.dart';
 
 import '../../utils/my_colors.dart';
 import '../../utils/my_images.dart';
@@ -37,11 +36,11 @@ class OnBoarding extends StatelessWidget {
                     child: TextButton(
                       child: Text('Skip',style: MyStyles.white12Light,),
                       onPressed: () {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const Officials(),
-                            ));
+                        // Navigator.pushReplacement(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //       builder: (context) => const Officials(),
+                        //     ));
                       },
                     ))
               ],

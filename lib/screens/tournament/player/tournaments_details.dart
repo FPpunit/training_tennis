@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:new_pro/custom/estimated_time_and_live_now_container.dart';
+import 'package:new_pro/screens/tournament/player/provider/player_tournament_provider.dart';
 import 'package:new_pro/utils/ui_helper/ui_helper.dart';
+import 'package:provider/provider.dart';
 
-import '../../utils/constants.dart';
-import '../../utils/my_app_theme.dart';
-import '../../utils/my_images.dart';
-import '../../utils/my_styles.dart';
+import '../../../utils/constants.dart';
+import '../../../utils/my_app_theme.dart';
+import '../../../utils/my_images.dart';
+import '../../../utils/my_styles.dart';
+
+
 
 class TournamentsDetails extends StatefulWidget {
   TournamentsDetails({Key? key}) : super(key: key);
@@ -19,16 +23,6 @@ class _TournamentsDetailsState extends State<TournamentsDetails> with SingleTick
   late double height;
   late double width;
 
-  bool isSelected = true;
-
-  int selectedIdx = 0;
-  int selectedIdxForDate = 0;
-
-  int index = 0;
-
-  List<String> cat = [all, open, menSingles, womenSingles, mixedDoubles];
-
-  String selectedCat = all;
 
   bool player1Winner = false;
   bool player2Winner = true;
@@ -54,20 +48,7 @@ class _TournamentsDetailsState extends State<TournamentsDetails> with SingleTick
     },
   ];
 
-  List<String> months = [
-    'Jan',
-    'Feb',
-    'Mar',
-    'April',
-    'May',
-    'June',
-    'July',
-    'Aug',
-    'Sept',
-    'Oct',
-    'Nov',
-    'Dec',
-  ];
+  List<String> months = ['Jan', 'Feb', 'Mar', 'April', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec',];
 
   String date1 = '2023-03-20';
   String date2 = '2023-04-12';
@@ -84,6 +65,8 @@ class _TournamentsDetailsState extends State<TournamentsDetails> with SingleTick
     d2 = DateTime.parse(date2);
 
     dur = d2.difference(d1);
+
+
     super.initState();
   }
 
@@ -156,28 +139,29 @@ class _TournamentsDetailsState extends State<TournamentsDetails> with SingleTick
               ),
 
               ///TabBar View
-
               Container(
                 height: 45,
                 padding: EdgeInsets.zero,
                 decoration: const BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: MyAppTheme.whiteColor
+                    border: Border(
+                        bottom: BorderSide(
+                            color: MyAppTheme.whiteColor
+                        )
                     )
-                  )
                 ),
                 child: TabBar(
                   controller: _tabController,
+                  splashFactory: NoSplash.splashFactory,
+
                   // give the indicator a decoration (color and border radius)
                   indicator:BoxDecoration(
-                    color: MyAppTheme.bgColor,
-                    border: const Border(
-                      bottom: BorderSide(
-                        color: MyAppTheme.MainColor,
-                        width: 3
+                      color: MyAppTheme.bgColor,
+                      border: const Border(
+                          bottom: BorderSide(
+                              color: MyAppTheme.MainColor,
+                              width: 3
+                          )
                       )
-                    )
                   ),
                   labelColor: MyAppTheme.MainColor,
                   unselectedLabelColor: MyAppTheme.whiteColor,
@@ -228,8 +212,7 @@ class _TournamentsDetailsState extends State<TournamentsDetails> with SingleTick
                   DateTime date = d1.add(Duration(days: index));
                   return GestureDetector(
                     onTap: () {
-                      selectedIdxForDate = index;
-                      setState(() {});
+                      context.read<PlayerTournamentProvider>().onTapOfDateContainer(index: index);
                     },
                     child: Container(
                       margin: const EdgeInsets.all(10),
@@ -237,11 +220,11 @@ class _TournamentsDetailsState extends State<TournamentsDetails> with SingleTick
                           vertical: 4, horizontal: 8),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
-                        color: (selectedIdxForDate == index)
+                        color: (context.watch<PlayerTournamentProvider>().selectedIdxForTournamentDate== index)
                             ? MyAppTheme.documentBgMainColor
                             : MyAppTheme.cardBorderBgColor,
                         border: Border.all(
-                            color: (selectedIdxForDate == index)
+                            color: (context.watch<PlayerTournamentProvider>().selectedIdxForTournamentDate == index)
                                 ? MyAppTheme.MainColor
                                 : MyAppTheme.cardBgSecColor),
                       ),
@@ -281,14 +264,13 @@ class _TournamentsDetailsState extends State<TournamentsDetails> with SingleTick
                     children: [
                       GestureDetector(
                         onTap: () {
-                          isSelected = true;
-                          setState(() {});
+                          context.read<PlayerTournamentProvider>().onTapOfAll();
                         },
                         child: Container(
                           width: width * .13,
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
-                              color: (isSelected)
+                              color: (context.watch<PlayerTournamentProvider>().isSelectedForAllAndLiveBtn)
                                   ? MyAppTheme.MainColor
                                   : MyAppTheme.cardBgColor,
                               borderRadius: BorderRadius.circular(8)),
@@ -297,14 +279,13 @@ class _TournamentsDetailsState extends State<TournamentsDetails> with SingleTick
                       ),
                       GestureDetector(
                         onTap: () {
-                          isSelected = false;
-                          setState(() {});
+                          context.read<PlayerTournamentProvider>().onTapOfLIve();
                         },
                         child: Container(
                           width: width * .13,
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
-                              color: (!isSelected)
+                              color: (!context.watch<PlayerTournamentProvider>().isSelectedForAllAndLiveBtn)
                                   ? MyAppTheme.MainColor
                                   : MyAppTheme.cardBgColor,
                               borderRadius: BorderRadius.circular(8)),
@@ -329,35 +310,14 @@ class _TournamentsDetailsState extends State<TournamentsDetails> with SingleTick
                     //width: width*.6,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      itemCount: cat.length,
+                      itemCount: context.watch<PlayerTournamentProvider>().cat.length,
                       itemBuilder: (context, index) => GestureDetector(
                         onTap: () {
-                          selectedIdx = index;
-                          selectedCat = cat[index].toLowerCase();
-                          setState(() {});
+                          context.read<PlayerTournamentProvider>().onTapOfCategoryContainer(index: index);
                         },
-                        child: Container(
-                          margin: const EdgeInsets.only(right: 10),
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            color: (selectedIdx == index)
-                                ? MyAppTheme.documentBgMainColor
-                                : MyAppTheme.cardBorderBgColor,
-                            border: Border.all(
-                                color: (selectedIdx == index)
-                                    ? MyAppTheme.MainColor
-                                    : MyAppTheme.cardBgSecColor),
-                          ),
-                          child: Text(cat[index],
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 14,
-                                  color: (selectedIdx == index)
-                                      ? MyAppTheme.MainColor
-                                      : MyAppTheme.whiteColor)),
-                        ),
+                        child: (context.watch<PlayerTournamentProvider>().selectedIdxForTournamentsDetails == index)
+                            ? selectedContainer(text: context.watch<PlayerTournamentProvider>().cat[index])
+                            :  unSelectedContainer(text: context.watch<PlayerTournamentProvider>().cat[index])
                       ),
                     ),
                   ),
@@ -392,15 +352,15 @@ class _TournamentsDetailsState extends State<TournamentsDetails> with SingleTick
                             children: [
                               Row(
                                   children: [
-                                subTitleText(text: liveNow),
-                                hintText(text: qualRnd1),
-                                hintText(text: min20),
-                              ]
+                                    subTitleText(text: liveNow),
+                                    hintText(text: qualRnd1),
+                                    hintText(text: min20),
+                                  ]
                                       .map((e) => Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 8),
-                                            child: e,
-                                          ))
+                                    padding: const EdgeInsets.only(
+                                        left: 8),
+                                    child: e,
+                                  ))
                                       .toList()),
 
                               /// Live Streaming Btn
@@ -418,7 +378,7 @@ class _TournamentsDetailsState extends State<TournamentsDetails> with SingleTick
                                   height: double.infinity,
                                   child: Row(
                                     mainAxisAlignment:
-                                        MainAxisAlignment.center,
+                                    MainAxisAlignment.center,
                                     children: [
                                       SvgPicture.asset(
                                           'assets/images/broadcast_ic.svg',
@@ -439,11 +399,11 @@ class _TournamentsDetailsState extends State<TournamentsDetails> with SingleTick
                         Expanded(
                           child: Container(
                             padding:
-                                const EdgeInsets.symmetric(horizontal: 10),
+                            const EdgeInsets.symmetric(horizontal: 10),
                             color: MyAppTheme.cardBgColor,
                             child: Row(
                               mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                              MainAxisAlignment.spaceBetween,
                               children: [
                                 white12Text(text: player1),
                                 SizedBox(
@@ -453,14 +413,14 @@ class _TournamentsDetailsState extends State<TournamentsDetails> with SingleTick
                                     shrinkWrap: true,
                                     scrollDirection: Axis.horizontal,
                                     physics:
-                                        const NeverScrollableScrollPhysics(),
+                                    const NeverScrollableScrollPhysics(),
                                     itemCount: 1,
                                     // (setList!.length>3)? 3: setList!.length,
                                     itemBuilder: (context, index) {
                                       return selectedContainer35(
                                         text:
-                                            // setList![index][0].toString()
-                                            '0',
+                                        // setList![index][0].toString()
+                                        '0',
                                         isBorderVisible: false,
                                       );
                                     },
@@ -479,14 +439,14 @@ class _TournamentsDetailsState extends State<TournamentsDetails> with SingleTick
                         Expanded(
                           child: Container(
                             padding:
-                                const EdgeInsets.symmetric(horizontal: 10),
+                            const EdgeInsets.symmetric(horizontal: 10),
                             decoration: BoxDecoration(
                                 borderRadius: const BorderRadius.vertical(
                                     bottom: Radius.circular(10)),
                                 color: MyAppTheme.cardBgColor),
                             child: Row(
                               mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                              MainAxisAlignment.spaceBetween,
                               children: [
                                 white12Text(text: player2),
                                 SizedBox(
@@ -496,7 +456,7 @@ class _TournamentsDetailsState extends State<TournamentsDetails> with SingleTick
                                     shrinkWrap: true,
                                     scrollDirection: Axis.horizontal,
                                     physics:
-                                        const NeverScrollableScrollPhysics(),
+                                    const NeverScrollableScrollPhysics(),
                                     itemCount: 1,
 
                                     // (setList!.length>3)? 3: setList!.length,
@@ -537,15 +497,15 @@ class _TournamentsDetailsState extends State<TournamentsDetails> with SingleTick
                         Expanded(
                           child: Row(
                               children: [
-                            subTitleText(text: finalText),
-                            hintText(text: qualRnd1),
-                            hintText(text: min40),
-                          ]
+                                subTitleText(text: finalText),
+                                hintText(text: qualRnd1),
+                                hintText(text: min40),
+                              ]
                                   .map((e) => Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 10),
-                                        child: e,
-                                      ))
+                                padding:
+                                const EdgeInsets.only(left: 10),
+                                child: e,
+                              ))
                                   .toList()),
                         ),
 
@@ -577,9 +537,9 @@ class _TournamentsDetailsState extends State<TournamentsDetails> with SingleTick
                                 ),
                                 Expanded(
                                   child: Container(
-                                      //height: double.infinity,
+                                    //height: double.infinity,
                                       padding:
-                                          const EdgeInsets.symmetric(horizontal: 8),
+                                      const EdgeInsets.symmetric(horizontal: 8),
                                       alignment: Alignment.centerRight,
                                       //width: width*.6,
                                       child: ListView.builder(
@@ -588,7 +548,7 @@ class _TournamentsDetailsState extends State<TournamentsDetails> with SingleTick
                                           itemCount: scoresList.length,
                                           itemBuilder: (context, index) {
                                             String points = scoresList[index]
-                                                    ['tiebreaker1']
+                                            ['tiebreaker1']
                                                 .toString();
 
                                             return Container(
@@ -599,21 +559,21 @@ class _TournamentsDetailsState extends State<TournamentsDetails> with SingleTick
                                                 text: TextSpan(children: [
                                                   TextSpan(
                                                       text: scoresList[index]
-                                                              ['player1']
+                                                      ['player1']
                                                           .toString(),
                                                       style: MyStyles
                                                           .white18Regular),
                                                   if (points != '0') ...[
                                                     WidgetSpan(
                                                       child:
-                                                          Transform.translate(
+                                                      Transform.translate(
                                                         offset: const Offset(
                                                             2, -10),
                                                         child: Text(
                                                           points,
                                                           //superscript is usually smaller in size
                                                           textScaleFactor:
-                                                              0.8,
+                                                          0.8,
                                                           style: const TextStyle(
                                                               color: MyAppTheme
                                                                   .whiteColor),
@@ -666,7 +626,7 @@ class _TournamentsDetailsState extends State<TournamentsDetails> with SingleTick
                                 ),
                                 Expanded(
                                   child: Container(
-                                      //height: double.infinity,
+                                    //height: double.infinity,
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 8),
                                       alignment: Alignment.centerRight,
@@ -677,7 +637,7 @@ class _TournamentsDetailsState extends State<TournamentsDetails> with SingleTick
                                           itemCount: scoresList.length,
                                           itemBuilder: (context, index) {
                                             String points = scoresList[index]
-                                                    ['tiebreaker2']
+                                            ['tiebreaker2']
                                                 .toString();
 
                                             return Container(
@@ -688,21 +648,21 @@ class _TournamentsDetailsState extends State<TournamentsDetails> with SingleTick
                                                 text: TextSpan(children: [
                                                   TextSpan(
                                                       text: scoresList[index]
-                                                              ['player2']
+                                                      ['player2']
                                                           .toString(),
                                                       style: MyStyles
                                                           .white18Regular),
                                                   if (points != '0') ...[
                                                     WidgetSpan(
                                                       child:
-                                                          Transform.translate(
+                                                      Transform.translate(
                                                         offset: const Offset(
                                                             2, -10),
                                                         child: Text(
                                                           points,
                                                           //superscript is usually smaller in size
                                                           textScaleFactor:
-                                                              0.8,
+                                                          0.8,
                                                           style: const TextStyle(
                                                               color: MyAppTheme
                                                                   .whiteColor),
@@ -744,15 +704,15 @@ class _TournamentsDetailsState extends State<TournamentsDetails> with SingleTick
                             children: [
                               Row(
                                   children: [
-                                subTitleText(text: liveNow),
-                                hintText(text: qualRnd1),
-                                hintText(text: min20),
-                              ]
+                                    subTitleText(text: liveNow),
+                                    hintText(text: qualRnd1),
+                                    hintText(text: min20),
+                                  ]
                                       .map((e) => Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 8),
-                                            child: e,
-                                          ))
+                                    padding: const EdgeInsets.only(
+                                        left: 8),
+                                    child: e,
+                                  ))
                                       .toList()),
 
                               /// Live Streaming Btn
@@ -770,7 +730,7 @@ class _TournamentsDetailsState extends State<TournamentsDetails> with SingleTick
                                   height: double.infinity,
                                   child: Row(
                                     mainAxisAlignment:
-                                        MainAxisAlignment.center,
+                                    MainAxisAlignment.center,
                                     children: [
                                       SvgPicture.asset(
                                           'assets/images/broadcast_ic.svg',
@@ -791,11 +751,11 @@ class _TournamentsDetailsState extends State<TournamentsDetails> with SingleTick
                         Expanded(
                           child: Container(
                             padding:
-                                const EdgeInsets.symmetric(horizontal: 10),
+                            const EdgeInsets.symmetric(horizontal: 10),
                             color: MyAppTheme.cardBgColor,
                             child: Row(
                               mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                              MainAxisAlignment.spaceBetween,
                               children: [
                                 white12Text(text: player1),
                                 SizedBox(
@@ -805,14 +765,14 @@ class _TournamentsDetailsState extends State<TournamentsDetails> with SingleTick
                                     shrinkWrap: true,
                                     scrollDirection: Axis.horizontal,
                                     physics:
-                                        const NeverScrollableScrollPhysics(),
+                                    const NeverScrollableScrollPhysics(),
                                     itemCount: 1,
                                     // (setList!.length>3)? 3: setList!.length,
                                     itemBuilder: (context, index) {
                                       return selectedContainer35(
                                         text:
-                                            // setList![index][0].toString()
-                                            '0',
+                                        // setList![index][0].toString()
+                                        '0',
                                         isBorderVisible: false,
                                       );
                                     },
@@ -831,14 +791,14 @@ class _TournamentsDetailsState extends State<TournamentsDetails> with SingleTick
                         Expanded(
                           child: Container(
                             padding:
-                                const EdgeInsets.symmetric(horizontal: 10),
+                            const EdgeInsets.symmetric(horizontal: 10),
                             decoration: BoxDecoration(
                                 borderRadius: const BorderRadius.vertical(
                                     bottom: Radius.circular(10)),
                                 color: MyAppTheme.cardBgColor),
                             child: Row(
                               mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                              MainAxisAlignment.spaceBetween,
                               children: [
                                 white12Text(text: player2),
                                 SizedBox(
@@ -848,7 +808,7 @@ class _TournamentsDetailsState extends State<TournamentsDetails> with SingleTick
                                     shrinkWrap: true,
                                     scrollDirection: Axis.horizontal,
                                     physics:
-                                        const NeverScrollableScrollPhysics(),
+                                    const NeverScrollableScrollPhysics(),
                                     itemCount: 1,
 
                                     // (setList!.length>3)? 3: setList!.length,
@@ -876,9 +836,9 @@ class _TournamentsDetailsState extends State<TournamentsDetails> with SingleTick
                     roundName: qualRnd1),
               ]
                   .map((e) => Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 3),
-                        child: e,
-                      ))
+                padding: const EdgeInsets.symmetric(vertical: 3),
+                child: e,
+              ))
                   .toList(),
             ),
           )
@@ -889,76 +849,55 @@ class _TournamentsDetailsState extends State<TournamentsDetails> with SingleTick
 
   Widget drawsTab(){
     return Column(
-        children: [
-          /// download Pdf Btn
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 16),
-            child: ElevatedButton(onPressed: (){},
-                style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    backgroundColor: MyAppTheme.MainColor
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SvgPicture.asset('assets/images/download_ic.svg',
-                      height: 16,
-                      width: 16,
-                      allowDrawingOutsideViewBox: true,
-                      color: MyAppTheme.whiteColor,
-                    ),
-                    const SizedBox(width: 5,),
-                    subTitleText(text: downloadPDF)
-                  ],
-                )),
-          ),
-
-          ///Category List
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            height: height * .05,
-            //width: width*.6,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: cat.length,
-              itemBuilder: (context, index) => GestureDetector(
-                onTap: () {
-                  selectedIdx = index;
-                  selectedCat = cat[index].toLowerCase();
-                  setState(() {});
-                },
-                child: Container(
-                  margin: const EdgeInsets.only(right: 10),
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    color: (selectedIdx == index)
-                        ? MyAppTheme.documentBgMainColor
-                        : MyAppTheme.cardBorderBgColor,
-                    border: Border.all(
-                        color: (selectedIdx == index)
-                            ? MyAppTheme.MainColor
-                            : MyAppTheme.cardBgSecColor),
+      children: [
+        /// download Pdf Btn
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 16),
+          child: ElevatedButton(onPressed: (){},
+              style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
                   ),
-                  child: Text(cat[index],
-                      style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 14,
-                          color: (selectedIdx == index)
-                              ? MyAppTheme.MainColor
-                              : MyAppTheme.whiteColor)),
-                ),
+                  backgroundColor: MyAppTheme.MainColor
               ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SvgPicture.asset('assets/images/download_ic.svg',
+                    height: 16,
+                    width: 16,
+                    allowDrawingOutsideViewBox: true,
+                    color: MyAppTheme.whiteColor,
+                  ),
+                  const SizedBox(width: 5,),
+                  subTitleText(text: downloadPDF)
+                ],
+              )),
+        ),
+
+        ///Category List
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          height: height * .05,
+          //width: width*.6,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: context.watch<PlayerTournamentProvider>().cat.length,
+            itemBuilder: (context, index) => GestureDetector(
+              onTap: () {
+                context.read<PlayerTournamentProvider>().onTapOfDrawCategoryContainer(index: index);
+              },
+              child: (context.watch<PlayerTournamentProvider>().selectedIdxForTournamentsDetailsDraw == index)
+                  ? selectedContainer(text: context.watch<PlayerTournamentProvider>().cat[index],height: 35)
+                  :  unSelectedContainer(text: context.watch<PlayerTournamentProvider>().cat[index],height: 35)
             ),
           ),
+        ),
 
-          ///Web View Page
+        ///Web View Page
 
-        ],
-      );
+      ],
+    );
   }
 
   Widget playerDetailsTab() {

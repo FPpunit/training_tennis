@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 
-class TournamnetDetailsFillingScreenListsProvider extends ChangeNotifier{
+class TournamentDetailsFillingScreenListsProvider extends ChangeNotifier{
 
   int top = -1;
   String? selectedValue;

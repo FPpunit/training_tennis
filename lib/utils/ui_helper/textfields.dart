@@ -16,8 +16,12 @@ Widget nameTextfield ({required TextEditingController controller , IconData? ico
       controller: controller,
       enableInteractiveSelection: false,
       decoration: InputDecoration(
-        prefixIcon: Icon(icon ,color: MyColors.grey,
-          size: 22,),
+        prefixIcon: (icon != null)
+            ? Icon(
+          icon,
+          color: MyColors.grey,
+          size: 22,
+        ) : null,
         contentPadding: const EdgeInsets.all(12),
         hintText: 'Enter a Name',
         fillColor: MyAppTheme.cardBorderBgColor,

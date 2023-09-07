@@ -4,8 +4,10 @@ import 'package:new_pro/utils/my_images.dart';
 import 'package:new_pro/utils/my_styles.dart';
 import 'package:new_pro/utils/ui_helper/ui_helper.dart';
 
-import '../../utils/constants.dart';
-import '../../utils/my_app_theme.dart';
+import '../../../utils/constants.dart';
+import '../../../utils/my_app_theme.dart';
+
+
 
 class TournamentDetailsScreen extends StatelessWidget {
   late double height;

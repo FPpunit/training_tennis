@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:new_pro/custom/screen_name_overlapbar.dart';
-import 'package:new_pro/screens/ofiicials/officials.dart';
+import 'package:new_pro/screens/tournament/academy/officials.dart';
 import 'package:new_pro/utils/my_string.dart';
 import 'package:new_pro/utils/ui_helper/ui_helper.dart';
 
-import '../../utils/my_app_theme.dart';
-import '../../utils/my_colors.dart';
-import '../../utils/my_styles.dart';
+import '../../../utils/my_app_theme.dart';
+import '../../../utils/my_styles.dart';
+
+
 
 class OtherInformation extends StatefulWidget {
   const OtherInformation({Key? key}) : super(key: key);
@@ -128,16 +129,16 @@ class _OtherInformationState extends State<OtherInformation> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            backgroundColor: MyColors.darkBg,
-                            side: BorderSide(
-                              color: MyColors.primary,
+                            backgroundColor: MyAppTheme.bgColor,
+                            side: const BorderSide(
+                              color: MyAppTheme.MainColor,
                               width: 1,
                             ),
                             fixedSize: Size(
                                 MediaQuery.of(context).size.width * .42, 50)),
-                        child: Text(
+                        child: const Text(
                           'Back',
-                          style: TextStyle(fontSize: 16, color: MyColors.primary),
+                          style: TextStyle(fontSize: 16, color: MyAppTheme.MainColor),
                         )),
                     ElevatedButton(
                         onPressed: () {
@@ -147,9 +148,9 @@ class _OtherInformationState extends State<OtherInformation> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            backgroundColor: MyColors.primary,
-                            side: BorderSide(
-                              color: MyColors.primary,
+                            backgroundColor: MyAppTheme.MainColor,
+                            side: const BorderSide(
+                              color: MyAppTheme.MainColor,
                               width: 1,
                             ),
                             fixedSize: Size(

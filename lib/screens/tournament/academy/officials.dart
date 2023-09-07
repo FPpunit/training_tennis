@@ -1,12 +1,14 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+
 import 'package:new_pro/custom/screen_name_overlapbar.dart';
-import 'package:new_pro/screens/tournament_venue/tournament_venue.dart';
+import 'package:new_pro/screens/tournament/academy/tournament_venue.dart';
 import 'package:new_pro/utils/ui_helper/textfields.dart';
-import '../../utils/my_colors.dart';
-import '../../utils/my_string.dart';
-import '../../utils/my_styles.dart';
-import '../../utils/ui_helper/ui_helper.dart';
+import 'package:provider/provider.dart';
+import '../../../utils/my_colors.dart';
+import '../../../utils/my_string.dart';
+import '../../../utils/my_styles.dart';
+import '../../../utils/ui_helper/ui_helper.dart';
 
 class Officials extends StatefulWidget {
   const Officials({Key? key}) : super(key: key);
@@ -16,16 +18,20 @@ class Officials extends StatefulWidget {
 }
 
 class _OfficialsState extends State<Officials> {
-  int times = 1;
+
   var nameController0 = TextEditingController();
   var phoneController0 = TextEditingController();
   var nameController1 = TextEditingController();
   var phoneController1 = TextEditingController();
-
+  int times=1;
   List<Map<String,dynamic>> officials = [];
 
   @override
   Widget build(BuildContext context) {
+
+
+
+
     return Scaffold(
 
       appBar: myAppBar(),
