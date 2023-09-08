@@ -13,7 +13,6 @@ class StaffHomeScreen extends StatelessWidget {
   StaffHomeScreen({Key? key}) : super(key: key);
 
   late double height;
-
   late double width;
 
   List category =[
@@ -27,11 +26,25 @@ class StaffHomeScreen extends StatelessWidget {
     width = MediaQuery.of(context).size.width;
 
     return Scaffold(
+      drawer: const Drawer(),
       appBar: AppBar(
 
-        leading: IconButton(
-        icon: const Icon(Icons.menu,color: Colors.white,),
-    onPressed: () => Scaffold.of(context).openDrawer(),),
+        leading: Builder(
+          builder: (context) {
+            return GestureDetector(
+              onTap: () {
+                Scaffold.of(context).openDrawer();
+              },
+              child: Transform.scale(
+                scale: 0.3, // Adjust the scale factor as needed
+                child: SvgPicture.asset(
+                  'assets/images/drawer_ic.svg',
+                  allowDrawingOutsideViewBox: true,
+                ),
+              ),
+            );
+          }
+        ),
         backgroundColor: MyAppTheme.bgColor,
         centerTitle: true,
         title: SizedBox(
@@ -69,6 +82,7 @@ class StaffHomeScreen extends StatelessWidget {
           )
         ],
       ),
+
 
       body: Consumer<StaffProvider>(
         builder: (context, provider, child) => Container(
@@ -132,9 +146,6 @@ class StaffHomeScreen extends StatelessWidget {
         ),
       ),
 
-      // drawer: Drawer(
-      //
-      // ),
     );
   }
 }
