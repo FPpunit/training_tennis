@@ -16,8 +16,6 @@ class AddStaff extends StatefulWidget {
   String appBarTitle;
   int? index;
 
-
-
   AddStaff({Key? key , required this.appBarTitle, this.index }) : super(key: key);
 
   @override
@@ -38,7 +36,7 @@ class _AddStaffState extends State<AddStaff> {
     final provider = context.read<AdminStaffProvider>();
 
     if (widget.index != null) {
-      final staffData = provider.contactData[widget.index!];
+      final staffData = provider.resultList[widget.index!];
       nameController.text = staffData['name'] ?? '';
       phoneController.text = staffData['phone'] ?? '';
       emailController.text = staffData['email'] ?? '';
@@ -97,7 +95,7 @@ class _AddStaffState extends State<AddStaff> {
                 alignment: Alignment.bottomCenter,
                 child: TextButton(onPressed: (){
                   if(widget.index != null){
-                    provider.removeStaff(index: widget.index!);
+                    //provider.removeStaff(context: context,index: widget.index!);
                     Navigator.pop(context);
                   }
                 }, child: Text(
@@ -145,8 +143,8 @@ class _AddStaffState extends State<AddStaff> {
                   padding: const EdgeInsets.only(bottom: 5),
                   child: ElevatedButton(onPressed: (){
 
-                    (isDetails)?provider.addOrUpdateStaff(isDetails: isDetails, name: nameController.text, phone: phoneController.text, email: emailController.text, index: widget.index!):
-                    provider.addOrUpdateStaff(isDetails: isDetails, name: nameController.text, phone: phoneController.text, email: emailController.text);
+                    // (isDetails)?provider.addOrUpdateStaff(context: context,isDetails: isDetails, name: nameController.text, phone: phoneController.text, email: emailController.text, index: widget.index!):
+                    // provider.addOrUpdateStaff(context: context,isDetails: isDetails, name: nameController.text, phone: phoneController.text, email: emailController.text);
                     Navigator.pop(context);
                   },
                     style: ElevatedButton.styleFrom(

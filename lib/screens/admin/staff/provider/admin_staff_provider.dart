@@ -1,109 +1,44 @@
 import 'dart:convert';
 
+
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
+import 'package:new_pro/screens/admin/staff/repositary/admin_staff_repo.dart';
 
 class AdminStaffProvider extends ChangeNotifier{
 
-  List<dynamic> contactData = [];
-  static const String token ='626|KHon3CLdfvbK3ElMQSrXdO7Qpbglewn5Q9aG150z';
+  List resultList = [];
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
 
-  getStaffListData() async {
-
-    final uri =Uri.parse("https://api.tenniskhelo.com/api/academy/staff-list");
-    final response = await http.get(
-        uri,
-        headers: {
-      'Accept' : 'application/json',
-      'Authorization' : 'Bearer $token'
-    });
-    if(response.statusCode == 200){
-      final json = jsonDecode(response.body) as Map;
-      contactData = json['staff list'];
-      print(contactData);
-    }else{
-
-    }
+ getStaffListData({required BuildContext context}) async {
+       _isLoading = true;
+       notifyListeners();
+    var response =  await AdminStaffRepo().fetchStaffList(context);
+    final json = jsonDecode(response.body);
+       resultList = json['staff list'];
+    _isLoading =false;
     notifyListeners();
-  }
+    print('contactData-------------------------->$resultList');
+    notifyListeners();
 
-  createStaff({required Map body}) async {
-
-    final uri =Uri.parse("https://api.tenniskhelo.com/api/academy/create-staff");
-    final response = await http.post(
-        uri,
-        headers: {
-      'Accept' : 'application/json',
-      'Authorization' : 'Bearer $token'
-    },
-    body: body
-    );
-
-    if(response.statusCode == 200){
-      getStaffListData();
-    }else{
-      print('Error ----------------------------------------------------------------------------->');
-    }
 
   }
 
-  updateStaffDetails({required Map body,required int id}) async {
-    final uri =Uri.parse("https://api.tenniskhelo.com/api/academy/staff-update/$id");
-    final response = await http.post(
-        uri,
-        headers: {
-      'Accept' : 'application/json',
-      'Authorization' : 'Bearer $token'
-    },
-    body: body
-    );
-
-    if(response.statusCode == 200){
-      getStaffListData();
-    }else{
-      print('Error ----------------------------------------------------------------------------->');
-    }
-  }
-
-  deleteStaff({required int id}) async {
-
-    final uri =Uri.parse("https://api.tenniskhelo.com/api/academy/staff-delete/$id");
-    final response = await http.post(
-        uri,
-        headers: {
-          'Accept' : 'application/json',
-          'Authorization' : 'Bearer $token'
-        },
-
-    );
-
-    if(response.statusCode == 200){
-      getStaffListData();
-    }else{
-      print('Error ----------------------------------------------------------------------------->');
-    }
-  }
-  
-
-
-  addOrUpdateStaff({required bool isDetails,int? index,required String name,required String phone,required String email,}){
+  addOrUpdateStaff({required BuildContext context,required bool isDetails,int? index,required String name,required String phone,required String email,}) async {
+    http.Response resp;
     if(isDetails){
-      updateStaffDetails(body: {
-        'name' : name,
-        'phone' : phone,
-        'email' : email,
-      }, id: contactData[index!]['id']);
+      resp = await AdminStaffRepo().updateStaffDetails(context, resultList[index!]['id'], name, phone, email);
+
     }else{
-      createStaff(body: {
-        'name' : name,
-        'phone' : phone,
-        'email' : email,
-      });
+      resp = await AdminStaffRepo().addStaff(context, name, phone, email) ;
     }
+    getStaffListData(context: context);
   }
 
-  removeStaff({required int index}){
-    deleteStaff(id: contactData[index]['id']);
+  removeStaff({required BuildContext context,required int index}){
+    AdminStaffRepo().deleteStaffFun(context: context,id: resultList[index]['id']);
+    getStaffListData(context: context);
   }
 
 }
