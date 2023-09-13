@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
+import 'package:new_pro/screens/tournament/academy/repo/create_tournament_repo.dart';
 
 
 class TournamentDetailsFillingScreenListsProvider extends ChangeNotifier{
 
   int top = -1;
   String? selectedValue;
-  List<Map<String, dynamic>> select = [
+  List<Map<String, dynamic>> selectedDataForCat = [
     {
       'type': '',
       'category': [],
@@ -23,8 +24,28 @@ class TournamentDetailsFillingScreenListsProvider extends ChangeNotifier{
     },
   ];
 
-  void add(){
-    select.add({'type': '', 'category': []});
+  saveDetails(
+      {required BuildContext context,
+        required String tournamentId,
+        required String description,
+        required List selectedCategoriesData,
+        required List selectedFeeData}){
+    var body = <String, dynamic>{};
+    body['tournament_uuid'] = tournamentId;
+    body['categories'] = selectedCategoriesData;
+    body['fees'] = selectedFeeData;
+    body['description'] = description;
+
+
+
+    // CreateTournamentRepo().saveTourDetails(
+    //   context,
+    //   body
+    // );
+  }
+
+  void addMoreForCat(){
+    selectedDataForCat.add({'type': '', 'category': []});
     top++;
     selectedValue = null;
     selectedItems = [];
@@ -33,13 +54,13 @@ class TournamentDetailsFillingScreenListsProvider extends ChangeNotifier{
 
   void delete (int index){
     if(index == 0){
-      select[index]['type'] = '';
-      select [index]['category'] = '';
+      selectedDataForCat[index]['type'] = '';
+      selectedDataForCat [index]['category'] = '';
       selectedValue = null;
       selectedItems=[];
     }
     else{
-      select.removeAt(index);
+      selectedDataForCat.removeAt(index);
       selectedValue = null;
       selectedItems=[];
       top--;
@@ -48,48 +69,40 @@ class TournamentDetailsFillingScreenListsProvider extends ChangeNotifier{
   }
 
   void checkBoxFun({required String item,required bool isSelected}){
-    isSelected
-        ? selectedItems.remove(item)
-        : selectedItems.add(item);
+    isSelected ? selectedItems.remove(item) : selectedItems.add(item);
 
-    select[top + 1]['category'] = selectedItems;
+    selectedDataForCat[top + 1]['category'] = selectedItems;
 
     notifyListeners();
   }
 
   void selectedValueFromDropDown ({String? value}){
     selectedValue = value!;
-    select[top + 1]['type'] = selectedValue;
-
+    selectedDataForCat[top + 1]['type'] = selectedValue;
     notifyListeners();
   }
 
   void addMoreForFee () {
     topForFee++;
     selectedCatForFee = null;
-    selectDataForFee
-        .add({'type': '', 'fee': ''});
+    selectDataForFee.add({'type': '', 'fee': ''});
     notifyListeners();
   }
 
   void addingDataForTournamentFee({String? category , String? text}){
-    selectDataForFee[topForFee + 1]['type'] =
-        category;
+    selectDataForFee[topForFee + 1]['type'] = category;
     selectDataForFee[topForFee + 1]['fee'] = text;
     notifyListeners();
   }
 
   void deleteAddedFee (int index){
     if (index == 0) {
-      selectDataForFee[0]
-      ['type'] = '';
-      selectDataForFee[0]['fee'] =
-      '';
+      selectDataForFee[0]['type'] = '';
+      selectDataForFee[0]['fee'] = '';
       selectedCatForFee = null;
       // feeController.clear();
     } else {
-      selectDataForFee
-          .removeAt(index);
+      selectDataForFee.removeAt(index);
       selectedCatForFee = null;
       // feeController.clear();
       topForFee--;

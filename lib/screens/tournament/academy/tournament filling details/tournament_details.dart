@@ -103,15 +103,15 @@ class TournamentDetails extends StatelessWidget {
                             ),
                           ),
                           GestureDetector(
-                            onTap: ((provider.select[provider.top + 1]
+                            onTap: ((provider.selectedDataForCat[provider.top + 1]
                                             ['type'] !=
                                         '') &&
-                                    (provider.select[provider.top + 1]
+                                    (provider.selectedDataForCat[provider.top + 1]
                                                 ['category']
                                             .length !=
                                         0))
                                 ? () {
-                                    provider.add();
+                                    provider.addMoreForCat();
                                   }
                                 : () {},
                             child: Container(
@@ -228,23 +228,17 @@ class TournamentDetails extends StatelessWidget {
                                   enabled: false,
                                   child: StatefulBuilder(
                                     builder: (context, menuSetState) {
-                                      final isSelected =
-                                          provider.selectedItems.contains(item);
+                                      final isSelected = provider.selectedItems.contains(item);
                                       return Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisAlignment: MainAxisAlignment.start,
                                         children: [
                                           InkWell(
-                                            onTap: (provider.select[provider.top+1]['type'] != '') ?() {
+                                            onTap: (provider.selectedDataForCat[provider.top+1]['type'] != '') ?() {
                                               if (item != 'select') {
-
-
                                                 provider.checkBoxFun(
                                                     item: item,
                                                     isSelected: isSelected);
-
                                                 menuSetState(() {});
                                               } else {}
                                             } : (){},
@@ -273,15 +267,12 @@ class TournamentDetails extends StatelessWidget {
                                                     if (isSelected)
                                                       const Icon(
                                                         Icons.check_box,
-                                                        color: MyAppTheme
-                                                            .MainColor,
+                                                        color: MyAppTheme.MainColor,
                                                       )
                                                     else
                                                       Icon(
-                                                        Icons
-                                                            .check_box_outline_blank,
-                                                        color: MyAppTheme
-                                                            .customTitleColor,
+                                                        Icons.check_box_outline_blank,
+                                                        color: MyAppTheme.customTitleColor,
                                                       ),
                                                   ],
                                                 )),
@@ -354,13 +345,13 @@ class TournamentDetails extends StatelessWidget {
                       ],
                     ),
 
-                    if (provider.select.isNotEmpty) ...[
+                    if (provider.selectedDataForCat.isNotEmpty) ...[
                       ListView.builder(
                         shrinkWrap: true,
-                        itemCount: provider.select.length,
+                        itemCount: provider.selectedDataForCat.length,
                         physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
-                          return (provider.select[index]['category'].length != 0 )
+                          return (provider.selectedDataForCat[index]['category'].length != 0 )
                               ? Padding(
                                   padding: const EdgeInsets.all(5.0),
                                   child: SizedBox(
@@ -376,7 +367,7 @@ class TournamentDetails extends StatelessWidget {
                                           child: Row(
                                             children: [
                                               (selectedContainer(
-                                                  text: provider.select[index]
+                                                  text: provider.selectedDataForCat[index]
                                                       ['type'])),
                                               Expanded(
                                                 child: ListView.builder(
@@ -386,16 +377,13 @@ class TournamentDetails extends StatelessWidget {
                                                   physics:
                                                       const BouncingScrollPhysics(),
                                                   itemCount: provider
-                                                      .select[index]['category']
+                                                      .selectedDataForCat[index]['category']
                                                       .length,
                                                   itemBuilder: (context, idx) =>
                                                       Container(
-                                                          alignment: Alignment
-                                                              .center,
+                                                          alignment: Alignment.center,
                                                           height: 30,
-                                                          margin:
-                                                              const EdgeInsets
-                                                                      .only(
+                                                          margin:const EdgeInsets.only(
                                                                   right: 10),
                                                           padding:
                                                               const EdgeInsets
@@ -416,14 +404,9 @@ class TournamentDetails extends StatelessWidget {
                                                                         .cardBgSecColor),
                                                                   )),
                                                           child: Text(
-                                                            provider.select[
-                                                                        index]
-                                                                    ['category']
-                                                                [idx],
+                                                            provider.selectedDataForCat[index]['category'][idx],
                                                             style: const TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
+                                                                fontWeight:FontWeight.w500,
                                                                 fontSize: 14,
                                                                 color: (MyAppTheme
                                                                     .whiteColor)),
@@ -745,7 +728,6 @@ class TournamentDetails extends StatelessWidget {
                         : Container(),
 
                     ///Tournament Slots
-
                     const Padding(
                       padding: EdgeInsets.symmetric(vertical: 5.0),
                       child: Text(
@@ -757,7 +739,6 @@ class TournamentDetails extends StatelessWidget {
                         ),
                       ),
                     ),
-
                     TextFormField(
                         cursorColor: MyAppTheme.whiteColor,
                         style: MyStyles.white16Regular,
@@ -777,7 +758,61 @@ class TournamentDetails extends StatelessWidget {
                               borderSide:
                                   BorderSide(color: MyAppTheme.cardBgSecColor),
                               borderRadius: BorderRadius.circular(8)),
-                        ))
+                        )),
+                    SizedBox(
+                      height: height*.08,
+                    )
+                  ],
+                ),
+              ),
+              //footer btn
+              Align (
+                alignment: Alignment.bottomCenter,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ElevatedButton(
+                        onPressed: () {
+
+                        },
+                        style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                             backgroundColor: MyAppTheme.bgColor,
+                            side: const BorderSide(
+                              color: MyAppTheme.MainColor,
+                              width: 1,
+                            ),
+                            fixedSize: Size(
+                                MediaQuery.of(context).size.width * .42, 50)),
+                        child: const Text(
+                          'Back',
+                          style: TextStyle(fontSize: 16, color: MyAppTheme.MainColor),
+                        )),
+                    ElevatedButton(
+                        onPressed: (){
+                          
+                          provider.saveDetails(context: context, tournamentId: '235670ad-5ac0-4f22-9205-3578b07f58a1', description: desController.text, selectedCategoriesData: provider.selectedDataForCat, selectedFeeData: provider.selectDataForFee);
+                          print('SelectedListForCat------------------------->${provider.selectedDataForCat}');
+                          print('SelectedListForFee------------------------->${provider.selectDataForFee}');
+                          print(desController.text);
+                        },
+                        style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            backgroundColor: MyAppTheme.MainColor,
+                            side: const BorderSide(
+                              color: MyAppTheme.MainColor,
+                              width: 1,
+                            ),
+                            fixedSize: Size(
+                                MediaQuery.of(context).size.width * .4, 50)),
+                        child: Text(
+                          'Next',
+                          style: MyStyles.white12Light,
+                        )),
                   ],
                 ),
               ),

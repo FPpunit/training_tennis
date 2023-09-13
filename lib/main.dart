@@ -3,8 +3,6 @@ import 'package:new_pro/locator.dart';
 import 'package:new_pro/screens/admin/payment_fee/payment_fee_list.dart';
 import 'package:new_pro/screens/admin/payment_fee/payment_fee_provider.dart';
 import 'package:new_pro/screens/admin/staff/provider/admin_staff_provider.dart';
-import 'package:new_pro/screens/admin/staff/provider/provider.dart';
-
 import 'package:new_pro/screens/tournament/academy/officials.dart';
 import 'package:new_pro/screens/tournament/academy/tournament%20filling%20details/tournament_details.dart';
 import 'package:new_pro/screens/tournament/academy/tournament%20filling%20details/tournament_details_filling_screen_list_provider.dart';
@@ -15,7 +13,6 @@ import 'package:new_pro/screens/staff/score_management/score_management.dart';
 import 'package:new_pro/screens/admin/staff/staff_members_list.dart';
 import 'package:new_pro/screens/staff/staff_provider/staff_provider.dart';
 import 'package:new_pro/screens/tournament/academy/tournament_details_screen.dart';
-
 import 'package:new_pro/screens/tournament/player/provider/player_tournament_provider.dart';
 import 'package:new_pro/screens/tournament/player/tournament_list.dart';
 import 'package:new_pro/screens/tournament/player/tournament_registration.dart';
@@ -34,7 +31,7 @@ void main() {
         ChangeNotifierProvider(create: (context) => AdminStaffProvider(),),
         ChangeNotifierProvider(create: (context) => PaymentFeeProvider(),),
         ChangeNotifierProvider(create: (context) => PlayerTournamentProvider(),),
-        ChangeNotifierProvider(create: (context) => ProviderStaff(),),
+        //ChangeNotifierProvider(create: (context) => ProviderStaff(),),
       ],
       child:  const MyApp()));
 }
@@ -52,7 +49,7 @@ class MyApp extends StatelessWidget {
         // colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: StaffMembersListScreen()
+      home: TournamentDetails ()
     );
   }
 }

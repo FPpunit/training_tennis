@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:new_pro/screens/admin/staff/provider/admin_staff_provider.dart';
-import 'package:new_pro/screens/admin/staff/staff_members_list.dart';
 import 'package:new_pro/utils/ui_helper/textfields.dart';
 import 'package:new_pro/utils/ui_helper/ui_helper.dart';
 import 'package:provider/provider.dart';
 
+import '../../../custom/helpers.dart';
 import '../../../utils/constants.dart';
 import '../../../utils/my_app_theme.dart';
 import '../../../utils/my_styles.dart';
@@ -24,6 +25,7 @@ class AddStaff extends StatefulWidget {
 
 class _AddStaffState extends State<AddStaff> {
   bool isDetails = false;
+  final formGlobalKey = GlobalKey < FormState > ();
 
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
@@ -95,8 +97,8 @@ class _AddStaffState extends State<AddStaff> {
                 alignment: Alignment.bottomCenter,
                 child: TextButton(onPressed: (){
                   if(widget.index != null){
-                    //provider.removeStaff(context: context,index: widget.index!);
-                    Navigator.pop(context);
+                    provider.removeStaff(context: context,index: widget.index!);
+                    // Navigator.pop(context);
                   }
                 }, child: Text(
                   remove,
@@ -117,23 +119,28 @@ class _AddStaffState extends State<AddStaff> {
           margin: const EdgeInsets.symmetric(horizontal: 8),
           child: Stack(
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  subTitleText(text: name),
-                  nameTextfield(controller: nameController, icon: Icons.person),
-                  subTitleText(text: phoneNum),
-                  phoneNumberTextfield(
-                    controller: phoneController,
-                  ),
-                  subTitleText(text: emailAddress),
-                  emailTextfield(controller: emailController, icon: Icons.email)
-                ]
-                    .map((e) => Padding(
-                          padding: const EdgeInsets.only(bottom: 5),
-                          child: e,
-                        ))
-                    .toList(),
+              Form(
+                key: formGlobalKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    subTitleText(text: name),
+                    nameTextfield(controller: nameController, icon: Icons.person),
+                    subTitleText(text: phoneNum),
+                    phoneNumberTextfield(
+                      controller: phoneController,
+                    ),
+
+                    subTitleText(text: emailAddress),
+                    emailTextfield(controller: emailController, icon: Icons.email)
+
+                  ]
+                      .map((e) => Padding(
+                            padding: const EdgeInsets.only(bottom: 5),
+                            child: e,
+                          ))
+                      .toList(),
+                ),
               ),
 
               ///add/update Staff btn
@@ -142,10 +149,14 @@ class _AddStaffState extends State<AddStaff> {
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 5),
                   child: ElevatedButton(onPressed: (){
+                    if (formGlobalKey.currentState!.validate()) {
+                      formGlobalKey.currentState!.save();
 
-                    // (isDetails)?provider.addOrUpdateStaff(context: context,isDetails: isDetails, name: nameController.text, phone: phoneController.text, email: emailController.text, index: widget.index!):
-                    // provider.addOrUpdateStaff(context: context,isDetails: isDetails, name: nameController.text, phone: phoneController.text, email: emailController.text);
-                    Navigator.pop(context);
+                      (isDetails)?provider.addOrUpdateStaff(context: context,isDetails: isDetails, name: nameController.text, phone: phoneController.text, email: emailController.text, index: widget.index!):
+                      provider.addOrUpdateStaff(context: context,isDetails: isDetails, name: nameController.text, phone: phoneController.text, email: emailController.text);
+                      Navigator.pop(context);
+                    }
+
                   },
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(

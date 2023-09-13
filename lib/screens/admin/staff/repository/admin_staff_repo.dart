@@ -7,6 +7,7 @@ import '../../../../custom/helpers.dart';
 import '../../../../utils/apis_name.dart';
 
 class AdminStaffRepo {
+
   Future addStaff(
       BuildContext context, String name, String phone, String email) async {
     OverlayEntry loader = Helpers.overlayLoader(context);
@@ -32,6 +33,7 @@ class AdminStaffRepo {
       bool status;
       status = json.decode(response.body)['status'];
       if (status == true) {
+        print('Updated Staff Successfully--------------------------');
         return response;
       } else {
         return response;
@@ -79,6 +81,7 @@ class AdminStaffRepo {
       bool status;
       status = json.decode(response.body)['status'];
       if (status == true) {
+        print('Updated Staff Successfully--------------------------');
         return response;
       } else {
         return response;
@@ -122,10 +125,12 @@ class AdminStaffRepo {
       Helpers.hideLoader(loader);
       bool status;
       status = json.decode(response.body)['status'];
+
       if (status == true) {
-        return response;
+        print('delete Successfully======================');
+        return status;
       } else {
-        return response;
+        return status;
       }
     } else if (response.statusCode == 403) {
       Helpers.hideLoader(loader);
@@ -146,8 +151,8 @@ class AdminStaffRepo {
   }
 
   Future fetchStaffList(BuildContext context) async {
-    // OverlayEntry loader = Helpers.overlayLoader(context);
-    // Overlay.of(context).insert(loader);
+    OverlayEntry loader = Helpers.overlayLoader(context);
+    Overlay.of(context).insert(loader);
     Uri url;
     url = Uri.parse('$baseUrl$staffList');
     var headers = {
@@ -160,26 +165,27 @@ class AdminStaffRepo {
       headers: headers,
     );
     if (response.statusCode == 200) {
-      // Helpers.hideLoader(loader);
+      Helpers.hideLoader(loader);
       bool status;
       status = json.decode(response.body)['status'];
+      print('Fetched Successfully--------------------------');
       if (status == true) {
         return response;
       } else {
         return response;
       }
     } else if (response.statusCode == 403) {
-      // Helpers.hideLoader(loader);
+      Helpers.hideLoader(loader);
       Helpers.messagetoastfalse(context, json.decode(response.body)['message']);
     } else if (response.statusCode == 422) {
-      // Helpers.hideLoader(loader);
+      Helpers.hideLoader(loader);
       Helpers.messagetoastfalse(
           context, json.decode(response.body)['errors']['role'].toString());
     } else if (response.statusCode == 500) {
-      // Helpers.hideLoader(loader);
+      Helpers.hideLoader(loader);
       Helpers.messagetoastfalse(context, json.decode(response.body)['message']);
     } else {
-      // Helpers.hideLoader(loader);
+      Helpers.hideLoader(loader);
       if (kDebugMode) {
         print(response.statusCode);
       }

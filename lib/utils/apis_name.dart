@@ -7,3 +7,7 @@ const String createStaff= '/api/academy/create-staff';
 const String updateStaff= '/api/academy/staff-update/';
 const String deleteStaff= '/api/academy/staff-delete/';
 const String staffList= '/api/academy/staff-list';
+
+
+//Create Tournament API
+const String saveTournamentDetails= '/tournaments/save-details';

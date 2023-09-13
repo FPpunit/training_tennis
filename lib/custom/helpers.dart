@@ -5,6 +5,7 @@ import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart';
 
 import '../utils/my_app_theme.dart';
 import 'loader/cricular_loading_widget.dart';
@@ -148,10 +149,10 @@ class Helpers {
     try {
        if(lenth == 1){
          String i = lenth.toString()+' Item';
-         return '$i';
+         return i;
        }else{
          String i = lenth.toString()+' Items';
-         return '$i';
+         return i;
        }
 
     } catch (e) {
@@ -166,16 +167,16 @@ class Helpers {
     print(fix);
     return fix;
   }
-//   static String getTimeFromDateAndTime(DateTime dateTime) {
-//     try {
-//       return DateFormat.jm().format(dateTime).toString(); //5:08 PM
-// // String formattedTime = DateFormat.Hms().format(now);
-// // String formattedTime = DateFormat.Hm().format(now);   // //17:08  force 24 hour time
-//     }
-//     catch (e) {
-//       return '';
-//     }
-//   }
+  static String getTimeFromDateAndTime(DateTime dateTime) {
+    try {
+      return DateFormat.jm().format(dateTime).toString(); //5:08 PM
+// String formattedTime = DateFormat.Hms().format(now);
+// String formattedTime = DateFormat.Hm().format(now);   // //17:08  force 24 hour time
+    }
+    catch (e) {
+      return '';
+    }
+  }
   static String chatTimeSplit(String chatTime){
     var parts = chatTime.split(',');
     var prefix = parts[0].trim();
@@ -236,40 +237,40 @@ class Helpers {
       return 'Rejected';
     }
   }
-  // static String ChangeFormat(String date){
-  //   DateTime tempDate = DateFormat("yyyy-MM-dd hh:mm:ss").parse(date);
-  //   var formatterTime = DateFormat('hh:mm a');
-  //   return formatterTime.format(tempDate);
-  //
-  // }
-  // static String TrackinTime(String time){
-  //   var now = DateTime.now();
-  //   var formatterDate = DateFormat('MMM dd');
-  //   var formatterTime = DateFormat('hh:mm a');
-  //   String actualDate = formatterDate.format(now);
-  //   String actualTime = formatterTime.format(now);
-  //   String todaytime = actualDate+" "+actualTime;
-  //   print('today time ${todaytime}');
-  //   if(todaytime == time){
-  //     return 'Today';
-  //   }else{
-  //     return time;
-  //   }
-  //
-  // }
-  //
-  // static String getCurrentDate(){
-  //   var now = DateTime.now();
-  //   var formatterDate = DateFormat('dd-MMM-yyyy');
-  //   return  formatterDate.format(now);
-  // }
+  static String ChangeFormat(String date){
+    DateTime tempDate = DateFormat("yyyy-MM-dd hh:mm:ss").parse(date);
+    var formatterTime = DateFormat('hh:mm a');
+    return formatterTime.format(tempDate);
+
+  }
+  static String TrackinTime(String time){
+    var now = DateTime.now();
+    var formatterDate = DateFormat('MMM dd');
+    var formatterTime = DateFormat('hh:mm a');
+    String actualDate = formatterDate.format(now);
+    String actualTime = formatterTime.format(now);
+    String todaytime = actualDate+" "+actualTime;
+    print('today time ${todaytime}');
+    if(todaytime == time){
+      return 'Today';
+    }else{
+      return time;
+    }
+
+  }
+
+  static String getCurrentDate(){
+    var now = DateTime.now();
+    var formatterDate = DateFormat('dd-MMM-yyyy');
+    return  formatterDate.format(now);
+  }
   static int getDays(String end_date){
     DateTime dateTimeCreatedAt = DateTime.parse(end_date);
     DateTime dateTimeNow = DateTime.now();
     final differenceInDays = dateTimeCreatedAt.difference(dateTimeNow).inDays;
-    print('${differenceInDays}');
-    print('${dateTimeNow}');
-    print('${dateTimeCreatedAt}');
+    print('$differenceInDays');
+    print('$dateTimeNow');
+    print('$dateTimeCreatedAt');
    /* var now = DateTime.now();
     var formatterDate = DateFormat('yyyy-MM-dd');
     int today = int.parse(formatterDate.format(now));
@@ -446,13 +447,13 @@ class Helpers {
   }
   static bool validatePANcard(String value) {
     String pan_pattern = "(([A-Za-z]{5})([0-9]{4})([a-zA-Z]))";
-    RegExp regex = new RegExp(pan_pattern);
+    RegExp regex = RegExp(pan_pattern);
     return (regex.hasMatch(value)) ? true : false;
   }
   static bool validateEmail(String value) {
     String pattern =
         r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$';
-    RegExp regex = new RegExp(pattern);
+    RegExp regex = RegExp(pattern);
     return (regex.hasMatch(value)) ? false : true;
   }
 
@@ -460,21 +461,21 @@ class Helpers {
     String pattern = "^[0-9]{2}[A-Z]{5}[0-9]{4}"
         + "[A-Z]{1}[1-9A-Z]{1}"
         + "Z[0-9A-Z]{1}";
-    RegExp regex = new RegExp(pattern);
+    RegExp regex = RegExp(pattern);
     return (regex.hasMatch(value)) ? true : false;
   }
-  // static String date(String value){
-  //   var dateformate = DateFormat('yyyy-MM-dd');
-  //   var formatter = DateFormat('dd-MMM-yyyy');
-  //   print(value);
-  //   if(value != "null" && value.isNotEmpty){
-  //     String formattedDate = formatter.format(dateformate.parse(value));
-  //     return  formattedDate;
-  //   }else{
-  //     return  "null";
-  //   }
-  //
-  // }
+  static String date(String value){
+    var dateformate = DateFormat('yyyy-MM-dd');
+    var formatter = DateFormat('dd-MMM-yyyy');
+    print(value);
+    if(value != "null" && value.isNotEmpty){
+      String formattedDate = formatter.format(dateformate.parse(value));
+      return  formattedDate;
+    }else{
+      return  "null";
+    }
+
+  }
   static String accounttext(String value) {
     var re = RegExp(r'\d(?!\d{0,3}$)'); // keep last 3 digits
     print('123456789'.replaceAll(re, '-')); // ------789
@@ -483,7 +484,7 @@ class Helpers {
   static bool txtFormat(String value) {
     String pattern =
         r'[a-z]';
-    RegExp regex = new RegExp(pattern);
+    RegExp regex = RegExp(pattern);
     return (regex.hasMatch(value)) ? true : false;
   }
   static messagetoastfalse(BuildContext context, String msg) {
@@ -496,41 +497,41 @@ class Helpers {
         textColor: Colors.white,
         fontSize: 12.0);
   }
-  // static messageValidationToast(BuildContext context, String msg) {
-  //   Fluttertoast.showToast(
-  //       msg: msg,
-  //       toastLength: Toast.LENGTH_LONG,
-  //       gravity: ToastGravity.CENTER,
-  //       timeInSecForIosWeb: 1,
-  //       backgroundColor: MyAppTheme.cardBgSecColor,
-  //       textColor: MyAppTheme.customTitleColor,
-  //       fontSize: 12.0);
-  // }
-  // static messageToastFalseBottom(BuildContext context, String msg) {
-  //   Fluttertoast.showToast(
-  //       msg: msg,
-  //       toastLength: Toast.LENGTH_LONG,
-  //       gravity: ToastGravity.CENTER,
-  //       timeInSecForIosWeb: 1,
-  //       backgroundColor: Colors.red,
-  //       textColor: Colors.white,
-  //       fontSize: 12.0);
-  // }
-  // static messageToast(String msg) {
-  //   Fluttertoast.showToast(
-  //       msg: msg,
-  //       toastLength: Toast.LENGTH_LONG,
-  //       gravity: ToastGravity.CENTER,
-  //       timeInSecForIosWeb: 1,
-  //       backgroundColor: Colors.red,
-  //       textColor: Colors.white,
-  //       fontSize: 12.0);
-  // }
+  static messageValidationToast(BuildContext context, String msg) {
+    Fluttertoast.showToast(
+        msg: msg,
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: MyAppTheme.cardBgSecColor,
+        textColor: MyAppTheme.customTitleColor,
+        fontSize: 12.0);
+  }
+  static messageToastFalseBottom(BuildContext context, String msg) {
+    Fluttertoast.showToast(
+        msg: msg,
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 12.0);
+  }
+  static messageToast(String msg) {
+    Fluttertoast.showToast(
+        msg: msg,
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 12.0);
+  }
 
   bool validateStructure(String value) {
     String pattern =
         r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
-    RegExp regExp = new RegExp(pattern);
+    RegExp regExp = RegExp(pattern);
     return regExp.hasMatch(value);
   }
 
@@ -538,7 +539,7 @@ class Helpers {
     String p =
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
 
-    RegExp regExp = new RegExp(p);
+    RegExp regExp = RegExp(p);
 
     return regExp.hasMatch(em);
   }
