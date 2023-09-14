@@ -169,7 +169,8 @@ class _PaymentInfoState extends State<PaymentInfo> {
                                 ),
 
                                 //UploadQRBtn()
-                                Visibility(
+                                Visibility
+                                  (
                                     visible: managingList[index]['isQRBtnVisible'],
                                     child: Center(
                                         child: ElevatedButton(

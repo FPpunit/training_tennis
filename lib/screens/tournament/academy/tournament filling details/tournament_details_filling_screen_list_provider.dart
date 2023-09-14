@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
+import 'package:http/http.dart' as http;
 import 'package:new_pro/screens/tournament/academy/repo/create_tournament_repo.dart';
 
 
@@ -6,10 +9,10 @@ class TournamentDetailsFillingScreenListsProvider extends ChangeNotifier{
 
   int top = -1;
   String? selectedValue;
-  List<Map<String, dynamic>> selectedDataForCat = [
+  List<dynamic> selectedDataForCat = [
     {
       'type': '',
-      'category': [],
+      'categories': [],
     },
   ];
   List<String> selectedItems = [];
@@ -17,35 +20,50 @@ class TournamentDetailsFillingScreenListsProvider extends ChangeNotifier{
 
   int topForFee = -1;
   String? selectedCatForFee;
-  List<Map<String, dynamic>> selectDataForFee = [
+  List<dynamic> selectDataForFee = [
     {
       'type': '',
-      'fee': '',
+      'price': '',
     },
   ];
 
+  fillByPrevData({required List<dynamic> category,required List fee}){
+    if(category.isNotEmpty){
+      selectedDataForCat = category;
+    }if(fee.isNotEmpty){
+      selectDataForFee = fee;
+    }
+    notifyListeners();
+  }
   saveDetails(
       {required BuildContext context,
-        required String tournamentId,
+        required String tournamentUUId,
         required String description,
         required List selectedCategoriesData,
         required List selectedFeeData}){
     var body = <String, dynamic>{};
-    body['tournament_uuid'] = tournamentId;
-    body['categories'] = selectedCategoriesData;
-    body['fees'] = selectedFeeData;
+    body['tournament_uuid'] = tournamentUUId;
+    body['categories'] = jsonEncode(selectedCategoriesData);
+    body['fees'] = jsonEncode(selectedFeeData);
     body['description'] = description;
 
 
+    CreateTournamentRepo().saveTourDetails(
+      context,
+      body
+    );
+  }
 
-    // CreateTournamentRepo().saveTourDetails(
-    //   context,
-    //   body
-    // );
+  getTournamentList({required BuildContext context}) async {
+    http.Response response = await CreateTournamentRepo().getTourDetails(context);
+    if(response.body.isNotEmpty){
+      List responseList = jsonDecode(response.body)['tournaments'];
+      return responseList;
+    }
   }
 
   void addMoreForCat(){
-    selectedDataForCat.add({'type': '', 'category': []});
+    selectedDataForCat.add({'type': '', 'categories': []});
     top++;
     selectedValue = null;
     selectedItems = [];
@@ -55,7 +73,7 @@ class TournamentDetailsFillingScreenListsProvider extends ChangeNotifier{
   void delete (int index){
     if(index == 0){
       selectedDataForCat[index]['type'] = '';
-      selectedDataForCat [index]['category'] = '';
+      selectedDataForCat [index]['categories'] = '';
       selectedValue = null;
       selectedItems=[];
     }
@@ -71,7 +89,7 @@ class TournamentDetailsFillingScreenListsProvider extends ChangeNotifier{
   void checkBoxFun({required String item,required bool isSelected}){
     isSelected ? selectedItems.remove(item) : selectedItems.add(item);
 
-    selectedDataForCat[top + 1]['category'] = selectedItems;
+    selectedDataForCat[top + 1]['categories'] = selectedItems;
 
     notifyListeners();
   }
@@ -85,20 +103,20 @@ class TournamentDetailsFillingScreenListsProvider extends ChangeNotifier{
   void addMoreForFee () {
     topForFee++;
     selectedCatForFee = null;
-    selectDataForFee.add({'type': '', 'fee': ''});
+    selectDataForFee.add({'type': '', 'price': ''});
     notifyListeners();
   }
 
   void addingDataForTournamentFee({String? category , String? text}){
     selectDataForFee[topForFee + 1]['type'] = category;
-    selectDataForFee[topForFee + 1]['fee'] = text;
+    selectDataForFee[topForFee + 1]['price'] = text;
     notifyListeners();
   }
 
   void deleteAddedFee (int index){
     if (index == 0) {
       selectDataForFee[0]['type'] = '';
-      selectDataForFee[0]['fee'] = '';
+      selectDataForFee[0]['price'] = '';
       selectedCatForFee = null;
       // feeController.clear();
     } else {

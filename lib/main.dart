@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:new_pro/locator.dart';
 import 'package:new_pro/screens/admin/payment_fee/payment_fee_list.dart';
 import 'package:new_pro/screens/admin/payment_fee/payment_fee_provider.dart';
 import 'package:new_pro/screens/admin/staff/provider/admin_staff_provider.dart';
+import 'package:new_pro/screens/not%20in%20production/test/responsive_text.dart';
+import 'package:new_pro/screens/tournament/academy/getting_tournament_list.dart';
 import 'package:new_pro/screens/tournament/academy/officials.dart';
+import 'package:new_pro/screens/tournament/academy/payment_info.dart';
 import 'package:new_pro/screens/tournament/academy/tournament%20filling%20details/tournament_details.dart';
 import 'package:new_pro/screens/tournament/academy/tournament%20filling%20details/tournament_details_filling_screen_list_provider.dart';
 import 'package:new_pro/screens/not%20in%20production/splash.dart';
@@ -33,12 +37,12 @@ void main() {
         ChangeNotifierProvider(create: (context) => PlayerTournamentProvider(),),
         //ChangeNotifierProvider(create: (context) => ProviderStaff(),),
       ],
-      child:  const MyApp()));
+      child :MyApp()));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
+  MyApp({super.key});
+  final navigatorKey = GlobalKey < NavigatorState > ();
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -49,7 +53,10 @@ class MyApp extends StatelessWidget {
         // colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: TournamentDetails ()
+      builder: FToastBuilder(),
+      home: ScoreManagement(),
+      navigatorKey: navigatorKey,
+
     );
   }
 }

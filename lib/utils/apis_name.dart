@@ -1,4 +1,5 @@
 const String baseUrl= 'https://api.tenniskhelo.com';
+
 const String token = '626|KHon3CLdfvbK3ElMQSrXdO7Qpbglewn5Q9aG150z';
 
 
@@ -10,4 +11,5 @@ const String staffList= '/api/academy/staff-list';
 
 
 //Create Tournament API
-const String saveTournamentDetails= '/tournaments/save-details';
+const String saveTournamentDetails= '/api/tournaments/save-details';
+const String getTournamentDetails= '/api/tournaments/list/self';
