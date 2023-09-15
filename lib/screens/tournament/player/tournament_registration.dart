@@ -279,7 +279,7 @@ class _TournamentRegistrationState extends State<TournamentRegistration> {
                               borderRadius: BorderRadius.circular(5)),
                           child: Text(
                             uploadPhoto,
-                            style: MyStyles.categoryStyle,
+                            style: MyStyles.mainClr14Regular,
                           ),
                         ),
                       ),
@@ -288,8 +288,7 @@ class _TournamentRegistrationState extends State<TournamentRegistration> {
                         height: height * .08,
                         child: null,
                       ),
-                    ].map(
-                          (e) => Padding(
+                    ].map((e) => Padding(
                             padding: const EdgeInsets.only(bottom: 4),
                             child: e,
                           ),
@@ -297,6 +296,8 @@ class _TournamentRegistrationState extends State<TournamentRegistration> {
                         .toList(),
                   ),
                 ),
+
+
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: Row(

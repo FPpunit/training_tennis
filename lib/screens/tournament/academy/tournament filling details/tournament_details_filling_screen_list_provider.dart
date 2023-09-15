@@ -30,8 +30,11 @@ class TournamentDetailsFillingScreenListsProvider extends ChangeNotifier{
   fillByPrevData({required List<dynamic> category,required List fee}){
     if(category.isNotEmpty){
       selectedDataForCat = category;
+      top =selectedDataForCat.length-2;
     }if(fee.isNotEmpty){
       selectDataForFee = fee;
+      topForFee = selectDataForFee.length-2;
+      addMoreForFee();
     }
     notifyListeners();
   }
@@ -49,11 +52,11 @@ class TournamentDetailsFillingScreenListsProvider extends ChangeNotifier{
 
 
     CreateTournamentRepo().saveTourDetails(
-      context,
-      body
+      context, body
     );
   }
 
+  ///Api calling
   getTournamentList({required BuildContext context}) async {
     http.Response response = await CreateTournamentRepo().getTourDetails(context);
     if(response.body.isNotEmpty){
@@ -88,15 +91,19 @@ class TournamentDetailsFillingScreenListsProvider extends ChangeNotifier{
 
   void checkBoxFun({required String item,required bool isSelected}){
     isSelected ? selectedItems.remove(item) : selectedItems.add(item);
-
     selectedDataForCat[top + 1]['categories'] = selectedItems;
-
     notifyListeners();
   }
 
   void selectedValueFromDropDown ({String? value}){
     selectedValue = value!;
     selectedDataForCat[top + 1]['type'] = selectedValue;
+    notifyListeners();
+  }
+
+  void addingDataForTournamentFee({String? category , String? text}){
+    selectDataForFee[topForFee + 1]['type'] =  (category != null) ? category : '';
+    selectDataForFee[topForFee + 1]['price'] = (text != null) ? text : '';
     notifyListeners();
   }
 
@@ -107,22 +114,14 @@ class TournamentDetailsFillingScreenListsProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  void addingDataForTournamentFee({String? category , String? text}){
-    selectDataForFee[topForFee + 1]['type'] = category;
-    selectDataForFee[topForFee + 1]['price'] = text;
-    notifyListeners();
-  }
-
   void deleteAddedFee (int index){
     if (index == 0) {
       selectDataForFee[0]['type'] = '';
       selectDataForFee[0]['price'] = '';
       selectedCatForFee = null;
-      // feeController.clear();
     } else {
       selectDataForFee.removeAt(index);
       selectedCatForFee = null;
-      // feeController.clear();
       topForFee--;
     }
     notifyListeners();

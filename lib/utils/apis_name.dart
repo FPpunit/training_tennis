@@ -12,4 +12,5 @@ const String staffList= '/api/academy/staff-list';
 
 //Create Tournament API
 const String saveTournamentDetails= '/api/tournaments/save-details';
+const String saveTournamentOfficial= '/api/tournaments/save-official';
 const String getTournamentDetails= '/api/tournaments/list/self';

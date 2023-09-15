@@ -7,7 +7,9 @@ import 'package:new_pro/screens/admin/staff/provider/admin_staff_provider.dart';
 import 'package:new_pro/screens/not%20in%20production/test/responsive_text.dart';
 import 'package:new_pro/screens/tournament/academy/getting_tournament_list.dart';
 import 'package:new_pro/screens/tournament/academy/officials.dart';
+import 'package:new_pro/screens/tournament/academy/other_info.dart';
 import 'package:new_pro/screens/tournament/academy/payment_info.dart';
+import 'package:new_pro/screens/tournament/academy/provider.dart';
 import 'package:new_pro/screens/tournament/academy/tournament%20filling%20details/tournament_details.dart';
 import 'package:new_pro/screens/tournament/academy/tournament%20filling%20details/tournament_details_filling_screen_list_provider.dart';
 import 'package:new_pro/screens/not%20in%20production/splash.dart';
@@ -35,15 +37,14 @@ void main() {
         ChangeNotifierProvider(create: (context) => AdminStaffProvider(),),
         ChangeNotifierProvider(create: (context) => PaymentFeeProvider(),),
         ChangeNotifierProvider(create: (context) => PlayerTournamentProvider(),),
-        //ChangeNotifierProvider(create: (context) => ProviderStaff(),),
+        ChangeNotifierProvider(create: (context) => ProviderTournament(),),
       ],
-      child :MyApp()));
+      child :const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({super.key});
-  final navigatorKey = GlobalKey < NavigatorState > ();
-  // This widget is the root of your application.
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -53,10 +54,8 @@ class MyApp extends StatelessWidget {
         // colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      builder: FToastBuilder(),
-      home: ScoreManagement(),
-      navigatorKey: navigatorKey,
 
+      home: Officials(),
     );
   }
 }

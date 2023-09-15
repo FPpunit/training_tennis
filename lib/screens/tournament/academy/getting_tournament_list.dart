@@ -19,15 +19,15 @@ class GettingTournamentList extends StatelessWidget {
             ElevatedButton(onPressed: () async {
               resultWholeList = await provider.getTournamentList(context: context);
               print('resultWholeList============================>$resultWholeList');
-              resultList = resultWholeList[3];
+              resultList = resultWholeList[4];
               print('resultList============================>$resultList');
             }, child: titleText(text: 'FetchList')),
             ElevatedButton(onPressed: (){
               Navigator.push(context, MaterialPageRoute
                 (builder: (context) => TournamentDetails(
-                  selectedDataForCat: resultList['details']['variation_groups'],
-                  selectedDataForFee: resultList['details']['fee'],
-                  toruSlots: resultList['details']['description'],
+                  selectedDataForCat: (resultList['details']['variation_groups'] == null) ? [] : resultList['details']['variation_groups'],
+                  selectedDataForFee: (resultList['details']['fee'] == null) ? [] : resultList['details']['fee'],
+                  tourSlots: resultList['details']['description'].toString(),
                   tournamentUUID: resultList['uuid']),));
             }, child: titleText(text: 'Next')),
           ],

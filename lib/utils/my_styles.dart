@@ -14,15 +14,29 @@ class MyFontWeight {
 }
 
 class MyStyles {
+
+
   static TextStyle black12Light = TextStyle(
     color: MyColors.black,
     fontSize: 12,
     fontWeight: MyFontWeight.regular,
   );
+  static TextStyle black20Regular = TextStyle(
+    color: MyColors.black,
+    fontSize: 20,
+    fontWeight: MyFontWeight.regular,
+  );
+
+  ////////////////// Grey /////////////////////////////////
   static TextStyle grey12Light = TextStyle(
     color: MyAppTheme.hintTxtColor,
     fontSize: 12,
     fontWeight: MyFontWeight.light,
+  );
+  static TextStyle grey12Regular = TextStyle(
+    color: MyAppTheme.hintTxtColor,
+    fontSize: 12,
+    fontWeight: MyFontWeight.regular,
   );
   static TextStyle grey14Light = TextStyle(
     color: MyAppTheme.hintTxtColor,
@@ -34,11 +48,7 @@ class MyStyles {
     fontSize: 14,
     fontWeight: MyFontWeight.regular,
   );
-  static TextStyle grey12Regular = TextStyle(
-    color: MyAppTheme.hintTxtColor,
-    fontSize: 12,
-    fontWeight: MyFontWeight.regular,
-  );
+
   static TextStyle grey16Regular = TextStyle(
     color: MyAppTheme.hintTxtColor,
     fontSize: 16,
@@ -49,6 +59,9 @@ class MyStyles {
     fontSize: 20,
     fontWeight: MyFontWeight.regular,
   );
+
+
+  ////////////// White //////////////
   static TextStyle white14Regular = TextStyle(
     color: MyColors.white,
     fontSize: 14,
@@ -69,11 +82,7 @@ class MyStyles {
     fontSize: 18,
     fontWeight: MyFontWeight.regular,
   );
-  static TextStyle black20Regular = TextStyle(
-    color: MyColors.black,
-    fontSize: 20,
-    fontWeight: MyFontWeight.regular,
-  );
+
   static TextStyle white20Normal = TextStyle(
     color: MyColors.white,
     fontSize: 20,
@@ -109,8 +118,8 @@ class MyStyles {
       decorationColor: MyAppTheme.MainColor
   );
 
-  static TextStyle categoryStyle = const TextStyle(
-  fontWeight: FontWeight.w500,
+  static TextStyle mainClr14Regular = TextStyle(
+  fontWeight: MyFontWeight.regular,
   fontSize: 14,
   color: MyAppTheme.MainColor
   );

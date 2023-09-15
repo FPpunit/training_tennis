@@ -9,15 +9,11 @@ import '../../../utils/my_styles.dart';
 
 
 
-class OtherInformation extends StatefulWidget {
-  const OtherInformation({Key? key}) : super(key: key);
+class OtherInformation extends StatelessWidget {
+  OtherInformation({Key? key}) : super(key: key);
 
-  @override
-  State<OtherInformation> createState() => _OtherInformationState();
-}
-
-class _OtherInformationState extends State<OtherInformation> {
   late double height;
+
   late double width;
 
   @override
@@ -40,7 +36,7 @@ class _OtherInformationState extends State<OtherInformation> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ScreenNameAndOverLapBar(title: MyStrings.otherInfo, percent: 83.0),
+                    ScreenNameAndOverLapBar(title: MyStrings.otherInfo, percent: 40.0),
 
                     subTitleText(text: MyStrings.additionalInfo),
                     const SizedBox(
@@ -63,8 +59,7 @@ class _OtherInformationState extends State<OtherInformation> {
                           enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                                   color:  MyAppTheme.cardBgColor),
-                              borderRadius:
-                              BorderRadius.circular(5)),
+                              borderRadius:BorderRadius.circular(5)),
                           hintStyle: MyStyles.grey14Light,
                           focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(
@@ -86,12 +81,11 @@ class _OtherInformationState extends State<OtherInformation> {
                     SizedBox(
                       height: 135,
                       child: TextField(
-                        //minLines: 3, // Set this
                         maxLines: 6, // and this
                         keyboardType: TextInputType.multiline,
                         cursorColor: MyAppTheme.whiteColor,
                         style: MyStyles.white16Regular,
-                        //scrollPadding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom + 24),
+
                         decoration: InputDecoration(
                           contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
                           counter: const SizedBox.shrink(),

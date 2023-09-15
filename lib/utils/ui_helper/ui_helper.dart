@@ -53,7 +53,7 @@ AppBar myAppBar(){
     elevation: 0,
   );
 }
-AppBar mAppBar({required String title}){
+AppBar mAppBar({required String title,VoidCallback? onTap}){
   return AppBar(
     centerTitle: true,
     title: Text(
@@ -62,14 +62,17 @@ AppBar mAppBar({required String title}){
     ),
     leading: Padding(
       padding: const EdgeInsets.only(left: 8, top: 4, bottom: 4),
-      child: Card(
-        shape:
-        RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-        color: MyAppTheme.cardBgColor,
-        child: const Icon(
-          Icons.arrow_back,
-          size: 22,
-          color: MyAppTheme.whiteColor,
+      child: GestureDetector(
+        onTap: onTap ?? (){},
+        child: Card(
+          shape:
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+          color: MyAppTheme.cardBgColor,
+          child: const Icon(
+            Icons.arrow_back,
+            size: 22,
+            color: MyAppTheme.whiteColor,
+          ),
         ),
       ),
     ),

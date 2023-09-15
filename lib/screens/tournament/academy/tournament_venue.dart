@@ -119,7 +119,7 @@ class _TournamentVenueState extends State<TournamentVenue> {
                         )),
                     ElevatedButton(
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder:(context) => const OtherInformation(),));
+                          Navigator.push(context, MaterialPageRoute(builder:(context) => OtherInformation(),));
                         },
                         style: ElevatedButton.styleFrom(
                             shape: RoundedRectangleBorder(
