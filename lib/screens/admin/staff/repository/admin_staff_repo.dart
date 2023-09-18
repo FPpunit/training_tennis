@@ -11,7 +11,7 @@ class AdminStaffRepo {
   Future addStaff(
       BuildContext context, String name, String phone, String email) async {
     OverlayEntry loader = Helpers.overlayLoader(context);
-    Overlay.of(context).insert(loader);
+    Overlay.of(context)!.insert(loader);
     Uri url;
     url = Uri.parse('$baseUrl$createStaff');
     var headers = {
@@ -59,7 +59,7 @@ class AdminStaffRepo {
   Future updateStaffDetails(BuildContext context, int id, String name,
       String phone, String email) async {
     OverlayEntry loader = Helpers.overlayLoader(context);
-    Overlay.of(context).insert(loader);
+    Overlay.of(context)!.insert(loader);
     Uri url;
     url = Uri.parse('$baseUrl$updateStaff$id');
     var headers = {
@@ -108,7 +108,7 @@ class AdminStaffRepo {
   Future deleteStaffFun(
       {required BuildContext context, required int id}) async {
     OverlayEntry loader = Helpers.overlayLoader(context);
-    Overlay.of(context).insert(loader);
+    Overlay.of(context)!.insert(loader);
     Uri url;
     url = Uri.parse('$baseUrl$deleteStaff$id');
     var headers = {
@@ -152,7 +152,7 @@ class AdminStaffRepo {
 
   Future fetchStaffList(BuildContext context) async {
     OverlayEntry loader = Helpers.overlayLoader(context);
-    Overlay.of(context).insert(loader);
+    Overlay.of(context)!.insert(loader);
     Uri url;
     url = Uri.parse('$baseUrl$staffList');
     var headers = {

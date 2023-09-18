@@ -13,6 +13,9 @@ class TournamentDetailsScreen extends StatelessWidget {
   late double height;
   late double width;
   late double widthForContainer;
+  Map tournamentList;
+  String type;
+
 
   List<String> rules =[
     dummyRule,
@@ -20,7 +23,7 @@ class TournamentDetailsScreen extends StatelessWidget {
     dummyRule,
   ];
 
-  TournamentDetailsScreen({Key? key}) : super(key: key);
+  TournamentDetailsScreen({Key? key, required this.tournamentList ,required this.type}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -34,41 +37,23 @@ class TournamentDetailsScreen extends StatelessWidget {
           height: height,
           child: Stack(
             children: [
+
+
               SingleChildScrollView(
                 child: Column(
-                  //mainAxisAlignment: MainAxisAlignment.start,
-                  //crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+
+                    ///Banner
                     SizedBox(
-                      height: height*.32,
-                      child: Stack(
-                        children: [
-                          ClipRRect(
-                            borderRadius: const BorderRadius.vertical(bottom: Radius.circular(15)),
-                            child: Image(
-                              image: AssetImage(MyImages.tennisCourt),
-                              width: width,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          Positioned(
-                            left: 10,
-                            top: 15,
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5)),
-                              color: MyAppTheme.cardBgColor,
-                              child: const Padding(
-                                padding: EdgeInsets.all(12.0),
-                                child: Icon(
-                                  Icons.arrow_back,
-                                  color: MyAppTheme.whiteColor,
-                                  size: 16,
-                                ),
-                              ),
-                            ),
-                          )
-                        ],
+                      height: height*0.32,
+                      child: ClipRRect(
+                        borderRadius: const BorderRadius.vertical(bottom: Radius.circular(15)),
+                        child: Image.network(
+                          tournamentList['image_url'],
+                          width: width,
+                          fit: BoxFit.cover,
+
+                        ),
                       ),
                     ),
 
@@ -77,6 +62,7 @@ class TournamentDetailsScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+
                           underLinedSubHeading(text: basicInfo),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -85,12 +71,12 @@ class TournamentDetailsScreen extends StatelessWidget {
                               detailsScreenColumns (
                                 width: widthForContainer,
                                 subTitle: tourName,
-                                data: 'All Starts Championship'
+                                data: tournamentList['name']
                               ),
                               detailsScreenColumns (
                                 width: widthForContainer,
                                 subTitle: tourDrawType,
-                                data: 'Knockouts'
+                                data: tournamentList['drawtype']
                               ),
                             ],
                           ),
@@ -101,12 +87,12 @@ class TournamentDetailsScreen extends StatelessWidget {
                               detailsScreenColumns (
                                 width: widthForContainer,
                                 subTitle: tourStartDate,
-                                data: '20-03-2023'
+                                data: tournamentList['tourstartdate']
                               ),
                               detailsScreenColumns (
                                 width: widthForContainer,
                                 subTitle: tourEndDate,
-                                data: '12-04-2023'
+                                data: tournamentList['tourenddate']
                               ),
                             ],
                           ),
@@ -117,12 +103,12 @@ class TournamentDetailsScreen extends StatelessWidget {
                               detailsScreenColumns (
                                 width: widthForContainer,
                                 subTitle: tourState,
-                                data: 'Rajasthan'
+                                data: tournamentList['details']['state_name']
                               ),
                               detailsScreenColumns (
                                 width: widthForContainer,
                                 subTitle: tourCity,
-                                data: 'Jaipur'
+                                data: tournamentList['details']['city_name'].toString()
                               ),
                             ],
                           ),
@@ -133,12 +119,12 @@ class TournamentDetailsScreen extends StatelessWidget {
                               detailsScreenColumns (
                                 width: widthForContainer,
                                 subTitle: entryDeadline,
-                                data: '20-03-2023'
+                                data: tournamentList['details']['entrydeadline']
                               ),
                               detailsScreenColumns (
                                 width: widthForContainer,
                                 subTitle: withdrawDeadLine,
-                                data: '12-04-2023'
+                                data: tournamentList['details']['withdrawdeadline']
                               ),
                             ],
                           ),
@@ -149,12 +135,12 @@ class TournamentDetailsScreen extends StatelessWidget {
                               detailsScreenColumns (
                                 width: widthForContainer,
                                 subTitle: sets,
-                                data: '3'
+                                data: tournamentList['sets'].toString()
                               ),
                               detailsScreenColumns (
                                 width: widthForContainer,
                                 subTitle: winnerPrize,
-                                data: 'Car'
+                                data: tournamentList['winnerprize']
                               ),
                             ],
                           ),
@@ -165,117 +151,191 @@ class TournamentDetailsScreen extends StatelessWidget {
                               detailsScreenColumns (
                                 width: widthForContainer,
                                 subTitle: runnerUpPrize,
-                                data: 'Cash'
+                                data: tournamentList['runnerupprize']
                               ),
                             ],
                           ),
 
 
                           ///Tournament Details
-                          underLinedSubHeading(text: tournamentDetails),
+                          if(tournamentList['details']['variation_groups'].isNotEmpty)...[
+                            underLinedSubHeading(text: tournamentDetails),
 
-                          subTitleText(text: tournamentCategories),
-                          rowHintText(width1: widthForContainer,width2: widthForContainer, text1: menSingles, text2: '25+,35+,40+,50+'),
-                          rowHintText(width1: widthForContainer,width2: widthForContainer, text1: womenSingles, text2: '25+,35+,40+,50+'),
-                          rowHintText(width1: widthForContainer,width2: widthForContainer, text1: mixedDoubles, text2: '25+,35+,40+,50+'),
-                          hintText(text: open),
+                            subTitleText(text: tournamentCategories),
+                            ListView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: tournamentList['details']['variation_groups'].length,
+                              itemBuilder: (context, index) {
+                                final myString = tournamentList['details']['variation_groups'][index]['categories'].toString();
+                                final withoutBrackets = myString.replaceAll(RegExp(r'\[|]'), '');
+                                return rowHintText(
+                                width1: widthForContainer,
+                                width2: widthForContainer,
+                                text1: tournamentList['details']['variation_groups'][index]['type'],
+                                text2: withoutBrackets,);
+                              },
+                            ),
 
-                          subTitleText(text: tournamentFeeStructure),
-                          rowHintText(width1: widthForContainer, width2: widthForContainer, text1: singles, text2: '$ruppe 2000'),
-                          rowHintText(width1: widthForContainer, width2: widthForContainer, text1: doubles, text2: '$ruppe 3000'),
+
+                            subTitleText(text: tournamentFeeStructure),
+                            ListView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: tournamentList['details']['fee'].length,
+                              itemBuilder: (context, index) =>  rowHintText(
+                                  width1: widthForContainer,
+                                  width2: widthForContainer,
+                                  text1: tournamentList['details']['fee'][index]['type'],
+                                  text2: tournamentList['details']['fee'][index]['price']),
+                            ),
 
 
-                          detailsScreenColumns (
-                              width: width*.47,
-                              subTitle: tournamentSlots,
-                              data :'32'
-                          ),
+                            detailsScreenColumns (
+                                width: widthForContainer,
+                                subTitle: tournamentSlots,
+                                data : tournamentList['details']['description']
+                            ),
+                          ],
+
+
 
 
                           ///Tournament Officials
-                          underLinedSubHeading(text: tournamentOfficial),
-                          Row(
-                            children: [
-                              SizedBox(
-                                  width : width*.47,
-                                  child: subTitleText(text: name)),
-                              SizedBox(
-                                  width: width*.47,
-                                  child: subTitleText(text: phoneNum)),
-                            ],
-                          ),
-                          rowHintText(width1: widthForContainer, width2: widthForContainer, text1: 'John Doe', text2: obscurePhoneNum),
-                          rowHintText(width1: widthForContainer, width2: widthForContainer, text1: 'John Doe', text2: obscurePhoneNum),
+                          if(tournamentList['details']['official_groups'].isNotEmpty)...[
+                            underLinedSubHeading(text: tournamentOfficial),
+                            Row(
+                              children: [
+                                SizedBox(
+                                    width : widthForContainer,
+                                    child: subTitleText(text: name)),
+                                SizedBox(
+                                    width: widthForContainer,
+                                    child: subTitleText(text: phone)),
+                              ],
+                            ),
+
+                            ListView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: tournamentList['details']['official_groups'].length,
+                              itemBuilder: (context, index) =>
+                                  rowHintText(
+                                      width1: widthForContainer,
+                                      width2: widthForContainer,
+                                      text1: tournamentList['details']['official_groups'][index]['name'],
+                                      text2: tournamentList['details']['official_groups'][index]['phone']),
+                            )
+                          ],
 
 
                           ///Tournament Venue
-                          underLinedSubHeading(text: tournamentVenue),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              detailsScreenColumns (
-                                  width: width*.47,
-                                  subTitle: name,
-                                  data: 'Stadium Name'
-                              ),
-                              detailsScreenColumns (
-                                  width: width*.47,
-                                  subTitle: phone,
-                                  data: obscurePhoneNum
-                              ),
-                            ],
-                          ),
-                          subTitleText(text: address),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              SizedBox(
-                                width : width *.85,
-                                child: hintText(text: dummyAddress),
-                              ),
-                              SvgPicture.asset(MyImages.addressIcon),
+                          if(tournamentList['details']['venue_groups'].isNotEmpty)...[
+                            underLinedSubHeading(text: tournamentVenue),
+                            ListView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: tournamentList['details']['venue_groups'].length,
+                              itemBuilder: (context, index) =>  Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      detailsScreenColumns (
+                                          width: widthForContainer,
+                                          subTitle: name,
+                                          data: tournamentList['details']['venue_groups'][index]['name']
+                                      ),
+                                      detailsScreenColumns (
+                                          width: widthForContainer,
+                                          subTitle: phone,
+                                          data: tournamentList['details']['venue_groups'][index]['phone']
+                                      ),
+                                    ],
+                                  ),
+                                  subTitleText(text: address),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      SizedBox(
+                                        width : width *.85,
+                                        child: hintText(text: tournamentList['details']['venue_groups'][index]['address']),
+                                      ),
+                                      SvgPicture.asset(MyImages.addressIcon),
 
-                            ],
-                          ),
+                                    ],
+                                  ),
+
+                                ],
+                              ),
+                            ),
+                          ],
+
 
 
                           ///otherInformation
-                          underLinedSubHeading(text: otherInfo),
-                          detailsScreenColumns(width: width, subTitle: additionalInfo, data: dummyInfoPera),
-                          subTitleText(text: rulesRegulation),
-                          ListView.builder(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: rules.length,
-                            itemBuilder: (context, index) => Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  height: 4,
-                                  width: 4,
-                                  margin: const EdgeInsets.all(7),
-                                  decoration: const BoxDecoration(
-                                    color: MyAppTheme.hintTxtColor,
-                                    shape: BoxShape.circle
+                          if(tournamentList['details']['additional'] != null || tournamentList['details']['rules'] != null)...[
+                            underLinedSubHeading(text: otherInfo),
+                            if(tournamentList['details']['additional'] != null)...[
+                              detailsScreenColumns
+                                (width: width,
+                                  subTitle: additionalInfo,
+                                  data: tournamentList['details']['additional']),
+                            ],
+
+                            if(tournamentList['details']['rules'] != null)...[
+                              subTitleText(text: rulesRegulation),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    height: 4,
+                                    width: 4,
+                                    margin: const EdgeInsets.all(7),
+                                    decoration: const BoxDecoration(
+                                        color: MyAppTheme.hintTxtColor,
+                                        shape: BoxShape.circle
+                                    ),
                                   ),
-                                ),
-                                SizedBox(
-                                    width: width*.9,
-                                    child: hintText(text: rules[index])),
-                              ],
-                            ),),
+                                  SizedBox(
+                                      width: width*.8,
+                                      child: hintText(text: tournamentList['details']['rules'])),
+                                ],
+                              ),
+                            ],
+                          ],
 
                           SizedBox(
                             height: height*.09,
                           )
                         ],
                       ),
-                    )
-
+                    ),
                   ],
                 ),
               ),
+
+              ///back btn
+              Positioned(
+                left: 10,
+                top: 15,
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5)),
+                  color: MyAppTheme.cardBgColor,
+                  child: const Padding(
+                    padding: EdgeInsets.all(12.0),
+                    child: Icon(
+                      Icons.arrow_back,
+                      color: MyAppTheme.whiteColor,
+                      size: 16,
+                    ),
+                  ),
+                ),
+              ),
+
               ///Register Now Btn
               Align(
                 alignment: Alignment.bottomCenter,
