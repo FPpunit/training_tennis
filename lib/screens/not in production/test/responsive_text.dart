@@ -28,7 +28,7 @@ class _ResponsiveTextState extends State<ResponsiveText> {
         borderRadius: BorderRadius.circular(25.0),
         color: Colors.greenAccent,
       ),
-      child: const Row(
+      child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(Icons.check),

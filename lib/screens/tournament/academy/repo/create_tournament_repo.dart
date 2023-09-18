@@ -11,7 +11,7 @@ class CreateTournamentRepo{
 
   Future saveTourDetails(BuildContext context, Map body) async {
     OverlayEntry loader = Helpers.overlayLoader(context);
-    Overlay.of(context).insert(loader);
+    Overlay.of(context)!.insert(loader);
     Uri url;
     url = Uri.parse('$baseUrl$saveTournamentDetails');
     var headers = {
@@ -54,7 +54,7 @@ class CreateTournamentRepo{
 
   Future saveTourOfficials(BuildContext context, Map body) async {
     OverlayEntry loader = Helpers.overlayLoader(context);
-    Overlay.of(context).insert(loader);
+    Overlay.of(context)!.insert(loader);
     Uri url;
     url = Uri.parse('$baseUrl$saveTournamentOfficial');
     var headers = {
@@ -99,7 +99,7 @@ class CreateTournamentRepo{
 
   Future getTourDetails(BuildContext context) async {
     OverlayEntry loader = Helpers.overlayLoader(context);
-    Overlay.of(context).insert(loader);
+    Overlay.of(context)!.insert(loader);
     Uri url;
     url = Uri.parse('$baseUrl$getTournamentDetails');
     var headers = {

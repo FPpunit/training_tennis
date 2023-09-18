@@ -25,6 +25,7 @@ class ProviderTournament extends ChangeNotifier{
 
   fillStoredData(List data){
     if(data.isNotEmpty){
+      count = data.length;
       officials = data;
       notifyListeners();
     }
