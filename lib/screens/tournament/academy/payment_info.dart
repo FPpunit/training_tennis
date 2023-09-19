@@ -16,8 +16,6 @@ import '../../../utils/ui_helper/ui_helper.dart';
 
 
 
-
-
 class PaymentInfo extends StatefulWidget {
   const PaymentInfo({Key? key}) : super(key: key);
 
@@ -33,12 +31,18 @@ class _PaymentInfoState extends State<PaymentInfo> {
   var upiIdController= TextEditingController();
   var upiPhoneController= TextEditingController();
 
-
+  final formGlobalKey = GlobalKey < FormState > ();
 
   List<dynamic> managingList = [];
 
   late bool isValueSelected;
   String prevSelectedValue = '';
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero).then((value) => Provider.of<ProviderTournament>(context,listen: false).fillDataInitially());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +51,7 @@ class _PaymentInfoState extends State<PaymentInfo> {
     return Consumer<ProviderTournament>(
       builder: (context, provider, child) {
         managingList = provider.managingPaymentInfoList;
+        print('managingList----------------->$managingList');
         isValueSelected =provider.isValueSelected;
         return Scaffold(
         backgroundColor: MyAppTheme.bgColor,
@@ -83,19 +88,28 @@ class _PaymentInfoState extends State<PaymentInfo> {
                             itemCount:managingList.length,
                             itemBuilder: (context, index) =>Column(
                               children: [
-                                if (managingList[index]['status'] == 1 ) ...[
+
                                   DropdownButtonHideUnderline(
                                     child: DropdownButton2<String>(
                                       isExpanded: true,
                                       hint: Row(
                                         children: [
                                           Expanded(
-                                            child: Text(
+                                            child: (managingList.length == provider.paymentInfoList.length)?
+                                            (provider.paymentInfoList[index]['selectedType'].isNotEmpty ) ?
+                                            Text(
+                                                provider.paymentInfoList[index]['selectedType'],
+                                              style: MyStyles.grey14Light,
+                                              overflow: TextOverflow.ellipsis,
+                                            ) : Text(
                                               dropDownDefaultText,
                                               style: MyStyles.grey14Light,
                                               overflow: TextOverflow.ellipsis,
-                                            ),
-                                          ),
+                                            ):Text(
+                                          dropDownDefaultText,
+                                          style: MyStyles.grey14Light,
+                                          overflow: TextOverflow.ellipsis,
+                                          ),)
                                         ],
                                       ),
                                       items: items.map((String item) => DropdownMenuItem<String>(
@@ -107,12 +121,14 @@ class _PaymentInfoState extends State<PaymentInfo> {
                                         ),
                                       )).toList(),
                                       value: managingList[index]['selectedValue'],
-                                      onChanged: (managingList[index]['selectedValue'] == null) ? (String? value) {
-                                        setState(() {
-                                          managingList[index]['selectedValue'] = value;
-                                          managingList[index]['isQRBtnVisible'] = true;
-                                        }) ;
-                                      } : null,
+                                      onChanged: (String? value) {
+                                        provider.call(index);
+                                        provider.selectingType(value!, index);
+                                      },
+
+                                      // (managingList[index]['selectedValue'] == null) ? (String? value) {
+                                      //   provider.selectingType(value!, index);
+                                      // } : null,
                                       buttonStyleData: ButtonStyleData(
                                         height: 50,
                                         width: double.infinity,
@@ -120,7 +136,7 @@ class _PaymentInfoState extends State<PaymentInfo> {
                                         decoration: BoxDecoration(
                                           borderRadius: BorderRadius.circular(14),
                                           border: Border.all(
-                                            color: MyAppTheme.cardBgColor,
+                                            color: MyAppTheme.cardBgSecColor,
                                           ),
                                           color: MyAppTheme.cardBorderBgColor,
                                         ),
@@ -160,110 +176,151 @@ class _PaymentInfoState extends State<PaymentInfo> {
                                     height: 5,
                                   ),
 
-                                  //UploadQRBtn()
-                                  Visibility
-                                    (
+                                  ///UploadQRBtn and Upi details card..
+                                  Visibility(
                                       visible: managingList[index]['isQRBtnVisible'],
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
+                                      child: Card(
+                                        color: MyAppTheme.cardBorderBgColor,
 
-                                          subTitleText(text: 'UPI ID'),
-                                          upiIdTextField(controller: upiIdController),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(8),
+                                          side: BorderSide(
+                                            color: MyAppTheme.cardBgSecColor
+                                          )
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(12.0),
+                                          child: Form(
+                                            key: formGlobalKey,
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
 
-                                          subTitleText(text: 'Enter UPI number'),
-                                          phoneNumberTextfield(controller: upiPhoneController),
+                                                subTitleText(text: 'UPI ID'),
+                                                upiIdTextField(controller: upiIdController),
 
-                                          Center(
-                                            child: ElevatedButton(
-                                                onPressed: () {
-                                                  // Adding Image..
-                                                  provider.addPaymentInfo(index: index,
-                                                      isValueSelect: isValueSelected,
-                                                      upiId: upiIdController.text,
-                                                      upiNumber: upiPhoneController.text);
-                                                    upiIdController.clear();
-                                                    upiPhoneController.clear();
-                                                },
-                                                style: ElevatedButton.styleFrom(
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius.circular(10),
-                                                  ),
-                                                  backgroundColor: MyAppTheme.MainColor,
-                                                  fixedSize: const Size(200, 50),
+                                                subTitleText(text: 'Enter UPI number'),
+                                                phoneNumberTextfield(controller: upiPhoneController),
+
+                                                Center(
+                                                  child: ElevatedButton(
+                                                      onPressed: () {
+                                                        // Adding Image..
+                                                          if(formGlobalKey.currentState!.validate()) {
+                                                            formGlobalKey.currentState!.save();
+                                                            provider.addPaymentInfo(index: index,
+                                                            isValueSelect: isValueSelected,
+                                                            upiId: upiIdController.text,
+                                                            upiNumber: upiPhoneController.text);
+                                                            upiIdController.clear();
+                                                            upiPhoneController.clear();
+                                                          }
+                                                          },
+                                                      style: ElevatedButton.styleFrom(
+                                                        shape: RoundedRectangleBorder(
+                                                          borderRadius: BorderRadius.circular(10),
+                                                        ),
+                                                        backgroundColor: MyAppTheme.MainColor,
+                                                        fixedSize: const Size(200, 50),
+                                                      ),
+                                                      child: Text(
+                                                        uploadQR,
+                                                        style: MyStyles.white16Regular,
+                                                      )),
                                                 ),
-                                                child: Text(
-                                                  uploadQR,
-                                                  style: MyStyles.white16Regular,
-                                                )),
+                                              ].map((e) => Padding(padding: const EdgeInsets.symmetric(vertical: 4),child: e,)).toList(),
+                                            ),
                                           ),
-                                        ].map((e) => Padding(padding: const EdgeInsets.only(bottom: 4),child: e,)).toList(),
+                                        ),
                                       )),
 
 
                                   ///When details added..
-                                  (managingList[index]['isQRAdded'])
+                                  (managingList[index]['isQRAdded'] && managingList[index]['isQRBtnVisible'] == false)
                                       ? Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                                    child: Column(
-                                      children: [
-                                        subTitleText(text: 'UPI Id : ${provider.paymentInfoList[index]['upi_id']}'),
-                                        subTitleText(text: 'UPI Number : ${provider.paymentInfoList[index]['upi_number']}'),
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                    padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 8),
+                                    child: DottedBorder(
+                                      color: MyAppTheme.whiteColor,
+                                      borderType: BorderType.Rect,
+                                      dashPattern: const[10],
+                                      child: Container(
+                                        width: width,
+                                        padding: const EdgeInsets.symmetric(vertical: 18),
+                                        alignment: Alignment.center,
+                                        child: Column(
                                           children: [
-                                            Image(image: AssetImage(provider.paymentInfoList[index]['img']),height: 150,width: 150,),
-                                            InkWell(
-                                                onTap: (){
-                                                  provider.deletePaymentInfo(index: index);
-                                                },
-                                                child: Image(image: AssetImage(MyImages.removeIcon),height: 30,width: 30,))
+                                            subTitleText(text: '$upiId : ${provider.paymentInfoList[index]['upi_id']}'),
+                                            subTitleText(text: '$phoneNum  : ${provider.paymentInfoList[index]['upi_number']}'),
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Image(image: AssetImage(
+                                                  MyImages.qrImg
+                                                  //provider.paymentInfoList[index]['img']
+                                                ),height: 150,width: 150,),
+
+                                                ///Remove Icon
+                                                InkWell(
+                                                    onTap: (){
+                                                      print('managingList----------------->$managingList');
+
+                                                      provider.deletePaymentInfo(index: index);
+                                                    },
+                                                    child: Image(image: AssetImage(MyImages.removeIcon),height: 30,width: 30,))
+                                              ],
+                                            ),
                                           ],
                                         ),
-                                      ],
+                                      ),
                                     ),
-                                  ): const SizedBox(height: 20,),
+                                  ):
+                                  const SizedBox(),
                                 ],
-                              ],
+
                             )
                         ),
 
-                        // Add More btn
+                        /// Add More btn
                         if(managingList.length < 4)
-                          DottedBorder(
-                              radius: const Radius.circular(12),
-                              borderType: BorderType.RRect,
-                              dashPattern: const [16],
-                              color: MyAppTheme.MainColor,
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                    fixedSize: Size(width, 50.0),
-                                    backgroundColor: MyAppTheme.documentBgMainColor),
-                                onPressed: () {
-                                  print('managingList ------------------> $managingList');
-                                  print('isSelectedValue ------------------> $isValueSelected');
-                                  if(isValueSelected){
-                                    Map<String,dynamic> addingOption ={
-                                      "selectedValue" : null,
-                                      "isQRBtnVisible" : false,
-                                      "isQRAdded" : false,
-                                      "status" : 1,
-                                    };
-                                    provider.addToManagingList(addingOption: addingOption);
-                                  }
-                                },
-                                child: const Text(
-                                  'Add More',
-                                  style: TextStyle(
-                                      color: MyAppTheme.MainColor,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.normal),
-                                ),
-                              )),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8.0),
+                            child: DottedBorder(
+
+                                radius: const Radius.circular(12),
+                                borderType: BorderType.RRect,
+                                dashPattern: const [16],
+                                color: MyAppTheme.MainColor,
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                      fixedSize: Size(width, 50.0),
+                                      backgroundColor: MyAppTheme.documentBgMainColor),
+                                  onPressed: () {
+                                    print('managingList ------------------> $managingList');
+                                    // print('managingListFromProvider ------------------> ${provider.managingPaymentInfoList}');
+                                    // print('isSelectedValue ------------------> $isValueSelected');
+                                    if(isValueSelected){
+                                      Map<String,dynamic> addingOption ={
+                                        "selectedValue" : null,
+                                        "isQRBtnVisible" : false,
+                                        "isQRAdded" : false,
+                                        "status" : 1,
+                                      };
+                                      provider.addToManagingList(addingOption: addingOption);
+                                    }
+                                  },
+                                  child: const Text(
+                                    'Add More',
+                                    style: TextStyle(
+                                        color: MyAppTheme.MainColor,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.normal),
+                                  ),
+                                )),
+                          ),
 
                          SizedBox(height: height*0.08,)
                       ],
@@ -301,8 +358,8 @@ class _PaymentInfoState extends State<PaymentInfo> {
                         )),
                     ElevatedButton(
                         onPressed: () {
-                          print('managingList ==================> $managingList');
-                          // print('paymentInfoList ==================> $paymentInfoList');
+                          print('managingList ==================> ${managingList.length}');
+                           print('paymentInfoList ==================> ${provider.paymentInfoList.length}');
                         },
                         style: ElevatedButton.styleFrom(
                             shape: RoundedRectangleBorder(
@@ -331,3 +388,6 @@ class _PaymentInfoState extends State<PaymentInfo> {
   }
 
 }
+
+
+

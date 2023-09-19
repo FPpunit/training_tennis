@@ -186,8 +186,8 @@ class TournamentDetailsScreen extends StatelessWidget {
                               itemBuilder: (context, index) =>  rowHintText(
                                   width1: widthForContainer,
                                   width2: widthForContainer,
-                                  text1: tournamentList['details']['fee'][index]['type'],
-                                  text2: tournamentList['details']['fee'][index]['price']),
+                                  text1: '$ruppe ${tournamentList['details']['fee'][index]['type']}',
+                                  text2: '$ruppe ${tournamentList['details']['fee'][index]['price']}'),
                             ),
 
 
@@ -340,7 +340,7 @@ class TournamentDetailsScreen extends StatelessWidget {
               Align(
                 alignment: Alignment.bottomCenter,
                 child: Padding(
-                  padding: const EdgeInsets.all(5),
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
                   child: ElevatedButton(onPressed: (){},
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(

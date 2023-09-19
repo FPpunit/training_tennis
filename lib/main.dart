@@ -4,6 +4,7 @@ import 'package:new_pro/locator.dart';
 import 'package:new_pro/screens/admin/payment_fee/payment_fee_list.dart';
 import 'package:new_pro/screens/admin/payment_fee/payment_fee_provider.dart';
 import 'package:new_pro/screens/admin/staff/provider/admin_staff_provider.dart';
+import 'package:new_pro/screens/not%20in%20production/login/log_in.dart';
 import 'package:new_pro/screens/not%20in%20production/test/responsive_text.dart';
 import 'package:new_pro/screens/tournament/academy/getting_tournament_list.dart';
 import 'package:new_pro/screens/tournament/academy/officials.dart';

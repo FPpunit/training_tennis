@@ -31,7 +31,6 @@ class ProviderTournament extends ChangeNotifier{
     }
   }
 
-
   editOfficials(List data){
     officials = data;
     notifyListeners();
@@ -45,36 +44,62 @@ class ProviderTournament extends ChangeNotifier{
   }
 
 
-
-
-
-
   ///Payment Info
-
+  ////////////////////////////////////////////////////////////////////////////
+  bool isValueSelected=false;
 
   List<dynamic> paymentInfoList =[
-  ];
-
-  bool isValueSelected = false;
-
-  List<dynamic> managingPaymentInfoList = [
     {
-      "selectedValue" : null,
-      "isQRBtnVisible" : false,
-      "isQRAdded" : false,
-      "status" : 1,
+      'selectedType' : 'PhonePe',
+      'upi_id': 'punit@ybl',
+      'upi_number': '9799111524',
+      'qr_code': MyImages.qrImg,
+    },{
+      'selectedType' : 'G Pay',
+      'upi_id': 'punit@Okiok',
+      'upi_number': '9799111524',
+      'qr_code': MyImages.qrImg,
+    },{
+      'selectedType' : 'Pay Pal',
+      'upi_id': 'punit@pp',
+      'upi_number': '9799111524',
+      'qr_code': MyImages.qrImg,
     },
   ];
 
-  onPaymentTypeDropDownChange(String? value,int index){
-    managingPaymentInfoList[index]['selectedValue'] = value;
-    managingPaymentInfoList[index]['isQRBtnVisible'] = true;
+  List<Map<String,dynamic>> managingPaymentInfoList = [
+
+  ];
+
+  fillDataInitially(){
+    if(paymentInfoList.isEmpty){
+      managingPaymentInfoList.add({
+        "selectedValue" : null,
+        "isQRBtnVisible" : false,
+        "isQRAdded" : false,
+      },);
+    }else{
+      for(var element in paymentInfoList){
+        managingPaymentInfoList.add({
+          "selectedValue" : null,
+          "isQRBtnVisible" : false,
+          "isQRAdded" : true,
+        },);
+      }
+    }
+    isValueSelected=true;
     notifyListeners();
   }
 
-  addToManagingList ({required Map addingOption}){
+  addToManagingList ({required Map<String,dynamic> addingOption}){
     managingPaymentInfoList.add(addingOption);
     isValueSelected = false;
+    notifyListeners();
+  }
+
+  selectingType(String? value,int index){
+    managingPaymentInfoList[index]['selectedValue'] = value;
+    managingPaymentInfoList[index]['isQRBtnVisible'] = true;
     notifyListeners();
   }
 
@@ -93,10 +118,15 @@ class ProviderTournament extends ChangeNotifier{
 
     notifyListeners();
   }
+  call(int index){
+    managingPaymentInfoList[index]['isQRAdded']=false;
+    managingPaymentInfoList[index]['selectedValue']=null;
+    managingPaymentInfoList[index]['isQRBtnVisible']=false;
+  }
 
   deletePaymentInfo({required int index}){
-    if(index == 0) {
-      managingPaymentInfoList[index]['status']= 1;
+    if(index == 0 && managingPaymentInfoList.length==1) {
+      // managingPaymentInfoList[index]['status']= 1;
       managingPaymentInfoList[index]['isQRAdded']=false;
       managingPaymentInfoList[index]['selectedValue']=null;
       managingPaymentInfoList[index]['isQRBtnVisible']=false;

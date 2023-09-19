@@ -435,6 +435,7 @@ const String addTournament = "Add Tournament";
 const String uploadQR = "Upload QR code";
 const String addPayment = "Add Another Payment";
 const String dropDownDefaultText = "--Select--";
+const String upiId = "UPI ID";
 
 
 
